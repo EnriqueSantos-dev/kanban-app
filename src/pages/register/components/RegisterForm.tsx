@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Label, TextField } from '@/shared/components';
-import { useAuthContext } from '@/contexts/auth/auth-context';
+import { useAuthContext } from '@/contexts/auth/auth';
 import { AvatarInput } from './AvatarInput';
 
 const RegisterSchema = z

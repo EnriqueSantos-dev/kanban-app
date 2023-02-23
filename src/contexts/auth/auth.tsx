@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ErrorApi, UserProfile } from '@/types';
 import {
 	ResponseSignIn,
+	SignInRequest,
 	getProfile,
 	signin,
 	signup
@@ -20,7 +21,6 @@ import { useNotificationToasty } from '@/hooks/useNotificationToasty';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '@/lib';
 import { FormValues } from '@/pages/register/components/RegisterForm';
-import { AuthSignInRequest } from './types';
 
 interface AuthContextData {
 	data: {
@@ -69,12 +69,8 @@ export const useAuthContext = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const signinMutation = useMutation<
-		ResponseSignIn,
-		ErrorApi,
-		AuthSignInRequest
-	>({
-		mutationFn: (data) => signin(data.email, data.password),
+	const signinMutation = useMutation<ResponseSignIn, ErrorApi, SignInRequest>({
+		mutationFn: (data) => signin(data),
 		onSuccess: (data) => {
 			setAuthToken(data.access_token);
 			setGlobalData({ data: { ...globalData, token: data.access_token } });

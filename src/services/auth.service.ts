@@ -28,10 +28,15 @@ export interface ResponseSignIn {
 	access_token: string;
 }
 
-export const signin = async (
-	email: string,
-	password: string
-): Promise<ResponseSignIn> => {
+export interface SignInRequest {
+	email: string;
+	password: string;
+}
+
+export const signin = async ({
+	email,
+	password
+}: SignInRequest): Promise<ResponseSignIn> => {
 	const response = await api.post('/auth/login', { email, password });
 	return response.data;
 };

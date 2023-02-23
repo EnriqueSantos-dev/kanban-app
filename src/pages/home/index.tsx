@@ -1,4 +1,4 @@
-import { useAuthContext } from '@/contexts/auth/auth-context';
+import { useAuthContext } from '@/contexts/auth/auth';
 import { LoadingPage } from '@/shared/components';
 
 export function HomePage() {
