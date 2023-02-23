@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+	@apply antialiased;
+}
+
+button:disabled {
+	cursor: not-allowed;
+}

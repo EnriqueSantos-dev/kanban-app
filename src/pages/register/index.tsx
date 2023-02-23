@@ -1,0 +1,17 @@
+import { Link } from 'react-router-dom';
+import { RegisterForm } from './components/RegisterForm';
+
+export function RegisterPage() {
+	return (
+		<>
+			<h1 className="text-mediumGrey mt-2 mb-3 text-2xl font-bold">Register</h1>
+			<RegisterForm />
+			<div className="mt-2 flex w-full items-center gap-2 text-sm">
+				<p className="text-mediumGrey">You have account?</p>
+				<Link to="/login" className="font-medium text-blue-400 underline">
+					Login
+				</Link>
+			</div>
+		</>
+	);
+}
