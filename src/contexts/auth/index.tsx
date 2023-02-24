@@ -7,6 +7,7 @@ import {
 	useReducer,
 	useState
 } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { ErrorApi, UserProfile } from '@/types';
 import {
@@ -17,10 +18,9 @@ import {
 	signup
 } from '@/services/auth.service';
 import { getAuthToken, removeAuthToken, setAuthToken } from '@/utils/auth';
-import { useNotificationToasty } from '@/hooks/useNotificationToasty';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { api } from '@/lib';
+import { useNotificationToasty } from '@/hooks';
 import { FormValues } from '@/pages/register/components/RegisterForm';
+import { api } from '@/lib';
 
 interface AuthContextData {
 	data: {
@@ -62,7 +62,7 @@ export function AuthContextProvider({
 	return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }
 
-export const useAuthContext = () => {
+export function useAuthContext() {
 	const { data: globalData, setData: setGlobalData } = useContext(AuthContext);
 	const [isLoading, setIsLoading] = useState(false);
 	const notification = useNotificationToasty();
@@ -140,4 +140,4 @@ export const useAuthContext = () => {
 	}, [globalData.token]);
 
 	return { ...globalData, signinMutation, signupMutation, logout, isLoading };
-};
+}

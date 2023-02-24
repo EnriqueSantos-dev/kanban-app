@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 export function AuthLayout() {
 	return (
-		<main className="flex min-h-screen w-screen items-center justify-center p-6 dark:bg-black md:p-0">
+		<main className="dark:bg-darkGrey flex min-h-screen w-screen items-center justify-center p-6 md:p-0">
 			<div className="flex w-full flex-col items-center gap-4 md:min-w-[384px] md:max-w-sm">
 				<p className="text-mediumGrey flex items-center gap-3 text-xl font-medium dark:text-white">
 					<svg width="22" height="23" xmlns="http://www.w3.org/2000/svg">

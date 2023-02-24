@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Label, TextField } from '@/shared/components';
-import { useAuthContext } from '@/contexts/auth/auth';
+import { useAuthContext } from '@/contexts/auth';
 import { AvatarInput } from './AvatarInput';
 
 const RegisterSchema = z
@@ -94,7 +94,7 @@ export function RegisterForm() {
 			<button
 				type="submit"
 				disabled={signupMutation.isLoading}
-				className="bg-purple hover:bg-purpleHover hover:ring-purple focus:ring-purple mt-3 w-full rounded py-2 px-4 font-bold text-white outline-none ring-2 ring-transparent ring-offset-2 ring-offset-white transition-colors"
+				className="bg-purple hover:bg-purpleHover hover:ring-purpleHover focus:ring-purpleHover dark:ring-offset-darkGrey mt-3 w-full rounded py-2 px-4 font-bold text-white outline-none ring-2 ring-transparent ring-offset-2 ring-offset-white transition-colors"
 			>
 				{signupMutation.isLoading && (
 					<>

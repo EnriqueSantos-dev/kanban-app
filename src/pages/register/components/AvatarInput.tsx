@@ -57,7 +57,7 @@ export const AvatarInput = React.forwardRef<HTMLInputElement, AvatarInputProps>(
 						{
 							'max-w-full': !preview,
 							'max-w-[200px]': preview,
-							'border-gray-300': !drag,
+							'border-linesDark': !drag,
 							'border-purple': drag
 						}
 					)}
@@ -78,7 +78,7 @@ export const AvatarInput = React.forwardRef<HTMLInputElement, AvatarInputProps>(
 					<label
 						htmlFor="file-input"
 						className={cn(
-							'text-mediumGrey group-hover:text-purple group-focus:text-purple flex h-full w-full cursor-pointer items-center justify-center text-xs font-medium transition-colors',
+							'text-mediumGrey group-hover:text-purple group-focus:text-purple flex h-full w-full cursor-pointer items-center justify-center text-xs font-medium transition-colors dark:text-white',
 							{
 								hidden: preview,
 								'text-purple': drag
@@ -100,7 +100,7 @@ export const AvatarInput = React.forwardRef<HTMLInputElement, AvatarInputProps>(
 				{avatar && (
 					<button
 						type="button"
-						className="ring-offset-0-white bg-mediumGrey hover:ring-mediumGrey focus:ring-mediumGrey mx-auto max-w-fit rounded px-3 py-1.5 text-sm text-white outline-none ring-1 ring-transparent ring-offset-1 transition-colors hover:bg-gray-500"
+						className="ring-offset-0-white bg-mediumGrey hover:ring-mediumGrey focus:ring-mediumGrey dark:ring-offset-darkGrey mx-auto max-w-fit rounded px-3 py-1.5 text-sm text-white outline-none ring-1 ring-transparent ring-offset-1 transition-colors hover:bg-gray-500"
 						onClick={handleClearFile}
 					>
 						Remove file

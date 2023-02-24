@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label, TextField } from '@/shared/components';
-import { useAuthContext } from '@/contexts/auth/auth';
+import { useAuthContext } from '@/contexts/auth';
 
 const LoginSchema = z.object({
 	email: z.string().min(1, { message: 'Cannot be empty' }).trim(),
@@ -50,7 +50,7 @@ export function FormLogin() {
 
 			<button
 				type="submit"
-				className="bg-purple hover:bg-purpleHover hover:ring-purple focus:ring-purple mt-3 w-full rounded py-2 px-4 font-bold text-white outline-none ring-2 ring-transparent ring-offset-2 ring-offset-white transition-colors"
+				className="bg-purple hover:bg-purpleHover hover:ring-purpleHover focus:ring-purpleHover dark:ring-offset-darkGrey mt-3 w-full rounded py-2 px-4 font-bold text-white outline-none ring-2 ring-transparent ring-offset-2 ring-offset-white transition-colors"
 			>
 				{signinMutation.isLoading && (
 					<>

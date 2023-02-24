@@ -16,7 +16,7 @@ export const TextField = React.forwardRef<HTMLInputElement, InputProps>(
 				{...props}
 				ref={ref}
 				className={cn(
-					'hover:ring-purple focus:ring-purple w-full rounded bg-transparent px-4 py-2 text-xs font-medium text-black outline-none ring-1 transition-colors duration-300 placeholder:text-gray-400',
+					'hover:ring-purple focus:ring-purple dark:hover:ring-purple dark:focus:ring-purple w-full rounded bg-transparent px-4 py-2 text-xs font-medium text-black outline-none ring-1 transition-colors duration-300 placeholder:text-gray-400  ring-transparent dark:ring-linesDark dark:text-white dark:placeholder:text-lightGrey',
 					{
 						'ring-red': errorMessage,
 						'ring-gray-300': !errorMessage
