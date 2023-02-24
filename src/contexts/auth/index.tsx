@@ -17,27 +17,27 @@ import {
 	signin,
 	signup
 } from '@/services/auth.service';
-import { getAuthToken, removeAuthToken, setAuthToken } from '@/utils/auth';
+import { removeAuthToken, setAuthToken } from '@/utils/auth';
 import { useNotificationToasty } from '@/hooks';
 import { FormValues } from '@/pages/register/components/RegisterForm';
 import { api } from '@/lib';
 
-interface AuthContextData {
-	data: {
-		isAuthenticated: boolean;
-		token: string | undefined;
-		user: UserProfile | undefined;
-	};
-	setData: React.Dispatch<Partial<AuthContextData>>;
+interface Data {
+	isAuthenticated: boolean;
+	token: string | undefined;
+	user: UserProfile | undefined;
 }
 
-const initialState = {
-	data: {
-		isAuthenticated: false,
-		token: getAuthToken(),
-		user: undefined
-	}
-} satisfies Pick<AuthContextData, 'data'>;
+interface AuthContextData {
+	data: Data;
+	setData: React.Dispatch<Partial<Data>>;
+}
+
+const initialData = {
+	isAuthenticated: false,
+	token: undefined,
+	user: undefined
+} satisfies Data;
 
 const AuthContext = createContext({} as AuthContextData);
 
@@ -46,16 +46,13 @@ export function AuthContextProvider({
 }: {
 	children: React.ReactNode;
 }) {
-	const [{ data }, setData] = useReducer(
-		(
-			state: Pick<AuthContextData, 'data'>,
-			newState: Partial<Pick<AuthContextData, 'data'>>
-		) => ({ ...state, ...newState }),
-		initialState
+	const [data, dispatch] = useReducer(
+		(state: Data, newState: Partial<Data>) => ({ ...state, ...newState }),
+		initialData
 	);
 
 	const values = useMemo(
-		() => ({ data, setData }),
+		() => ({ data, setData: dispatch }),
 		[data.isAuthenticated, data.token, data.user]
 	);
 
@@ -73,7 +70,7 @@ export function useAuthContext() {
 		mutationFn: (data) => signin(data),
 		onSuccess: (data) => {
 			setAuthToken(data.access_token);
-			setGlobalData({ data: { ...globalData, token: data.access_token } });
+			setGlobalData({ token: data.access_token });
 			notification('success', 'login success, your are redirecting...');
 			setTimeout(() => navigate('/'), 2000);
 		},
@@ -102,14 +99,7 @@ export function useAuthContext() {
 
 	const logout = useCallback(async (userId: string) => {
 		removeAuthToken();
-		setGlobalData({
-			data: {
-				...globalData,
-				token: undefined,
-				user: undefined,
-				isAuthenticated: false
-			}
-		});
+		setGlobalData(initialData);
 		navigate('/login', { state: { from: location.pathname } });
 		api.defaults.headers.common.Authorization = undefined;
 		await api.post(`auth/logout/${userId}`);
@@ -121,11 +111,8 @@ export function useAuthContext() {
 			getProfile()
 				.then((data) => {
 					setGlobalData({
-						data: {
-							...globalData,
-							user: data,
-							isAuthenticated: true
-						}
+						user: data,
+						isAuthenticated: true
 					});
 
 					setIsLoading(false);
