@@ -2,3 +2,8 @@ export * from './TextField';
 export * from './Label';
 export * from './LoadingPage';
 export * from './AppProviders';
+export * from './Button';
+export * from './Header';
+export * from './PopupEditOrDeleteBoard';
+export * from './SideBar';
+export * from './MobileMenuPopover';

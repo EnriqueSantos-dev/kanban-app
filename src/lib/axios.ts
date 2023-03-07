@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 import axios, { AxiosRequestConfig } from 'axios';
 import jwtDecode from 'jwt-decode';
-import { JwtPayloadType } from '@/types';
-import { getAuthToken, setAuthToken } from '@/utils/auth';
-import { refreshToken } from '@/services/auth.service';
+import { JwtPayloadType } from '~/types';
+import { getAuthToken, setAuthToken } from '~/utils/auth';
+import { refreshToken } from '~/services/auth.service';
 
 const BASE_URL = 'http://localhost:3333/api/v1';
 
@@ -15,12 +15,15 @@ const commonOptions: AxiosRequestConfig = {
 	}
 };
 
+// create two instances of axios to avoid infinite loop
 export const api = axios.create(commonOptions);
 export const axiosRefreshTokenInstance = axios.create(commonOptions);
 
+const pathnamesMatches = ['/auth/refresh', '/auth/logout', '/auth/login'];
+
 // interceptor request
 api.interceptors.request.use(async (config) => {
-	const pathname = config.url;
+	const pathname = config.url ?? '';
 	const token = getAuthToken();
 	config.headers.Authorization = `Bearer ${token}`;
 
@@ -31,11 +34,9 @@ api.interceptors.request.use(async (config) => {
 		if (
 			decodedToken.exp &&
 			decodedToken.exp < currentTime &&
-			pathname !== '/auth/refresh' &&
-			pathname !== '/auth/logout' &&
-			pathname !== '/auth/login'
+			!pathnamesMatches.includes(pathname)
 		) {
-			const { accessToken } = await refreshToken();
+			const { access_token: accessToken } = await refreshToken();
 			setAuthToken(accessToken);
 			config.headers.Authorization = `Bearer ${accessToken}`;
 		}

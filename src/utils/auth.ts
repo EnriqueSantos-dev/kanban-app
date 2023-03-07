@@ -1,4 +1,4 @@
-import { AUTH_TOKEN_KEY } from '@/constants/auth.constants';
+import { AUTH_TOKEN_KEY } from '~/constants/auth.constants';
 
 export const getAuthToken = () =>
 	localStorage.getItem(AUTH_TOKEN_KEY) ?? undefined;

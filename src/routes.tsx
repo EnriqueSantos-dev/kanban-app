@@ -3,9 +3,9 @@ import {
 	createBrowserRouter,
 	createRoutesFromElements
 } from 'react-router-dom';
-import { HomePage, LoginPage, RegisterPage } from '@/pages';
-import { AuthLayout } from '@/shared/layouts';
-import { loaderPrivateRoutes } from '@/shared/loaders';
+import { HomePage, LoginPage, RegisterPage } from '~/pages';
+import { AuthLayout } from '~/shared/layouts';
+import { loaderPrivateRoutes } from '~/shared/loaders';
 import { App } from './App';
 
 export const router = createBrowserRouter(

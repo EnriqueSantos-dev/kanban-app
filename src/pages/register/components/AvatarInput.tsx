@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { cn } from '@/utils/cn';
+import React, { useEffect, useState } from 'react';
+import { cn } from '~/utils/cn';
 
 interface AvatarInputProps {
 	setValue: (value: File | null) => void;
@@ -7,20 +7,15 @@ interface AvatarInputProps {
 
 export const AvatarInput = React.forwardRef<HTMLInputElement, AvatarInputProps>(
 	({ setValue }, ref) => {
-		const [avatar, setAvatar] = React.useState<File | null>(null);
-		const [drag, setDrag] = React.useState(false);
+		const [avatar, setAvatar] = useState<File | null>(null);
+		const [drag, setDrag] = useState(false);
 		const preview = avatar ? URL.createObjectURL(avatar) : null;
 
 		const handleFileChange = (e: FileList | null) => {
-			const fileReader = new FileReader();
-
 			const file = e?.[0];
 			if (!file) return;
 
-			fileReader.readAsDataURL(file);
-			fileReader.onloadend = () => {
-				setAvatar(file);
-			};
+			setAvatar(file);
 		};
 
 		const handleDrop = (e: React.DragEvent<HTMLInputElement>) => {
@@ -41,6 +36,7 @@ export const AvatarInput = React.forwardRef<HTMLInputElement, AvatarInputProps>(
 
 		const handleClearFile = () => {
 			setAvatar(null);
+			setDrag(false);
 		};
 
 		useEffect(() => {
@@ -89,11 +85,11 @@ export const AvatarInput = React.forwardRef<HTMLInputElement, AvatarInputProps>(
 					</label>
 					<input
 						type="file"
-						accept="image/*"
 						id="file-input"
+						accept="image/*"
 						ref={ref}
 						hidden
-						onChange={(e) => handleFileChange(e.target.files)}
+						onChange={({ target: { files } }) => handleFileChange(files)}
 					/>
 				</div>
 

@@ -1,6 +1,6 @@
-import { api, axiosRefreshTokenInstance } from '@/lib';
-import { FormValues } from '@/pages/register/components/RegisterForm';
-import { UserProfile } from '@/types';
+import { api, axiosRefreshTokenInstance } from '~/lib';
+import { FormValues } from '~/pages/register/components/RegisterForm';
+import { UserProfile } from '~/types';
 
 export async function getProfile(): Promise<UserProfile> {
 	const response = await api.get('/auth/profile');
@@ -14,7 +14,7 @@ export const signup = async (data: FormValues): Promise<void> => {
 	formData.append('password', data.password);
 	if (data.avatar) formData.append('avatar', data.avatar);
 
-	await api({
+	return api({
 		method: 'POST',
 		url: '/auth/register',
 		data: formData,
@@ -42,8 +42,11 @@ export const signin = async ({
 };
 
 interface ResponseRefreshToken {
-	accessToken: string;
+	access_token: string;
 }
 
 export const refreshToken = (): Promise<ResponseRefreshToken> =>
 	axiosRefreshTokenInstance.post('/auth/refresh').then((res) => res.data);
+
+export const logoutUser = async (userId: string): Promise<void> =>
+	api.post(`/auth/logout/${userId}`);

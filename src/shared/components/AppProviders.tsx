@@ -1,16 +1,19 @@
 import 'react-toastify/dist/ReactToastify.css';
 
 import React from 'react';
-import { AuthContextProvider } from '@/contexts/auth';
-import { queryClient } from '@/lib';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
+import { queryClient } from '~/lib';
 
-export function AppProviders({ children }: { children: React.ReactNode }) {
+interface AppProvidersProps {
+	children: React.ReactNode;
+}
+
+export function AppProviders({ children }: AppProvidersProps) {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ToastContainer />
-			<AuthContextProvider>{children}</AuthContextProvider>
+			{children}
 		</QueryClientProvider>
 	);
 }

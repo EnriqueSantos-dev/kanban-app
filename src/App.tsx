@@ -1,7 +1,7 @@
-import '@/shared/styles/globals.css';
+import '~/shared/styles/globals.css';
 
 import { Outlet } from 'react-router-dom';
-import { AppProviders } from '@/shared/components';
+import { AppProviders } from '~/shared/components';
 
 export function App() {
 	return (

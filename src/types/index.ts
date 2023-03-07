@@ -9,6 +9,8 @@ export type MutationFnType<TVar = unknown, TRes = any> = UseMutationResult<
 	unknown
 >;
 
+export type Theme = 'light' | 'dark';
+
 export interface User {
 	id: string;
 	name: string;

@@ -1,7 +1,7 @@
 export function LoadingPage() {
 	return (
 		<div className="dark:bg-darkGrey grid h-screen w-screen place-content-center place-items-center">
-			<p className="text-mediumGrey flex animate-pulse items-center gap-3 text-3xl font-bold dark:text-white">
+			<p className="text-mediumGrey flex animate-pulse items-center gap-3 text-3xl font-bold leading-relaxed dark:text-white">
 				<svg
 					className="mt-1 block"
 					width="25"
