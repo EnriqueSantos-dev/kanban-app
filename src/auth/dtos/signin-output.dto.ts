@@ -1,3 +1,3 @@
 export interface SigninOutputDTO {
-  accessToken: string;
+	accessToken: string;
 }
