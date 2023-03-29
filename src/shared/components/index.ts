@@ -7,3 +7,6 @@ export * from './Header';
 export * from './PopupEditOrDeleteBoard';
 export * from './SideBar';
 export * from './MobileMenuPopover';
+export * from './Dialog';
+export * from './ButtonSelectOrCreateBoard';
+export * from './ChangeTheme';
