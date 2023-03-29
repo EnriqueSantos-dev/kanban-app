@@ -1,3 +1,4 @@
+import * as Switch from '@radix-ui/react-switch';
 import MoonSvg from '~/assets/moon.svg';
 import SunSvg from '~/assets/sun.svg';
 import { useTheme } from '~/hooks/useTheme';
@@ -11,10 +12,16 @@ export function ChangeThemeButton() {
 	}
 
 	return (
-		<div className="px-6 py-4">
-			<div className="bg-lightGrey dark:bg-veryDarkGrey flex h-12 items-center justify-evenly rounded">
-				<SunSvg />
-				<label className="bg-purple relative h-5 w-10 cursor-pointer rounded-full p-1">
+		<div
+			role="button"
+			className="bg-lightGrey dark:bg-veryDarkGrey flex h-12 w-full items-center justify-evenly rounded"
+		>
+			<SunSvg />
+			<Switch.Root
+				className="bg-purple dark:focus:ring-offset-veryDarkGrey focus:ring-purple relative flex h-5 w-10 items-start rounded-full px-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white"
+				onCheckedChange={handleChangeTheme}
+			>
+				<Switch.Thumb asChild>
 					<svg
 						width={15}
 						height={15}
@@ -27,11 +34,9 @@ export function ChangeThemeButton() {
 					>
 						<circle cx="50%" cy="50%" r="50%" fill="white" />
 					</svg>
-
-					<input type="checkbox" hidden onChange={handleChangeTheme} />
-				</label>
-				<MoonSvg />
-			</div>
+				</Switch.Thumb>
+			</Switch.Root>
+			<MoonSvg />
 		</div>
 	);
 }
