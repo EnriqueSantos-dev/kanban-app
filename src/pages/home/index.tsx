@@ -1,10 +1,11 @@
 import { useAuthContext } from '~/contexts/auth';
 import { Header, LoadingPage, SideBar } from '~/shared/components';
+import { ButtonActiveSidebar } from '~/shared/components/ButtonActiveSidebar';
 import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
 
 export function HomePage() {
-	const { isLoading, user } = useAuthContext();
+	const { isLoading } = useAuthContext();
 	const { isMenuOpen } = useMenuStore();
 
 	if (isLoading) {
@@ -19,16 +20,13 @@ export function HomePage() {
 			})}
 		>
 			<SideBar />
-			<div>
+			<div className="grid max-h-screen">
 				<Header />
-				<main className="bg-lightGrey dark:bg-veryDarkGrey h-mainHeight p-10">
-					<h1 className="mb-4 text-xl font-bold text-black dark:text-white">
-						Hello {user?.name} 👏
-					</h1>
-					<pre className="max-w-md snap-mandatory overflow-auto dark:text-white">
-						{JSON.stringify(user, null, 2)}
-					</pre>
+				<main className="bg-lightGrey dark:bg-veryDarkGrey h-mainHeight grid-auto-col-min-300 w-full gap-x-6 overflow-auto p-10">
+					{/* columns of board in here */}
 				</main>
+
+				<ButtonActiveSidebar />
 			</div>
 		</div>
 	);
