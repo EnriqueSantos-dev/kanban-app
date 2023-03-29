@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { ToastOptions, toast } from 'react-toastify';
+import { ToastOptions, TypeOptions, toast } from 'react-toastify';
 
-type NOTIFICATION_TYPES = 'success' | 'error';
+type NOTIFICATION_TYPES = TypeOptions;
 
 const defaultOptions = {
 	autoClose: 1000,
-	delay: 0
+	delay: 0,
+	type: 'success'
 } satisfies ToastOptions;
 
 export function useNotificationToasty() {
@@ -13,7 +14,7 @@ export function useNotificationToasty() {
 		notificationType: NOTIFICATION_TYPES,
 		message: string,
 		options?: ToastOptions
-	) => toast[notificationType](message, options ?? defaultOptions);
+	) => toast(message, { ...options, type: notificationType } ?? defaultOptions);
 
 	return notification;
 }
