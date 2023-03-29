@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	Body,
 	Controller,
 	Delete,
@@ -23,6 +24,9 @@ export class BoardsController {
 		@Req() req: Request,
 		@Body() dto: CreateBoardInputDto
 	): Promise<void> {
+		if (!this.checkIfColumnsIsUnique(dto.initialColumns))
+			throw new BadRequestException('Columns must be unique');
+
 		return await this.boardsService.create({ ...dto, userId: req.user.id });
 	}
 
@@ -31,11 +35,19 @@ export class BoardsController {
 		@Param() params: { id: string },
 		@Body() dto: UpdateBoardInputDto
 	): Promise<void> {
+		if (!this.checkIfColumnsIsUnique(dto.columns.map((c) => c.name)))
+			throw new BadRequestException('Columns must be unique');
+
 		return await this.boardsService.update({ ...dto, boardId: params.id });
 	}
 
 	@Delete(':id/delete')
 	public async delete(@Param() params: { id: string }): Promise<void> {
 		return await this.boardsService.delete(params.id);
+	}
+
+	private checkIfColumnsIsUnique(columns: string[] = []): boolean {
+		const set = new Set(columns);
+		return set.size === columns.length;
 	}
 }
