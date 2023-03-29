@@ -16,9 +16,14 @@
 		"sourceType": "module",
 		"project": "./tsconfig.json"
 	},
-	"ignorePatterns": [".eslintrc.json", "vite.config.ts"],
+	"ignorePatterns": [
+		".eslintrc.json",
+		"vite.config.ts"
+	],
 	"parser": "@typescript-eslint/parser",
-	"plugins": ["tailwindcss"],
+	"plugins": [
+		"tailwindcss"
+	],
 	"rules": {
 		"tailwindcss/no-custom-classname": "off",
 		"tailwindcss/classnames-order": "error",
@@ -43,12 +48,24 @@
 	},
 	"settings": {
 		"tailwindcss": {
-			"calles": ["cn"]
+			"calles": [
+				"cn"
+			]
 		},
 		"import/resolver": {
 			"alias": {
-				"map": [["~", "./src"]],
-				"extensions": [".tsx", ".ts", ".js", ".json"]
+				"map": [
+					[
+						"~",
+						"./src"
+					]
+				],
+				"extensions": [
+					".tsx",
+					".ts",
+					".js",
+					".json"
+				]
 			}
 		}
 	}
