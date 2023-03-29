@@ -24,11 +24,15 @@ module.exports = {
 			height: {
 				mainHeight: 'calc(100vh - 5rem)'
 			},
+			maxHeight: {
+				maxSidebarHeight: 'calc(100vh - 14.75rem)'
+			},
 			animation: {
-				'fade-in': 'fade-in 300ms ease',
-				'fade-out': 'fade-out 300ms ease',
+				'fade-in': 'fade-in 150ms ease-in forwards',
+				'fade-out': 'fade-out 100ms ease-out',
 				'scale-up': 'scale 150ms ease-in-out forwards',
-				'scale-down': 'scale 150ms ease-in-out backwards'
+				'scale-down': 'scale 150ms ease-in-out backwards',
+				'modal-translate-center': 'modal-translate-center 150ms ease forwards'
 			},
 			keyframes: {
 				'fade-in': {
@@ -41,10 +45,13 @@ module.exports = {
 				},
 				scale: {
 					from: { scale: 0 },
-					to: { scale: 1 }
+					to: { scale: 100 }
+				},
+				'modal-translate-center': {
+					to: { transform: 'translate(-50%, -50%) scale(1)' }
 				}
 			}
 		}
 	},
-	plugins: []
+	plugins: [require('tailwind-scrollbar')({ nocompatible: true })]
 };
