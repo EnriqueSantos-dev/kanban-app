@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -28,10 +28,6 @@ export class RtJwtStrategy extends PassportStrategy(
 		const user = await this.usersService.findById(payload.sub);
 
 		if (!user) return null;
-
-		if (payload.exp < Date.now() / 1000) {
-			throw new ForbiddenException('Refresh token expired');
-		}
 
 		return {
 			...payload,
