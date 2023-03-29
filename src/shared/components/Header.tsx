@@ -1,4 +1,5 @@
 import KanbanLogoSvg from '~/assets/logo.svg';
+import { useActiveBoard } from '~/hooks/useActiveBoard';
 import {
 	MobileMenuPopover,
 	PopoverEditOrDeleteBoard
@@ -7,6 +8,7 @@ import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
 
 export function Header() {
+	const { activeBoard } = useActiveBoard();
 	const { isMenuOpen } = useMenuStore();
 
 	return (
@@ -38,19 +40,27 @@ export function Header() {
 							<KanbanLogoSvg />
 						</span>
 
-						<h2 className="max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold capitalize dark:text-white md:max-w-xs md:text-xl">
-							Test board
+						<h2
+							className="max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold capitalize leading-relaxed dark:text-white sm:max-w-[250px] md:max-w-xs md:text-xl"
+							title={activeBoard?.name}
+						>
+							{activeBoard?.name ?? 'No board selected'}
 						</h2>
 
 						<MobileMenuPopover />
 					</div>
 
-					<div className="flex items-center">
+					<div className="flex items-center gap-2">
 						<button
 							type="button"
-							className="focus:outline-purple bg-purple hover:bg-purpleHover flex items-center justify-center gap-2 whitespace-nowrap rounded-full py-3 px-4 font-bold text-white transition-colors focus:outline-offset-2"
+							className="bg-purple hover:bg-purpleHover focus:ring-purple dark:focus:ring-offset-darkGrey flex items-center justify-center gap-2 whitespace-nowrap rounded-full py-3 px-4 font-bold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
 						>
-							<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
+							<svg
+								width="12"
+								height="12"
+								xmlns="http://www.w3.org/2000/svg"
+								className="shrink-0"
+							>
 								<path
 									fill="#fff"
 									d="M7.368 12V7.344H12V4.632H7.368V0H4.656v4.632H0v2.712h4.656V12z"
