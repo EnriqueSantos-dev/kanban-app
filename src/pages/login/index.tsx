@@ -10,7 +10,10 @@ export function LoginPage() {
 			<FormLogin />
 			<div className="mt-2 flex w-full items-center gap-2 text-sm">
 				<p className="text-mediumGrey dark:text-white">No have account?</p>
-				<Link to="/register" className="font-medium text-blue-400 underline">
+				<Link
+					to="/auth/register"
+					className="font-medium text-blue-400 underline"
+				>
 					Register
 				</Link>
 			</div>
