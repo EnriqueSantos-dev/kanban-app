@@ -2,6 +2,7 @@ import {
 	BadRequestException,
 	Body,
 	Controller,
+	ForbiddenException,
 	Get,
 	HttpCode,
 	HttpStatus,
@@ -20,7 +21,12 @@ import { memoryStorage } from 'multer';
 import { AuthService } from './auth.service';
 import { AuthConstants } from './constants';
 import { GetUserProperties } from './decorators';
-import { GetProfileOutputDTO, SignInInputDTO, SingUpInputDTO } from './dtos';
+import {
+	GetProfileOutputDTO,
+	SignInInputDTO,
+	SingUpInputDTO,
+	TokenOutputDTO
+} from './dtos';
 import { AtJwtAuthGuard, RtJwtAuthGuard } from './guards';
 
 @Controller('auth')
@@ -31,19 +37,22 @@ export class AuthController {
 	) {}
 
 	@Post('login')
-	public async login(@Body() dto: SignInInputDTO, @Res() res: Response) {
+	public async login(
+		@Body() dto: SignInInputDTO,
+		@Res({ passthrough: true }) res: Response
+	): Promise<TokenOutputDTO> {
 		const { accessToken, refreshToken } = await this.authService.login(
 			dto.email,
 			dto.password
 		);
 
-		return res
-			.cookie(
-				AuthConstants.REFRESH_TOKEN_KEY,
-				refreshToken,
-				this.generateCookieOptions()
-			)
-			.json({ access_token: accessToken });
+		res.cookie(
+			AuthConstants.REFRESH_TOKEN_KEY,
+			refreshToken,
+			this.generateCookieOptions()
+		);
+
+		return { access_token: accessToken };
 	}
 
 	@Post('register')
@@ -88,35 +97,38 @@ export class AuthController {
 	@HttpCode(HttpStatus.OK)
 	@Post('refresh')
 	public async refresh(
-		@GetUserProperties() user: { sub: string; email: string },
-		@Res() res: Response
-	) {
+		@GetUserProperties() user: { exp: number; sub: string; email: string },
+		@Res({ passthrough: true }) res: Response
+	): Promise<TokenOutputDTO> {
+		if (user.exp * 1000 < Date.now())
+			throw new ForbiddenException('Token expired');
+
 		const { accessToken, refreshToken } = await this.authService.refreshToken(
 			user
 		);
 
-		return res
-			.cookie(
-				AuthConstants.REFRESH_TOKEN_KEY,
-				refreshToken,
-				this.generateCookieOptions()
-			)
-			.json({
-				access_token: accessToken
-			});
+		res.cookie(
+			AuthConstants.REFRESH_TOKEN_KEY,
+			refreshToken,
+			this.generateCookieOptions()
+		);
+
+		return { access_token: accessToken };
 	}
 
+	@UseGuards(RtJwtAuthGuard)
 	@HttpCode(HttpStatus.NO_CONTENT)
-	@Post('logout/:userId')
-	public async logout(@Param('userId') userId: string, @Res() res: Response) {
+	@Post('logout')
+	public async logout(
+		@GetUserProperties('sub') userId: string,
+		@Res({ passthrough: true }) res: Response
+	): Promise<void> {
 		await this.authService.logout(userId);
 
-		return res
-			.clearCookie(AuthConstants.REFRESH_TOKEN_KEY, {
-				...this.generateCookieOptions(),
-				maxAge: 0 // delete cookie
-			})
-			.end();
+		res.clearCookie(AuthConstants.REFRESH_TOKEN_KEY, {
+			...this.generateCookieOptions(),
+			maxAge: 0 // delete cookie
+		});
 	}
 
 	private generateCookieOptions(): CookieOptions {
