@@ -48,5 +48,5 @@ interface ResponseRefreshToken {
 export const refreshToken = (): Promise<ResponseRefreshToken> =>
 	axiosRefreshTokenInstance.post('/auth/refresh').then((res) => res.data);
 
-export const logoutUser = async (userId: string): Promise<void> =>
-	api.post(`/auth/logout/${userId}`);
+export const logoutUser = async (): Promise<void> =>
+	api.post('/auth/logout');

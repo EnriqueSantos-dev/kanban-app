@@ -41,7 +41,7 @@ export function useAuthContext() {
 		mutationFn: (data) => signup(data),
 		onSuccess: () => {
 			notification('success', 'Register success, your are redirecting...');
-			setTimeout(() => navigate('/login'), 2000);
+			setTimeout(() => navigate('/auth/login'), 2000);
 		},
 		onError: (error) => {
 			const errorMessage =
@@ -50,11 +50,11 @@ export function useAuthContext() {
 		}
 	});
 
-	const logout = useCallback(async (userId: string) => {
+	const logout = useCallback(async () => {
 		removeAuthToken();
 		clearAll();
-		navigate('/login');
-		await logoutUser(userId);
+		navigate('/auth/login');
+		await logoutUser();
 	}, []);
 
 	useEffect(() => {
@@ -63,12 +63,12 @@ export function useAuthContext() {
 			getProfile()
 				.then((data) => setUser(data))
 				.catch(async () => {
-					navigate('/login');
-					if (user) await logout(user.id);
+					navigate('/auth/login');
+					if (user) await logout();
 				})
 				.finally(() => setIsLoading(false));
 		}
 	}, [token]);
 
-	return { user, signinMutation, signupMutation, logout, isLoading };
+	return { signinMutation, signupMutation, logout, isLoading };
 }
