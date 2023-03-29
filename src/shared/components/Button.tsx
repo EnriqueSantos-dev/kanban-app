@@ -7,15 +7,15 @@ interface ButtonProps
 		React.ButtonHTMLAttributes<HTMLButtonElement>,
 		HTMLButtonElement
 	> {
-	isLoading: boolean;
+	isLoading?: boolean;
 }
 
 const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	({ isLoading, className, children, ...props }, ref) => (
+	({ isLoading = false, className, children, ...props }, ref) => (
 		<button
 			{...props}
 			className={cn(
-				'flex gap-2 whitespace-nowrap  justify-center items-center bg-purple hover:bg-purpleHover hover:ring-purpleHover focus:ring-purpleHover dark:ring-offset-darkGrey mt-3 w-full rounded py-2 px-4 font-bold text-white outline-none ring-2 ring-transparent ring-offset-2 ring-offset-white transition-colors',
+				'flex gap-2 whitespace-nowrap  justify-center items-center bg-purple hover:bg-purpleHover hover:ring-purpleHover focus:ring-purpleHover dark:ring-offset-transparent mt-3 w-full rounded py-2 px-4 font-bold text-white ring-2 ring-transparent ring-offset-2 ring-offset-white transition-colors outline-none',
 				className
 			)}
 			disabled={isLoading}
