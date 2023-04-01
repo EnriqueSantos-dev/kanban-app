@@ -16,7 +16,7 @@ export function Header() {
 			<nav className="flex h-full w-full items-center justify-between">
 				<div
 					className={cn(
-						'border-r-linesLight dark:border-r-linesDark h-full items-center gap-3 border-r pr-8 hidden',
+						'border-r-linesLight dark:border-r-linesDark h-full items-center gap-2 border-r pr-8 hidden',
 						{
 							'md:hidden': isMenuOpen,
 							'md:flex': !isMenuOpen
@@ -53,7 +53,7 @@ export function Header() {
 					<div className="flex items-center gap-2">
 						<button
 							type="button"
-							className="bg-purple hover:bg-purpleHover focus:ring-purple dark:focus:ring-offset-darkGrey flex items-center justify-center gap-2 whitespace-nowrap rounded-full py-3 px-4 font-bold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
+							className="bg-purple hover:bg-purpleHover focus:ring-purple dark:focus:ring-offset-darkGrey flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-4 py-3 font-bold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
 						>
 							<svg
 								width="12"
