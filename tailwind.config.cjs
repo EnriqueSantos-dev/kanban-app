@@ -28,11 +28,10 @@ module.exports = {
 				maxSidebarHeight: 'calc(100vh - 14.75rem)'
 			},
 			animation: {
-				'fade-in': 'fade-in 150ms ease-in forwards',
-				'fade-out': 'fade-out 100ms ease-out',
-				'scale-up': 'scale 150ms ease-in-out forwards',
-				'scale-down': 'scale 150ms ease-in-out backwards',
-				'modal-translate-center': 'modal-translate-center 150ms ease forwards'
+				'fade-in': 'fade-in 100ms linear forwards',
+				'fade-out': 'fade-out 100ms ease-in-out forwards',
+				'scale-up': 'scale 100ms ease-in-out forwards',
+				'scale-down': 'scale 150ms ease-in-out backwards'
 			},
 			keyframes: {
 				'fade-in': {
