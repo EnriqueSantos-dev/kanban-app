@@ -1,23 +1,6 @@
 version: '3.8'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: app
-    restart: always
-    ports:
-      - ${PORT}:3333
-    depends_on:
-      - db
-    env_file:
-      - .env
-    volumes:
-      - .:/usr/app
-      - /usr/app/node_modules
-    networks:
-      - app_network		
   db:
     image: postgres
     container_name: db
@@ -30,9 +13,3 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ./db_data:/var/lib/postgresql/data
-    networks:
-      - app_network		
-
-networks:
-  app_network:
-    driver: bridge
