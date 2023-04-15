@@ -10,7 +10,8 @@ import { PrismaModule } from './database/prisma.module';
 @Module({
 	imports: [
 		ConfigModule.forRoot({
-			isGlobal: true
+			isGlobal: true,
+			expandVariables: true
 		}),
 		PrismaModule,
 		AuthModule,
