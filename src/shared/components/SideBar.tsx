@@ -3,8 +3,10 @@ import KanbanLogoSvg from '~/assets/logo.svg';
 import { useActiveBoard } from '~/hooks/useActiveBoard';
 import {
 	ButtonSelectOrCreateBoard,
-	ChangeThemeButton
+	ChangeThemeButton,
+	FormCreateNewBoard
 } from '~/shared/components';
+import { BoardType } from '~/stores/active-board-store';
 import { useAuthStore } from '~/stores/auth-store';
 import { useMenuActions, useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
@@ -16,9 +18,9 @@ export function SideBar() {
 	const boards = useAuthStore((state) => state.user?.boards);
 
 	const handleChangeActiveBoard = useCallback(
-		({ id, name }: { id: string; name: string }) => {
-			if (activeBoard?.id === id) return;
-			setActiveBoard({ id, name });
+		(board: BoardType) => {
+			if (activeBoard?.id === board.id) return;
+			setActiveBoard(board);
 		},
 		[activeBoard?.id]
 	);
@@ -46,19 +48,18 @@ export function SideBar() {
 						<p className="text-mediumGrey mt-10 px-6 text-xs font-bold uppercase tracking-[2.4px]">
 							All boards ({boards?.length})
 						</p>
-						<ButtonSelectOrCreateBoard>
-							+ Create new board
-						</ButtonSelectOrCreateBoard>
+
+						<FormCreateNewBoard />
 					</div>
 
 					<div className="scrollbar-thin peer flex-1 overflow-auto pb-10">
-						{boards?.map(({ name, id }) => (
+						{boards?.map((board) => (
 							<ButtonSelectOrCreateBoard
-								key={id}
-								isActive={activeBoard?.id === id}
-								onClick={() => handleChangeActiveBoard({ id, name })}
+								key={board.id}
+								isActive={activeBoard?.id === board.id}
+								onClick={() => handleChangeActiveBoard(board)}
 							>
-								{name}
+								{board.name}
 							</ButtonSelectOrCreateBoard>
 						))}
 					</div>
