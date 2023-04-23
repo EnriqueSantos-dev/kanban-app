@@ -13,12 +13,12 @@ interface ButtonProps
 const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	({ isLoading = false, className, children, ...props }, ref) => (
 		<button
-			{...props}
 			className={cn(
-				'flex gap-2 whitespace-nowrap  justify-center items-center bg-purple hover:bg-purpleHover hover:ring-purpleHover focus:ring-purpleHover dark:ring-offset-transparent mt-3 w-full rounded py-2 px-4 font-bold text-white ring-2 ring-transparent ring-offset-2 ring-offset-white transition-colors outline-none',
+				'flex gap-2 whitespace-nowrap  justify-center items-center bg-purple hover:bg-purpleHover focus:ring-purpleHover dark:ring-offset-transparent mt-3 w-full rounded py-2 px-4 font-bold text-white ring-2 ring-transparent ring-offset-2 focus:bg-purpleHover ring-offset-white transition-colors outline-none disabled:opacity-50 disabled:cursor-not-allowed',
 				className
 			)}
-			disabled={isLoading}
+			disabled={isLoading || props.disabled}
+			{...props}
 			ref={ref}
 		>
 			{isLoading && (
