@@ -1,0 +1,144 @@
+import { SubmitHandler } from 'react-hook-form';
+import {
+	useCreateBoardMutation,
+	useInteractiveForm,
+	useNotificationToasty
+} from '~/hooks';
+import {
+	Button,
+	ButtonRemoveItemFormFormFieldArray,
+	ButtonSelectOrCreateBoard,
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogOverlay,
+	DialogPortal,
+	DialogTrigger,
+	Label,
+	TextField
+} from '~/shared/components';
+import { cn } from '~/utils/cn';
+import { generateDefaultColumnsBoard } from '~/utils/generate-default-columns-board';
+import { useEffect, useState } from 'react';
+import { CreateNewBoardFormValues, schema } from './schema';
+
+export function FormCreateNewBoard() {
+	const [isOpen, setIsOpen] = useState(false);
+	const notification = useNotificationToasty();
+	const mutation = useCreateBoardMutation();
+	const {
+		register,
+		handleSubmit,
+		handleAppendField,
+		handleRemoveField,
+		handleResetForm,
+		fields,
+		formState: { errors }
+	} = useInteractiveForm({
+		schema,
+		interactiveFieldName: 'columns',
+		defaultValues: {
+			name: 'New Board',
+			columns: generateDefaultColumnsBoard()
+		}
+	});
+
+	const onModalChange = () => {
+		setIsOpen((prev) => !prev);
+		handleResetForm();
+	};
+
+	const onSubmit: SubmitHandler<CreateNewBoardFormValues> = (data) => {
+		const { name, columns } = data;
+		mutation.mutate({ name, initialColumns: columns.map((col) => col.value) });
+	};
+
+	useEffect(() => {
+		if (mutation.error) {
+			notification('error', mutation.error.message);
+		}
+	}, [mutation.error]);
+
+	useEffect(() => {
+		if (mutation.isSuccess) {
+			notification('success', 'Board created successfully');
+			setIsOpen(false);
+		}
+	}, [mutation.isSuccess]);
+
+	return (
+		<Dialog onOpenChange={onModalChange} open={isOpen}>
+			<DialogTrigger asChild>
+				<ButtonSelectOrCreateBoard>
+					+ Create new board
+				</ButtonSelectOrCreateBoard>
+			</DialogTrigger>
+			<DialogPortal>
+				<DialogOverlay />
+				<DialogContent>
+					<DialogHeader>Add New Board</DialogHeader>
+
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<Label label="Board Name">
+							<TextField
+								{...register('name')}
+								errorMessage={errors.name?.message}
+							/>
+						</Label>
+
+						{fields.length > 0 && (
+							<div className="mt-6">
+								<p className="text-mediumGrey mb-2 text-sm font-bold dark:text-white">
+									Board Columns
+								</p>
+
+								<div className="flex flex-col gap-4">
+									{fields.map((column, index) => (
+										<div
+											className={cn('grid grid-cols-[1fr,auto] gap-x-4', {
+												'place-items-start':
+													errors.columns?.[index]?.value?.message
+											})}
+											key={column.id}
+										>
+											<TextField
+												{...register(`columns.${index}.value` as const)}
+												errorMessage={errors.columns?.[index]?.value?.message}
+											/>
+											<ButtonRemoveItemFormFormFieldArray
+												type="button"
+												title="Remove column"
+												onClick={() => handleRemoveField(index)}
+											/>
+										</div>
+									))}
+								</div>
+							</div>
+						)}
+
+						<div className="mt-4 flex flex-col gap-2">
+							<Button.Root
+								type="button"
+								className="text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]"
+								onClick={() =>
+									handleAppendField({ id: crypto.randomUUID(), value: '' })
+								}
+								disabled={mutation.isLoading}
+							>
+								<span className="mb-0.5 block">+</span>Add New Column
+							</Button.Root>
+
+							<Button.Root
+								className="rounded-full py-2.5 text-sm"
+								disabled={Object.keys(errors).length > 0}
+								isLoading={mutation.isLoading}
+							>
+								Create New Board
+							</Button.Root>
+						</div>
+					</form>
+				</DialogContent>
+			</DialogPortal>
+		</Dialog>
+	);
+}
