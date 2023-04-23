@@ -19,8 +19,9 @@ import {
 } from '~/shared/components';
 import { cn } from '~/utils/cn';
 import { useEffect, useState } from 'react';
-import { queryClient } from '~/lib';
 import { BoardType } from '~/stores/active-board-store';
+import { useQueryClient } from '@tanstack/react-query';
+import { userKeys } from '~/utils/query-keys-factories';
 import { EditBoardFormValues, schema } from './schema';
 
 type ColumnForm = Pick<z.infer<typeof schema>, 'columns'>['columns'];
@@ -54,6 +55,7 @@ export function FormEditBoard({
 	setUpdatedBoard,
 	isCreateNewColumn = false
 }: FormEditBoardProps) {
+	const queryClient = useQueryClient();
 	const [isOpen, setIsOpen] = useState(false);
 	const notification = useNotificationToasty();
 	const mutation = useEditBoardMutation();
@@ -62,6 +64,7 @@ export function FormEditBoard({
 		handleSubmit,
 		handleAppendField,
 		handleRemoveField,
+		handleResetForm,
 		fields,
 		formState: { errors }
 	} = useInteractiveForm({
@@ -77,7 +80,10 @@ export function FormEditBoard({
 		}
 	});
 
-	const onModalChange = () => setIsOpen((prev) => !prev);
+	const onModalChange = () => {
+		setIsOpen((prev) => !prev);
+		handleResetForm();
+	};
 
 	const onSubmit: SubmitHandler<EditBoardFormValues> = (data) => {
 		const { name, columns } = data;
@@ -106,10 +112,11 @@ export function FormEditBoard({
 		if (mutation.isSuccess) {
 			notification('success', 'Board updated successfully');
 			queryClient.invalidateQueries({
-				queryKey: ['user/profile']
+				queryKey: userKeys.profile
 			});
 			setUpdatedBoard({ id: board.id, ...mutation.data });
 			setIsOpen(false);
+			handleResetForm();
 		}
 	}, [mutation.isSuccess]);
 
