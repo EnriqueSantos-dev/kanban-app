@@ -9,15 +9,3 @@ html {
 body {
 	@apply antialiased scroll-smooth;
 }
-
-button:disabled {
-	cursor: not-allowed;
-}
-
-@layer utilities {
-	.grid-auto-col-min-300 {
-		display: grid;
-		grid-auto-flow: column;
-		grid-auto-columns: 280px;
-	}
-}
