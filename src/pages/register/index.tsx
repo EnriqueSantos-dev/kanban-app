@@ -4,7 +4,7 @@ import { RegisterForm } from './components/RegisterForm';
 export function RegisterPage() {
 	return (
 		<>
-			<h1 className="text-mediumGrey mt-2 mb-3 text-2xl font-bold dark:text-white">
+			<h1 className="text-mediumGrey mb-3 mt-2 text-2xl font-bold dark:text-white">
 				Register
 			</h1>
 			<RegisterForm />
