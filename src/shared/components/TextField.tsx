@@ -10,17 +10,19 @@ interface InputProps
 }
 
 export const TextField = React.forwardRef<HTMLInputElement, InputProps>(
-	({ errorMessage, ...props }, ref) => (
+	({ errorMessage, className, ...props }, ref) => (
 		<div className="relative flex w-full flex-col gap-2">
 			<input
 				{...props}
 				ref={ref}
 				className={cn(
-					'hover:ring-purple focus:ring-purple dark:hover:ring-purple dark:focus:ring-purple w-full rounded bg-transparent px-4 py-2 text-sm font-medium text-black outline-none ring-1 transition-colors duration-300 placeholder:text-gray-400  ring-transparent dark:ring-linesDark dark:text-white dark:placeholder:text-lightGrey',
+					'w-full rounded bg-transparent px-4 py-2 text-sm font-medium text-black outline-none ring-1 transition-colors duration-300 placeholder:text-gray-400 ring-transparent dark:text-white dark:placeholder:text-gray-500',
 					{
 						'ring-red': errorMessage,
-						'ring-gray-300': !errorMessage
-					}
+						'ring-gray-300 dark:ring-linesDark dark:focus:ring-purple dark:hover:ring-purple focus:ring-purple hover:ring-purple':
+							!errorMessage
+					},
+					className
 				)}
 			/>
 			{errorMessage && (
