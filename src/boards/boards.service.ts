@@ -4,7 +4,11 @@ import {
 	Injectable,
 	NotFoundException
 } from '@nestjs/common';
-import { CreateBoardInputDto, UpdateBoardInputDto } from './dtos';
+import {
+	CreateBoardInputDto,
+	UpdateBoardInputDto,
+	UpdateBoardOutPutDto
+} from './dtos';
 
 @Injectable()
 export class BoardsService {
@@ -30,7 +34,9 @@ export class BoardsService {
 		});
 	}
 
-	public async update(data: UpdateBoardInputDto & { boardId: string }) {
+	public async update(
+		data: UpdateBoardInputDto & { boardId: string }
+	): Promise<UpdateBoardOutPutDto> {
 		const { name, columns, boardId } = data;
 
 		const board = await this.prisma.board.findUnique({
@@ -43,7 +49,7 @@ export class BoardsService {
 			columns.filter((column) => column.id).map((column) => column.id)
 		);
 
-		await this.prisma.$transaction(async (transaction) => {
+		const boardUpdated = await this.prisma.$transaction(async (transaction) => {
 			await transaction.board.update({
 				where: { id: data.boardId },
 				data: {
@@ -74,7 +80,20 @@ export class BoardsService {
 						  });
 				})
 			);
+
+			return await transaction.board.findUnique({
+				where: { id: data.boardId },
+				select: { name: true, columns: true }
+			});
 		});
+
+		return {
+			name: boardUpdated.name,
+			columns: boardUpdated.columns.map((column) => ({
+				id: column.id,
+				name: column.name
+			}))
+		};
 	}
 
 	public async delete(id: string): Promise<void> {

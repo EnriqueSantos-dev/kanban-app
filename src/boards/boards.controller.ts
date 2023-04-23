@@ -10,7 +10,11 @@ import {
 	UseGuards
 } from '@nestjs/common';
 import { BoardsService } from './boards.service';
-import { CreateBoardInputDto, UpdateBoardInputDto } from './dtos';
+import {
+	CreateBoardInputDto,
+	UpdateBoardInputDto,
+	UpdateBoardOutPutDto
+} from './dtos';
 import { AtJwtAuthGuard } from '@/auth/guards';
 import { Request } from 'express';
 
@@ -34,7 +38,7 @@ export class BoardsController {
 	public async update(
 		@Param() params: { id: string },
 		@Body() dto: UpdateBoardInputDto
-	): Promise<void> {
+	): Promise<UpdateBoardOutPutDto> {
 		if (!this.checkIfColumnsIsUnique(dto.columns.map((c) => c.name)))
 			throw new BadRequestException('Columns must be unique');
 
