@@ -1,3 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
+import tailwindScrollbar from 'tailwind-scrollbar';
+import tailwindcssAnimate from 'tailwindcss-animate';
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./src/**/*.tsx', 'index.html'],
@@ -46,8 +50,11 @@ export default {
 					from: { scale: 0 },
 					to: { scale: 100 }
 				}
+			},
+			boxShadow: {
+				task: '0px 4px 6px rgba(54,_78,_126,_0.101545)'
 			}
 		}
 	},
-	plugins: [require('tailwind-scrollbar')({ nocompatible: true })]
+	plugins: [tailwindScrollbar({ nocompatible: true }), tailwindcssAnimate]
 };
