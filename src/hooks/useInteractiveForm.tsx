@@ -39,7 +39,7 @@ export const useInteractiveForm = <TSchema extends ZodSchema>({
 	});
 
 	const handleRemoveField = (index: number) => remove(index);
-	const handleResetForm = () => useFormValues.reset();
+	const handleResetForm = () => useFormValues.reset(defaultValues);
 	const handleAppendField: (
 		data:
 			| FieldArray<z.TypeOf<TSchema>, ArrayPath<z.TypeOf<TSchema>>>
