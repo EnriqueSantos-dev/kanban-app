@@ -1,13 +1,27 @@
 import * as Popover from '@radix-ui/react-popover';
 import { cn } from '~/utils/cn';
+import { FormEditBoard } from '~/shared/components';
+import { BoardType } from '~/stores/active-board-store';
 
-export function PopoverEditOrDeleteBoard() {
+interface PopoverEditOrDeleteBoardProps {
+	activeBoard?: BoardType;
+	setActiveBoard: (board: BoardType) => void;
+}
+
+export function PopoverEditOrDeleteBoard({
+	activeBoard,
+	setActiveBoard
+}: PopoverEditOrDeleteBoardProps) {
+	if (!activeBoard) {
+		return null;
+	}
+
 	return (
 		<Popover.Root>
 			<Popover.Trigger asChild>
 				<button
 					type="button"
-					title="Edit or delete board"
+					title={`Edit board ${activeBoard.name}`}
 					className="group flex h-5 items-center justify-center px-3 outline-none"
 				>
 					<svg
@@ -32,19 +46,15 @@ export function PopoverEditOrDeleteBoard() {
 				>
 					<ul className="flex flex-col items-start gap-4">
 						<li>
-							<button
-								type="button"
-								title="Edit board Test board"
-								className="text-mediumGrey dark:hover:text-lightGrey dark:focus:text-lightGrey cursor-pointer whitespace-nowrap text-xs font-medium capitalize outline-none transition-colors hover:text-black focus:text-black"
-							>
-								Edit board
-							</button>
+							<FormEditBoard
+								board={activeBoard}
+								setUpdatedBoard={setActiveBoard}
+							/>
 						</li>
 						<li>
-							{/* get dynamic board name */}
 							<button
 								type="button"
-								title="Delete board Test board"
+								title={`Delete ${activeBoard.name}`}
 								className="text-red dark:hover:text-redHover  dark:focus:text-redHover cursor-pointer whitespace-nowrap text-xs font-medium capitalize outline-none transition-colors hover:text-[#BC2727] focus:text-[#BC2727]"
 							>
 								Delete board
