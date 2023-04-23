@@ -1,53 +1,39 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useNotificationToasty } from '~/hooks';
 import {
-	ResponseSignIn,
-	SignInRequest,
-	getProfile,
-	logoutUser,
-	signin,
-	signup
-} from '~/services/auth.service';
-import { ErrorApi } from '~/types';
-import { removeAuthToken, setAuthToken } from '~/utils/auth';
-import { FormValues } from '~/pages/register/components/RegisterForm';
+	useGetProfileQuery,
+	useSignInMutation,
+	useSignUpMutation
+} from '~/hooks';
+import { logoutUser } from '~/services/auth.service';
 import { useAuthStore, useAuthStoreActions } from '~/stores/auth-store';
+import { UserProfile } from '~/types';
+import { removeAuthToken } from '~/utils/auth';
 
 export function useAuthContext() {
+	const navigate = useNavigate();
 	const { token, user } = useAuthStore();
 	const { setUser, setToken, clearAll } = useAuthStoreActions();
-	const [isLoading, setIsLoading] = useState(false);
-	const notification = useNotificationToasty();
-	const navigate = useNavigate();
 
-	const signinMutation = useMutation<ResponseSignIn, ErrorApi, SignInRequest>({
-		mutationFn: (data) => signin(data),
-		onSuccess: (data) => {
-			setAuthToken(data.access_token);
-			setToken(data.access_token);
-			notification('success', 'login success, your are redirecting...');
-			setTimeout(() => navigate('/'), 2000);
+	const setTokenCallback = useCallback(
+		(tokenValue: string) => {
+			setToken(tokenValue);
 		},
-		onError: (error) => {
-			const errorMessage =
-				error.response?.data?.message ?? 'Something went wrong';
-			notification('error', errorMessage);
-		}
-	});
+		[token]
+	);
 
-	const signupMutation = useMutation<void, ErrorApi, FormValues>({
-		mutationFn: (data) => signup(data),
-		onSuccess: () => {
-			notification('success', 'Register success, your are redirecting...');
-			setTimeout(() => navigate('/auth/login'), 2000);
+	const setUserCallback = useCallback(
+		(data: UserProfile) => {
+			setUser(data);
 		},
-		onError: (error) => {
-			const errorMessage =
-				error.response?.data?.message ?? 'Something went wrong';
-			notification('error', errorMessage);
-		}
+		[user]
+	);
+
+	const signinMutation = useSignInMutation({ callback: setTokenCallback });
+	const signupMutation = useSignUpMutation();
+	const getProfileQuery = useGetProfileQuery({
+		token,
+		callback: setUserCallback
 	});
 
 	const logout = useCallback(async () => {
@@ -57,18 +43,10 @@ export function useAuthContext() {
 		await logoutUser();
 	}, []);
 
-	useEffect(() => {
-		if (token) {
-			setIsLoading(true);
-			getProfile()
-				.then((data) => setUser(data))
-				.catch(async () => {
-					navigate('/auth/login');
-					if (user) await logout();
-				})
-				.finally(() => setIsLoading(false));
-		}
-	}, [token]);
-
-	return { signinMutation, signupMutation, logout, isLoading };
+	return {
+		signinMutation,
+		signupMutation,
+		logout,
+		isLoading: getProfileQuery.isLoading
+	};
 }
