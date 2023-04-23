@@ -56,6 +56,35 @@ const DialogContent = React.forwardRef<
 		ref={ref}
 	>
 		{children}
+
+		<DialogPrimitive.Close
+			title="close dialog"
+			arial-aria-label="close dialog add new task"
+			className="dark:hover:text-red hover:text-red absolute right-3 top-2 text-black transition dark:text-gray-500 md:hidden"
+		>
+			<svg
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					d="M18 6L6 18"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+				<path
+					d="M6 6L18 18"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+				/>
+			</svg>
+		</DialogPrimitive.Close>
 	</DialogPrimitive.Content>
 ));
 
