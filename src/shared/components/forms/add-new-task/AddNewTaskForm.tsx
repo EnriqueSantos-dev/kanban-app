@@ -18,27 +18,33 @@ import {
 	TextField,
 	SelectStatusTask
 } from '~/shared/components';
-import { cn } from '~/utils/cn';
+import { cn, columnKeys, mapperTaskToCreate } from '~/utils';
 import { BoardType } from '~/stores/active-board-store';
 import { useEffect, useState } from 'react';
-import { queryClient } from '~/lib';
+import { useQueryClient } from '@tanstack/react-query';
 import { AddNewTaskFormValues, schema } from './schema';
 
 interface AddNewTaskPropsFormProps {
 	activeBoard?: BoardType;
 }
 
-export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
-	const [isOpen, setIsOpen] = useState(false);
-	const existColumnsInActiveBoard =
-		activeBoard?.columns && !!activeBoard.columns.length;
+const useActiveBoard = (board?: BoardType) => {
+	const existColumnsInActiveBoard = board?.columns && !!board.columns.length;
 	const options = existColumnsInActiveBoard
-		? activeBoard.columns.map((column) => ({
+		? board.columns.map((column) => ({
 				id: column.id,
 				value: column.name
 		  }))
 		: [];
 	const defaultOption = options.length > 0 ? options[0] : undefined;
+
+	return { options, defaultOption };
+};
+
+export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
+	const queryClient = useQueryClient();
+	const [isOpen, setIsOpen] = useState(false);
+	const { options, defaultOption } = useActiveBoard(activeBoard);
 	const notification = useNotificationToasty();
 	const mutation = useCreateNewTaskMutation();
 	const {
@@ -62,15 +68,7 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 	});
 
 	const onSubmit: SubmitHandler<AddNewTaskFormValues> = (data) => {
-		mutation.mutate({
-			subTasks: data.subtasks.map((subtask) => ({
-				title: subtask.value,
-				isDone: false
-			})),
-			title: data.name,
-			description: data.description || '',
-			columnId: data.columnId
-		});
+		mutation.mutate(mapperTaskToCreate(data));
 	};
 
 	const onChangeOpen = () => {
@@ -89,10 +87,10 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 	}, [mutation.error]);
 
 	useEffect(() => {
-		if (mutation.isSuccess && mutation.data) {
+		if (mutation.isSuccess) {
 			notification('success', 'Task created successfully');
 			queryClient.invalidateQueries({
-				queryKey: ['column', { id: mutation.data.id }]
+				queryKey: columnKeys.columnId(mutation.data.columnId)
 			});
 			setIsOpen(false);
 			handleResetForm();
