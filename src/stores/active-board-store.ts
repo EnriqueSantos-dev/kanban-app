@@ -5,6 +5,10 @@ import { BOARD_ACTIVE_KEY } from '~/constants/board-active';
 export type BoardType = {
 	id: string;
 	name: string;
+	columns: {
+		id: string;
+		name: string;
+	}[];
 };
 
 type ActiveBoardState = {
