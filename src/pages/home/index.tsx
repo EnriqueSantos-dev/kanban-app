@@ -1,6 +1,11 @@
 import { useAuthContext } from '~/contexts/auth';
-import { Header, LoadingPage, SideBar } from '~/shared/components';
-import { ButtonActiveSidebar } from '~/shared/components/ButtonActiveSidebar';
+import {
+	Header,
+	LoadingPage,
+	SideBar,
+	ButtonActiveSidebar,
+	ColumnCreateNewBoard
+} from '~/shared/components';
 import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
 
@@ -22,10 +27,9 @@ export function HomePage() {
 			<SideBar />
 			<div className="grid max-h-screen">
 				<Header />
-				<main className="bg-lightGrey dark:bg-veryDarkGrey h-mainHeight grid-auto-col-min-300 w-full gap-x-6 overflow-auto p-10">
-					{/* columns of board in here */}
+				<main className="bg-lightGrey dark:bg-veryDarkGrey h-mainHeight auto-cols-[minmax(280px, 300px)] grid w-full grid-flow-col gap-x-6 overflow-auto p-10">
+					<ColumnCreateNewBoard />
 				</main>
-
 				<ButtonActiveSidebar />
 			</div>
 		</div>
