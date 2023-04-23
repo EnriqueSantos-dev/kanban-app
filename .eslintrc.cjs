@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
 	env: {
 		browser: true,
@@ -14,9 +16,9 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 'latest',
 		sourceType: 'module',
-		project: '<tsconfigRootDir>/tsconfig.json'
+		project: path.resolve(__dirname, './tsconfig.json')
 	},
-	ignorePatterns: ['.eslintrc.json', 'vite.config.ts'],
+	ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts'],
 	parser: '@typescript-eslint/parser',
 	plugins: ['tailwindcss'],
 	rules: {
@@ -30,6 +32,7 @@ module.exports = {
 		'react/jsx-no-useless-fragment': 'warn',
 		'import/no-cycle': 'off',
 		'react/require-default-props': 'off',
+		'react/no-unused-prop-types': 'off',
 		'import/extensions': [
 			'error',
 			'ignorePackages',
