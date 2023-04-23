@@ -10,21 +10,29 @@ import {
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { AtJwtAuthGuard } from '@/auth/guards';
-import { CreateTaskDto, MoveTaskInputDto } from './dtos';
+import {
+	CreateTaskDto,
+	GetTasksOutputDto,
+	MoveTaskInputDto,
+	UpdateTasksOrderDto
+} from './dtos';
 
 @UseGuards(AtJwtAuthGuard)
 @Controller('tasks')
 export class TasksController {
 	constructor(private readonly tasksService: TasksService) {}
 
-	@Post('create')
+	@Post()
 	public async createTask(@Body() dto: CreateTaskDto) {
 		return await this.tasksService.createTask(dto);
 	}
 
 	@Get(':columnId')
-	public async getTasksFromColumn(@Param('columnId') columnId: string) {
-		return await this.tasksService.getTasksFromColumn(columnId);
+	public async getTasksFromColumn(
+		@Param('columnId') columnId: string
+	): Promise<{ tasks: GetTasksOutputDto[] }> {
+		const tasks = await this.tasksService.getTasksFromColumn(columnId);
+		return { tasks };
 	}
 
 	@Patch(':id/update')
@@ -47,5 +55,13 @@ export class TasksController {
 	@Delete(':id/delete')
 	public async deleteTask(@Param('id') id: string) {
 		return await this.tasksService.deleteTask(id);
+	}
+
+	@Patch(':id/update-order')
+	public async updateOrderTask(
+		@Param('id') id: string,
+		@Body() dto: UpdateTasksOrderDto
+	) {
+		return await this.tasksService.updateTaskOrder({ ...dto, id });
 	}
 }

@@ -6,12 +6,14 @@ interface TaskData extends Task {
 }
 
 export abstract class PrismaTaskMapper {
-	static toHttpTask(tasks: TaskData[]): GetTasksOutputDto {
-		const tasksDto = tasks.map((task) => ({
+	static toHttpTask(task: TaskData): GetTasksOutputDto {
+		return {
 			id: task.id,
+			columnId: task.columnId,
 			title: task.name,
 			description: task.description,
 			statusName: task.statusName,
+			order: task.order,
 			createdAt: task.createdAt.toISOString(),
 			updatedAt: task.updatedAt.toISOString(),
 			subTasks: task.subtasks.map((subTask) => ({
@@ -19,8 +21,6 @@ export abstract class PrismaTaskMapper {
 				title: subTask.name,
 				isDone: subTask.isDone
 			}))
-		}));
-
-		return { tasks: tasksDto };
+		};
 	}
 }

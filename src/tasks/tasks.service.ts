@@ -1,21 +1,34 @@
 import { PrismaService } from '@/database/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateTaskDto, GetTasksOutputDto } from './dtos';
+import {
+	CreateTaskDto,
+	CreateTaskOutPutDto,
+	GetTasksOutputDto,
+	UpdateTasksOrderDto
+} from './dtos';
 import { PrismaTaskMapper } from './mappers/prisma/task-mapper';
 
 @Injectable()
 export class TasksService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	public async createTask(data: CreateTaskDto): Promise<void> {
+	public async createTask(data: CreateTaskDto): Promise<CreateTaskOutPutDto> {
 		const { columnId, title, description, subTasks } = data;
 
 		await this.checkIfColumnExists(columnId);
 
-		await this.prisma.task.create({
+		const countTasks = await this.prisma.task.count({
+			where: { columnId }
+		});
+
+		const taskCreated = await this.prisma.task.create({
+			include: {
+				subtasks: true
+			},
 			data: {
 				name: title,
 				description,
+				order: countTasks + 1,
 				subtasks: {
 					createMany: {
 						data: subTasks.map((subTask) => ({
@@ -30,6 +43,8 @@ export class TasksService {
 				}
 			}
 		});
+
+		return PrismaTaskMapper.toHttpTask(taskCreated);
 	}
 
 	public async updateTask(
@@ -92,20 +107,96 @@ export class TasksService {
 		});
 	}
 
+	public async updateTaskOrder({
+		id,
+		destinationColumnId,
+		newOrder
+	}: UpdateTasksOrderDto & { id: string }): Promise<void> {
+		const oldOrderAndOldColumnId = await this.prisma.task.findUnique({
+			where: { id },
+			select: {
+				order: true,
+				columnId: true
+			}
+		});
+
+		if (!oldOrderAndOldColumnId) throw new NotFoundException('Task Not Found');
+
+		const { columnId: oldColumnId, order: oldOrder } = oldOrderAndOldColumnId;
+
+		if (destinationColumnId === oldColumnId && newOrder === oldOrder) return;
+
+		// Moving task within the same column
+		if (oldColumnId === destinationColumnId) {
+			// Update tasks order in the same column
+			await this.prisma.$transaction([
+				this.prisma.task.updateMany({
+					where: {
+						columnId: oldColumnId,
+						order: {
+							gte: Math.min(oldOrder, newOrder),
+							lte: Math.max(oldOrder, newOrder)
+						}
+					},
+					data: {
+						order: oldOrder < newOrder ? { decrement: 1 } : { increment: 1 }
+					}
+				}),
+				this.prisma.task.update({
+					where: { id },
+					data: {
+						order: newOrder
+					}
+				})
+			]);
+
+			return;
+		}
+		await this.prisma.$transaction([
+			this.prisma.task.updateMany({
+				where: {
+					columnId: {
+						in: [oldColumnId, destinationColumnId]
+					},
+					order: {
+						gte: Math.min(oldOrder, newOrder),
+						lte: Math.max(oldOrder, newOrder)
+					}
+				},
+				data: {
+					order: {
+						[oldOrder > newOrder ? 'increment' : 'decrement']: 1
+					}
+				}
+			}),
+			this.prisma.task.update({
+				where: { id },
+				data: {
+					order: newOrder,
+					column: {
+						connect: {
+							id: destinationColumnId
+						}
+					}
+				}
+			})
+		]);
+	}
+
 	public async getTasksFromColumn(
 		columnId: string
-	): Promise<GetTasksOutputDto> {
+	): Promise<GetTasksOutputDto[]> {
 		const tasksData = await this.prisma.task.findMany({
 			where: { columnId },
 			include: {
 				subtasks: true
 			},
 			orderBy: {
-				createdAt: 'desc'
+				order: 'asc'
 			}
 		});
 
-		return PrismaTaskMapper.toHttpTask(tasksData);
+		return tasksData.map((task) => PrismaTaskMapper.toHttpTask(task));
 	}
 
 	public async changeStatusTask(
