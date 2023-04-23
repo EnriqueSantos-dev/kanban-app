@@ -4,7 +4,7 @@
 	"description": "Kanban board app with NestJS",
 	"author": "Enrique Santos",
 	"private": true,
-	"license": "UNLICENSED",
+	"license": "MIT",
 	"scripts": {
 		"build": "nest build",
 		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

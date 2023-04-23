@@ -58,28 +58,29 @@ model Column {
 
 model Task {
   id          String    @id @default(uuid())
-  name        String    @unique
+  name        String
   description String?
   statusName  String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  order       Int
   subtasks    SubTask[]
   column      Column    @relation(fields: [statusName, columnId], references: [name, id], onDelete: Cascade)
   columnId    String
 
-  @@index([columnId, name])
+  @@index([columnId, id])
   @@map("tasks")
 }
 
 model SubTask {
   id        String   @id @default(uuid())
-  name      String   @unique
+  name      String
   isDone    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId    String
 
-  @@index([taskId, name])
+  @@index([taskId, id])
   @@map("sub_tasks")
 }
