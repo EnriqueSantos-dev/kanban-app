@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { getProfile } from '~/services/auth.service';
 import { getAuthToken } from '~/utils/auth';
 
-export async function verifyUserIsAuthenticatedLoader() {
+export async function requireAuth() {
 	const token = getAuthToken();
 	if (!token) return redirect('/auth/login');
 

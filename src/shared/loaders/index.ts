@@ -1,1 +1,1 @@
-export { verifyUserIsAuthenticatedLoader } from './loader-private-routes';
+export { requireAuth } from './require-auth';
