@@ -13,14 +13,14 @@ export type BoardType = {
 
 type ActiveBoardState = {
 	activeBoard: BoardType | undefined;
-	setActiveBoard: (boardId: BoardType) => void;
+	setActiveBoard: (board?: BoardType) => void;
 };
 
 export const useActiveBoardStore = create(
 	persist<ActiveBoardState>(
 		(set) => ({
 			activeBoard: undefined,
-			setActiveBoard: (board: BoardType) => set({ activeBoard: board })
+			setActiveBoard: (board?: BoardType) => set({ activeBoard: board })
 		}),
 		{
 			name: BOARD_ACTIVE_KEY
