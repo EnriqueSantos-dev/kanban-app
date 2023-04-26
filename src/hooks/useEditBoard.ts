@@ -8,5 +8,5 @@ import { ErrorApi } from '~/types';
 
 export const useEditBoardMutation = () =>
 	useMutation<EditBoardOutput, ErrorApi, EditBoardInput>({
-		mutationFn: (data) => editBoard(data)
+		mutationFn: editBoard
 	});

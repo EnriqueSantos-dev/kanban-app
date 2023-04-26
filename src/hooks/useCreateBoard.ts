@@ -4,5 +4,5 @@ import { ErrorApi } from '~/types';
 
 export const useCreateBoardMutation = () =>
 	useMutation<void, ErrorApi, CreateBoardInput>({
-		mutationFn: (data) => createBoard(data)
+		mutationFn: createBoard
 	});
