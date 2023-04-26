@@ -8,24 +8,21 @@ const DialogTrigger = DialogPrimitive.Trigger;
 const DialogClose = DialogPrimitive.Close;
 const DialogPortal = DialogPrimitive.Portal;
 
-function DialogHeader({
-	children,
-	classnames
-}: {
-	children: React.ReactNode;
-	classnames?: string;
-}) {
-	return (
-		<DialogPrimitive.Title
-			className={cn(
-				'mb-6 text-left text-lg font-bold text-black dark:text-white',
-				classnames
-			)}
-		>
-			{children}
-		</DialogPrimitive.Title>
-	);
-}
+const DialogHeader = React.forwardRef<
+	React.ElementRef<typeof DialogPrimitive.Title>,
+	React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+>(({ className, children, ...props }, ref) => (
+	<DialogPrimitive.Title
+		ref={ref}
+		{...props}
+		className={cn(
+			'mb-6 text-left text-lg font-bold text-black dark:text-white',
+			className
+		)}
+	>
+		{children}
+	</DialogPrimitive.Title>
+));
 
 const DialogOverlay = React.forwardRef<
 	React.ElementRef<typeof DialogPrimitive.Overlay>,
