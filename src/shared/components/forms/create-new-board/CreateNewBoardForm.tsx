@@ -20,10 +20,13 @@ import {
 import { cn } from '~/utils/cn';
 import { generateDefaultColumnsBoard } from '~/utils/generate-default-columns-board';
 import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { userKeys } from '~/utils';
 import { CreateNewBoardFormValues, schema } from './schema';
 
 export function FormCreateNewBoard() {
 	const [isOpen, setIsOpen] = useState(false);
+	const queryClient = useQueryClient();
 	const notification = useNotificationToasty();
 	const mutation = useCreateBoardMutation();
 	const {
@@ -61,6 +64,9 @@ export function FormCreateNewBoard() {
 
 	useEffect(() => {
 		if (mutation.isSuccess) {
+			queryClient.invalidateQueries({
+				queryKey: userKeys.profile
+			});
 			notification('success', 'Board created successfully');
 			setIsOpen(false);
 		}
