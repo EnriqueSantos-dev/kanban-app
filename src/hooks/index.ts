@@ -8,3 +8,4 @@ export * from './useSignUp';
 export * from './useGetProfile';
 export * from './useTheme';
 export * from './useCreateNewTask';
+export * from './useDeleteBoard';
