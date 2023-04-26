@@ -38,3 +38,12 @@ export async function editBoard(
 	const { data } = await api.patch(`/boards/${id}/update`, rest);
 	return data;
 }
+
+export type DeleteBoardInput = {
+	id: string;
+};
+
+export async function deleteBoard(input: DeleteBoardInput) {
+	const { id } = input;
+	await api.delete(`/boards/${id}/delete`);
+}
