@@ -1,9 +1,11 @@
 import KanbanLogoSvg from '~/assets/logo.svg';
 import { useActiveBoard } from '~/hooks';
 import {
+	AddNewTaskForm,
+	DeleteBoardDialog,
+	FormEditBoard,
 	MobileMenuPopover,
-	PopoverEditOrDeleteBoard,
-	AddNewTaskForm
+	PopoverEditOrDeleteBoard
 } from '~/shared/components';
 import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
@@ -51,10 +53,18 @@ export function Header() {
 
 					<div className="flex items-center gap-2">
 						<AddNewTaskForm activeBoard={activeBoard} />
-						<PopoverEditOrDeleteBoard
-							activeBoard={activeBoard}
-							setActiveBoard={setActiveBoard}
-						/>
+						{activeBoard && (
+							<PopoverEditOrDeleteBoard>
+								<FormEditBoard
+									board={activeBoard}
+									setUpdatedBoard={setActiveBoard}
+								/>
+								<DeleteBoardDialog
+									id={activeBoard.id}
+									name={activeBoard.name}
+								/>
+							</PopoverEditOrDeleteBoard>
+						)}
 					</div>
 				</div>
 			</nav>
