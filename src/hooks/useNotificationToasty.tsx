@@ -1,17 +1,20 @@
-import { ToastOptions, TypeOptions, toast } from 'react-toastify';
-
-const defaultOptions = {
-	autoClose: 500,
-	delay: 0,
-	type: 'success'
-} satisfies ToastOptions;
+import { ToastOptions, toast } from 'react-hot-toast';
+import { useTheme } from './useTheme';
 
 export function useNotificationToasty() {
+	const { theme } = useTheme();
 	const notification = (
-		notificationType: TypeOptions,
+		notificationType: 'success' | 'error',
 		message: string,
 		options?: ToastOptions
-	) => toast(message, { ...options, type: notificationType } ?? defaultOptions);
+	) =>
+		toast[notificationType](message, {
+			...options,
+			style: {
+				backgroundColor: theme === 'dark' ? '#20212C' : '#fff',
+				color: theme === 'dark' ? '#fff' : '#20212C'
+			}
+		});
 
 	return notification;
 }
