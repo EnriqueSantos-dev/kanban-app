@@ -6,7 +6,6 @@ import {
 	Get,
 	HttpCode,
 	HttpStatus,
-	Param,
 	ParseFilePipeBuilder,
 	Post,
 	Res,
@@ -114,6 +113,13 @@ export class AuthController {
 		);
 
 		return { access_token: accessToken };
+	}
+
+	@UseGuards(AtJwtAuthGuard)
+	@HttpCode(HttpStatus.OK)
+	@Post('verify-token')
+	public async verifyToken(): Promise<void> {
+		return Promise.resolve();
 	}
 
 	@UseGuards(RtJwtAuthGuard)
