@@ -1,27 +1,19 @@
 import * as Popover from '@radix-ui/react-popover';
 import { cn } from '~/utils/cn';
-import { FormEditBoard } from '~/shared/components';
-import { BoardType } from '~/stores/active-board-store';
 
 interface PopoverEditOrDeleteBoardProps {
-	activeBoard?: BoardType;
-	setActiveBoard: (board: BoardType) => void;
+	children: React.ReactNode[];
 }
 
 export function PopoverEditOrDeleteBoard({
-	activeBoard,
-	setActiveBoard
+	children
 }: PopoverEditOrDeleteBoardProps) {
-	if (!activeBoard) {
-		return null;
-	}
-
 	return (
 		<Popover.Root>
 			<Popover.Trigger asChild>
 				<button
 					type="button"
-					title={`Edit board ${activeBoard.name}`}
+					aria-label="Edit or delete board"
 					className="group flex h-5 items-center justify-center px-3 outline-none"
 				>
 					<svg
@@ -45,21 +37,10 @@ export function PopoverEditOrDeleteBoard({
 					)}
 				>
 					<ul className="flex flex-col items-start gap-4">
-						<li>
-							<FormEditBoard
-								board={activeBoard}
-								setUpdatedBoard={setActiveBoard}
-							/>
-						</li>
-						<li>
-							<button
-								type="button"
-								title={`Delete ${activeBoard.name}`}
-								className="text-red dark:hover:text-redHover  dark:focus:text-redHover cursor-pointer whitespace-nowrap text-xs font-medium capitalize outline-none transition-colors hover:text-[#BC2727] focus:text-[#BC2727]"
-							>
-								Delete board
-							</button>
-						</li>
+						{children.map((child, index) => (
+							// eslint-disable-next-line react/no-array-index-key
+							<li key={index}>{child}</li>
+						))}
 					</ul>
 				</Popover.Content>
 			</Popover.Portal>

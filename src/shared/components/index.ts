@@ -18,3 +18,4 @@ export * from './forms/create-new-board/CreateNewBoardForm';
 export * from './forms/edit-board/FormEditBoard';
 export * from './ColumnCreateNewBoard';
 export * from './ButtonActiveSidebar';
+export * from './DeleteBoardDialog';
