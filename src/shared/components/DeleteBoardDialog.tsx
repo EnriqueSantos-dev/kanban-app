@@ -1,6 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
-import { useDeleteBoardMutation, useNotificationToasty } from '~/hooks';
+import {
+	useActiveBoard,
+	useDeleteBoardMutation,
+	useNotificationToasty
+} from '~/hooks';
 import { userKeys } from '~/utils';
 import {
 	Dialog,
@@ -19,6 +23,7 @@ interface DeleteBoardDialogProps {
 
 export function DeleteBoardDialog({ id, name }: DeleteBoardDialogProps) {
 	const [isOpen, setIsOpen] = useState(false);
+	const { setActiveBoard } = useActiveBoard();
 	const queryClient = useQueryClient();
 	const notification = useNotificationToasty();
 	const mutation = useDeleteBoardMutation();
@@ -37,6 +42,7 @@ export function DeleteBoardDialog({ id, name }: DeleteBoardDialogProps) {
 			});
 			notification('success', 'Board deleted successfully');
 			setIsOpen(false);
+			setActiveBoard(undefined);
 		}
 	}, [mutation.isSuccess]);
 
