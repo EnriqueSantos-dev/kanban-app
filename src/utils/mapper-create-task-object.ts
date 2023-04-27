@@ -1,4 +1,4 @@
-import { AddNewTaskFormValues } from '~/shared/components/forms/add-new-task/schema';
+import { AddNewTaskFormValues } from '~/shared/components/forms/create-new-task/schema';
 
 export function mapperTaskToCreate(data: AddNewTaskFormValues) {
 	return {
@@ -7,7 +7,7 @@ export function mapperTaskToCreate(data: AddNewTaskFormValues) {
 			isDone: false
 		})),
 		title: data.name,
-		description: data.description || '',
+		description: data.description ?? '',
 		columnId: data.columnId
 	};
 }
