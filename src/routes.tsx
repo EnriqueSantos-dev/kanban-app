@@ -5,9 +5,9 @@ import {
 	createRoutesFromElements
 } from 'react-router-dom';
 import { LoginPage, RegisterPage } from '~/pages';
+import { loginLoader } from '~/pages/login';
 import { AuthLayout } from '~/shared/layouts';
 import { requireAuth } from '~/shared/loaders';
-import { loginLoader } from '~/pages/login';
 import { App } from './App';
 import { LoadingPage } from './shared/components';
 
