@@ -15,7 +15,7 @@ export async function createBoard(input: CreateBoardInput): Promise<void> {
 				throw new Error('Board already exists');
 			}
 
-			throw new Error('Something went wrong');
+			throw error;
 		}
 	}
 }
