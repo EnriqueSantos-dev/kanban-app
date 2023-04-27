@@ -11,7 +11,7 @@ export const useSignInMutation = ({
 	callback: (...args: any) => void;
 }) => {
 	const navigate = useNavigate();
-	const notification = useNotificationToasty();
+	const { notification } = useNotificationToasty();
 
 	return useMutation<ResponseSignIn, ErrorApi, SignInRequest>({
 		mutationFn: (data) => signin(data),

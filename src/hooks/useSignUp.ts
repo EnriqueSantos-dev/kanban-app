@@ -6,7 +6,7 @@ import { ErrorApi } from '~/types';
 import { useNotificationToasty } from './useNotificationToasty';
 
 export const useSignUpMutation = () => {
-	const notification = useNotificationToasty();
+	const { notification } = useNotificationToasty();
 	const navigate = useNavigate();
 
 	return useMutation<void, ErrorApi, FormValues>({
