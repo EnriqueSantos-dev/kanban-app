@@ -5,7 +5,7 @@ import { refreshToken } from '~/services/auth.service';
 import { JwtPayloadType } from '~/types';
 import { getAuthToken, setAuthToken } from '~/utils/auth';
 
-const BASE_URL = 'http://localhost:3333/api/v1';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const commonOptions: AxiosRequestConfig = {
 	baseURL: BASE_URL,
