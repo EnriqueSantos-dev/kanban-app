@@ -1,21 +1,17 @@
 import { useAuthContext } from '~/contexts/auth';
 import {
-	Header,
-	LoadingPage,
-	SideBar,
 	ButtonActiveSidebar,
-	ColumnCreateNewBoard
+	ColumnCreateNewBoard,
+	Header,
+	SideBar
 } from '~/shared/components';
 import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
 
-export function HomePage() {
-	const { isLoading } = useAuthContext();
+export default function HomePage() {
+	// call useAuthContext to make sure the user is loaded
+	useAuthContext();
 	const { isMenuOpen } = useMenuStore();
-
-	if (isLoading) {
-		return <LoadingPage />;
-	}
 
 	return (
 		<div

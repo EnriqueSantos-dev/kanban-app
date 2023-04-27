@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
+import '~/shared/styles/globals.css';
 import { router } from './routes';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
