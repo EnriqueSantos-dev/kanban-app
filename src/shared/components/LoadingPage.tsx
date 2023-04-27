@@ -1,6 +1,9 @@
+import { useAuthContext } from '~/contexts/auth';
 import { useTheme } from '~/hooks';
 
 export function LoadingPage() {
+	// call useAuthContext to make sure the user is loaded before all others hooks
+	useAuthContext();
 	// call useTheme to make sure the theme is loaded
 	useTheme();
 

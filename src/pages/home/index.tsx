@@ -1,4 +1,3 @@
-import { useAuthContext } from '~/contexts/auth';
 import {
 	ButtonActiveSidebar,
 	ColumnCreateNewBoard,
@@ -9,8 +8,6 @@ import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
 
 export default function HomePage() {
-	// call useAuthContext to make sure the user is loaded
-	useAuthContext();
 	const { isMenuOpen } = useMenuStore();
 
 	return (
