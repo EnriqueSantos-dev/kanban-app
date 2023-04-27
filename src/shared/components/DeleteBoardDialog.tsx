@@ -24,12 +24,19 @@ interface DeleteBoardDialogProps {
 export function DeleteBoardDialog({ id, name }: DeleteBoardDialogProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const { setActiveBoard } = useActiveBoard();
+	const { notificationLoading } = useNotificationToasty();
 	const queryClient = useQueryClient();
-	const notification = useNotificationToasty();
 	const mutation = useDeleteBoardMutation();
 
 	const handleDeleteBoard = useCallback(
-		(boardID: string) => mutation.mutate({ id: boardID }),
+		(boardID: string) =>
+			notificationLoading(mutation.mutateAsync({ id: boardID }), {
+				loading: 'Deleting board...',
+				success: 'Board deleted successfully',
+				error:
+					mutation.error?.response?.data.message ??
+					'Something went wrong, try again later'
+			}),
 		[id]
 	);
 
@@ -40,21 +47,10 @@ export function DeleteBoardDialog({ id, name }: DeleteBoardDialogProps) {
 			queryClient.invalidateQueries({
 				queryKey: userKeys.profile
 			});
-			notification('success', 'Board deleted successfully');
 			setIsOpen(false);
 			setActiveBoard(undefined);
 		}
 	}, [mutation.isSuccess]);
-
-	useEffect(() => {
-		if (mutation.error) {
-			notification(
-				'error',
-				mutation.error?.response?.data?.message ||
-					'Something went wrong, try again later'
-			);
-		}
-	}, [mutation.error]);
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onModalChange}>

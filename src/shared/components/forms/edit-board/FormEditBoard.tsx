@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import {
@@ -17,10 +19,8 @@ import {
 	Label,
 	TextField
 } from '~/shared/components';
-import { cn } from '~/utils/cn';
-import { useEffect, useState } from 'react';
 import { BoardType } from '~/stores/active-board-store';
-import { useQueryClient } from '@tanstack/react-query';
+import { cn } from '~/utils/cn';
 import { userKeys } from '~/utils/query-keys-factories';
 import { EditBoardFormValues, schema } from './schema';
 
@@ -57,7 +57,7 @@ export function FormEditBoard({
 }: FormEditBoardProps) {
 	const queryClient = useQueryClient();
 	const [isOpen, setIsOpen] = useState(false);
-	const notification = useNotificationToasty();
+	const { notificationLoading } = useNotificationToasty();
 	const mutation = useEditBoardMutation();
 	const {
 		register,
@@ -92,25 +92,22 @@ export function FormEditBoard({
 		const newColumns = mapperOldAndNewColumns(columns, oldColumns);
 		const oldColumnsUpdated = mapperOldAndNewColumns(columns, oldColumns, true);
 
-		mutation.mutate({
-			id: board.id,
-			name,
-			columns: [...newColumns, ...oldColumnsUpdated]
-		});
+		notificationLoading(
+			mutation.mutateAsync({
+				id: board.id,
+				name,
+				columns: [...newColumns, ...oldColumnsUpdated]
+			}),
+			{
+				loading: 'Updating board...',
+				success: 'Board updated successfully',
+				error: (e) => e.message
+			}
+		);
 	};
 
 	useEffect(() => {
-		if (mutation.error) {
-			notification(
-				'error',
-				mutation.error.response?.data.message ?? mutation.error.message
-			);
-		}
-	}, [mutation.error]);
-
-	useEffect(() => {
 		if (mutation.isSuccess) {
-			notification('success', 'Board updated successfully');
 			queryClient.invalidateQueries({
 				queryKey: userKeys.profile
 			});

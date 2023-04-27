@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler } from 'react-hook-form';
 import {
 	useCreateNewTaskMutation,
@@ -14,14 +16,12 @@ import {
 	DialogPortal,
 	DialogTrigger,
 	Label,
+	SelectStatusTask,
 	TextArea,
-	TextField,
-	SelectStatusTask
+	TextField
 } from '~/shared/components';
-import { cn, columnKeys, mapperTaskToCreate } from '~/utils';
 import { BoardType } from '~/stores/active-board-store';
-import { useEffect, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { cn, columnKeys, mapperTaskToCreate } from '~/utils';
 import { AddNewTaskFormValues, schema } from './schema';
 
 interface AddNewTaskPropsFormProps {
@@ -45,7 +45,7 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 	const queryClient = useQueryClient();
 	const [isOpen, setIsOpen] = useState(false);
 	const { options, defaultOption } = useActiveBoard(activeBoard);
-	const notification = useNotificationToasty();
+	const { notificationLoading } = useNotificationToasty();
 	const mutation = useCreateNewTaskMutation();
 	const {
 		register,
@@ -68,7 +68,11 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 	});
 
 	const onSubmit: SubmitHandler<AddNewTaskFormValues> = (data) => {
-		mutation.mutate(mapperTaskToCreate(data));
+		notificationLoading(mutation.mutateAsync(mapperTaskToCreate(data)), {
+			success: 'Task created successfully',
+			loading: 'Creating task...',
+			error: (e) => `${e.message}`
+		});
 	};
 
 	const onChangeOpen = () => {
@@ -77,18 +81,7 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 	};
 
 	useEffect(() => {
-		if (mutation.error) {
-			notification(
-				'error',
-				mutation.error?.response?.data?.message ||
-					'Something went wrong. Try again later.'
-			);
-		}
-	}, [mutation.error]);
-
-	useEffect(() => {
 		if (mutation.isSuccess) {
-			notification('success', 'Task created successfully');
 			queryClient.invalidateQueries({
 				queryKey: columnKeys.columnId(mutation.data.columnId)
 			});

@@ -1,3 +1,5 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import {
 	useCreateBoardMutation,
@@ -17,17 +19,15 @@ import {
 	Label,
 	TextField
 } from '~/shared/components';
+import { userKeys } from '~/utils';
 import { cn } from '~/utils/cn';
 import { generateDefaultColumnsBoard } from '~/utils/generate-default-columns-board';
-import { useEffect, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { userKeys } from '~/utils';
 import { CreateNewBoardFormValues, schema } from './schema';
 
 export function FormCreateNewBoard() {
 	const [isOpen, setIsOpen] = useState(false);
 	const queryClient = useQueryClient();
-	const notification = useNotificationToasty();
+	const { notificationLoading } = useNotificationToasty();
 	const mutation = useCreateBoardMutation();
 	const {
 		register,
@@ -47,27 +47,31 @@ export function FormCreateNewBoard() {
 	});
 
 	const onModalChange = () => {
+		if (mutation.isLoading) return;
 		setIsOpen((prev) => !prev);
 		handleResetForm();
 	};
 
 	const onSubmit: SubmitHandler<CreateNewBoardFormValues> = (data) => {
 		const { name, columns } = data;
-		mutation.mutate({ name, initialColumns: columns.map((col) => col.value) });
+		notificationLoading(
+			mutation.mutateAsync({
+				name,
+				initialColumns: columns.map((col) => col.value)
+			}),
+			{
+				loading: 'Creating board...',
+				success: 'Board created successfully',
+				error: (e) => e.message
+			}
+		);
 	};
-
-	useEffect(() => {
-		if (mutation.error) {
-			notification('error', mutation.error.message);
-		}
-	}, [mutation.error]);
 
 	useEffect(() => {
 		if (mutation.isSuccess) {
 			queryClient.invalidateQueries({
 				queryKey: userKeys.profile
 			});
-			notification('success', 'Board created successfully');
 			setIsOpen(false);
 		}
 	}, [mutation.isSuccess]);
