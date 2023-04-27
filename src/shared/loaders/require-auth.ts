@@ -11,11 +11,10 @@ export async function requireAuth() {
 		await verifyToken();
 	} catch (e) {
 		toast.error('Your session has expired, please login again');
-		await logoutUser()
-			.catch(() => {
-				removeAuthToken();
-			})
-			.finally(() => redirect('/auth/login'));
+		await logoutUser().catch(() => {
+			removeAuthToken();
+		});
+		return redirect('/auth/login');
 	}
 
 	return null;
