@@ -1,9 +1,9 @@
 import { toast } from 'react-hot-toast';
-import { redirect } from 'react-router-dom';
+import { LoaderFunction, redirect } from 'react-router-dom';
 import { logoutUser, verifyToken } from '~/services/auth.service';
 import { getAuthToken, removeAuthToken } from '~/utils/auth';
 
-export async function requireAuth() {
+export const requireAuth: LoaderFunction = async () => {
 	const token = getAuthToken();
 	if (!token) return redirect('/auth/login');
 
@@ -11,11 +11,9 @@ export async function requireAuth() {
 		await verifyToken();
 	} catch (e) {
 		toast.error('Your session has expired, please login again');
-		await logoutUser().catch(() => {
-			removeAuthToken();
-		});
-		return redirect('/auth/login');
+		await logoutUser().finally(() => removeAuthToken());
+		redirect('/auth/login');
 	}
 
 	return null;
-}
+};
