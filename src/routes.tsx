@@ -7,6 +7,7 @@ import {
 import { LoginPage, RegisterPage } from '~/pages';
 import { AuthLayout } from '~/shared/layouts';
 import { requireAuth } from '~/shared/loaders';
+import { loginLoader } from '~/pages/login';
 import { App } from './App';
 import { LoadingPage } from './shared/components';
 
@@ -25,7 +26,7 @@ export const router = createBrowserRouter(
 				loader={requireAuth}
 			/>
 			<Route path="auth" element={<AuthLayout />}>
-				<Route path="login" element={<LoginPage />} />
+				<Route path="login" loader={loginLoader} element={<LoginPage />} />
 				<Route path="register" element={<RegisterPage />} />
 			</Route>
 		</Route>

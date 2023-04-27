@@ -1,5 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
+import { verifyToken } from '~/services/auth.service';
 import { FormLogin } from './components/FormLogin';
+
+export const loginLoader = async () => {
+	try {
+		await verifyToken();
+		return redirect('/');
+	} catch (error) {
+		return null;
+	}
+};
 
 export function LoginPage() {
 	return (
