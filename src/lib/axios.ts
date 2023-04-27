@@ -52,8 +52,7 @@ api.interceptors.response.use(
 		const newResponse = { ...error };
 
 		if (!error.response?.data.message) {
-			newResponse.message =
-				'😕 Oops, something went wrong, please try again later';
+			newResponse.message = 'something went wrong, please try again later.';
 		}
 
 		newResponse.message = error.response?.data.message ?? newResponse.message;
