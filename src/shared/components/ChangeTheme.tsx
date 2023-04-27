@@ -18,6 +18,7 @@ export function ChangeThemeButton() {
 		>
 			<SunSvg />
 			<Switch.Root
+				aria-label="Switch between dark and light mode"
 				className="bg-purple dark:focus:ring-offset-veryDarkGrey focus:ring-purple relative flex h-5 w-10 items-start rounded-full px-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white"
 				onCheckedChange={handleChangeTheme}
 			>
