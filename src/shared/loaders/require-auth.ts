@@ -8,7 +8,6 @@ export async function requireAuth() {
 	if (!token) return redirect('/auth/login');
 
 	try {
-		if (!token) return redirect('/auth/login');
 		await verifyToken();
 	} catch (e) {
 		toast.error('Your session has expired, please login again');
