@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import jwtDecode from 'jwt-decode';
+import { refreshToken } from '~/services/auth.service';
 import { JwtPayloadType } from '~/types';
 import { getAuthToken, setAuthToken } from '~/utils/auth';
-import { refreshToken } from '~/services/auth.service';
 
 const BASE_URL = 'http://localhost:3333/api/v1';
 
@@ -44,3 +44,22 @@ api.interceptors.request.use(async (config) => {
 
 	return config;
 }, undefined);
+
+// interceptor response and add custom error message if needed
+api.interceptors.response.use(
+	(response) => response,
+	(error: AxiosError<any>) => {
+		const newResponse = { ...error };
+
+		if (!error.response?.data.message) {
+			newResponse.message =
+				'😕 Oops, something went wrong, please try again later';
+		}
+
+		newResponse.message = error.response?.data.message ?? newResponse.message;
+
+		error.message = newResponse.message;
+
+		return Promise.reject(error);
+	}
+);
