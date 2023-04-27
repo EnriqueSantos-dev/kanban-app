@@ -1,6 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+	useActiveBoard,
 	useGetProfileQuery,
 	useSignInMutation,
 	useSignUpMutation
@@ -12,6 +13,7 @@ import { removeAuthToken } from '~/utils/auth';
 
 export function useAuthContext() {
 	const navigate = useNavigate();
+	const { activeBoard, setActiveBoard } = useActiveBoard();
 	const { token, user } = useAuthStore();
 	const { setUser, setToken, clearAll } = useAuthStoreActions();
 
@@ -42,6 +44,18 @@ export function useAuthContext() {
 		navigate('/auth/login');
 		await logoutUser();
 	}, []);
+
+	useEffect(() => {
+		if (activeBoard && user) {
+			const existingBoard = user?.boards.find(
+				(board) => board.id === activeBoard.id
+			);
+
+			if (!existingBoard) {
+				setActiveBoard(undefined);
+			}
+		}
+	}, [user]);
 
 	return {
 		signinMutation,
