@@ -1,2 +1,3 @@
-# kaban-vite-react
-kaban-vite-react
+# kanban React App
+
+Projeto de um Kanban board com React.
