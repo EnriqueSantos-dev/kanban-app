@@ -28,7 +28,7 @@ interface AddNewTaskPropsFormProps {
 	activeBoard?: BoardType;
 }
 
-const useActiveBoard = (board?: BoardType) => {
+const useGetInitialOptionsFromBoard = (board?: BoardType) => {
 	const existColumnsInActiveBoard = board?.columns && !!board.columns.length;
 	const options = existColumnsInActiveBoard
 		? board.columns.map((column) => ({
@@ -44,7 +44,7 @@ const useActiveBoard = (board?: BoardType) => {
 export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 	const queryClient = useQueryClient();
 	const [isOpen, setIsOpen] = useState(false);
-	const { options, defaultOption } = useActiveBoard(activeBoard);
+	const { options, defaultOption } = useGetInitialOptionsFromBoard(activeBoard);
 	const { notificationLoading } = useNotificationToasty();
 	const mutation = useCreateNewTaskMutation();
 	const {
