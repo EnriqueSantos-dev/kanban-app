@@ -11,13 +11,18 @@
 		"format": "prettier . --write './src/**/*.{ts,tsx,css}'"
 	},
 	"dependencies": {
+		"@dnd-kit/core": "^6.0.8",
+		"@dnd-kit/sortable": "^7.0.2",
+		"@dnd-kit/utilities": "^3.2.1",
 		"@hookform/resolvers": "^2.9.11",
+		"@radix-ui/react-checkbox": "^1.0.4",
 		"@radix-ui/react-dialog": "^1.0.3",
 		"@radix-ui/react-popover": "^1.0.4",
 		"@radix-ui/react-select": "^1.2.1",
 		"@radix-ui/react-switch": "^1.0.2",
 		"@tanstack/react-query": "^4.24.9",
 		"@tanstack/react-query-devtools": "^4.24.9",
+		"@types/react-beautiful-dnd": "^13.1.4",
 		"@typescript-eslint/eslint-plugin": "^5.53.0",
 		"@typescript-eslint/parser": "^5.53.0",
 		"axios": "^1.3.3",
@@ -28,6 +33,7 @@
 		"jwt-decode": "^3.1.2",
 		"prettier": "^2.8.4",
 		"react": "^18.2.0",
+		"react-beautiful-dnd": "^13.1.1",
 		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.43.1",
 		"react-hot-toast": "^2.4.0",
@@ -55,7 +61,7 @@
 		"postcss": "^8.4.21",
 		"tailwindcss": "^3.3.0",
 		"tailwindcss-animate": "^1.0.5",
-		"typescript": "^4.9.3",
+		"typescript": "^5.1.3",
 		"vite": "^4.3.1"
 	}
 }
