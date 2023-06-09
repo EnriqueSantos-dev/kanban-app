@@ -12,7 +12,12 @@ export function AppProviders({ children }: AppProvidersProps) {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ReactQueryDevtools initialIsOpen />
-			<Toaster position="top-right" />
+			<Toaster
+				position="top-right"
+				toastOptions={{
+					className: 'min-w-fit'
+				}}
+			/>
 			{children}
 		</QueryClientProvider>
 	);
