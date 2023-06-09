@@ -1,8 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import tailwindScrollbar from 'tailwind-scrollbar';
-import tailwindcssAnimate from 'tailwindcss-animate';
-import tailwindScrollBarHide from 'tailwind-scrollbar-hide';
-
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./src/**/*.tsx', 'index.html'],
@@ -59,8 +54,8 @@ export default {
 		}
 	},
 	plugins: [
-		tailwindScrollbar({ nocompatible: true }),
-		tailwindcssAnimate,
-		tailwindScrollBarHide
+		require('tailwind-scrollbar')({ nocompatible: true }),
+		require('tailwindcss-animate'),
+		require('tailwind-scrollbar-hide')
 	]
 };
