@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, isAxiosError } from 'axios';
 import jwtDecode from 'jwt-decode';
 import { refreshToken } from '~/services/auth.service';
 import { JwtPayloadType } from '~/types';
@@ -45,19 +45,43 @@ api.interceptors.request.use(async (config) => {
 	return config;
 }, undefined);
 
+export const DEFAULT_ERROR_MESSAGES = {
+	somethingMessage: '🫤 Ops! Something went wrong, please try again later.',
+	networkError: '📡 Network error, please try again later.',
+	unauthorizedMessage: '🔐 Unauthorized, please login again.'
+} as const;
+
+const mappedErrors = {
+	500: DEFAULT_ERROR_MESSAGES.somethingMessage,
+	401: DEFAULT_ERROR_MESSAGES.unauthorizedMessage
+};
+
 // interceptor response and add custom error message if needed
 api.interceptors.response.use(
 	(response) => response,
 	(error: AxiosError<any>) => {
 		const newResponse = { ...error };
 
-		if (!error.response?.data.message) {
-			newResponse.message = 'something went wrong, please try again later.';
+		if (isAxiosError(error)) {
+			if (error.code === AxiosError.ERR_NETWORK) {
+				newResponse.message = DEFAULT_ERROR_MESSAGES.networkError;
+				return Promise.reject(newResponse);
+			}
+
+			if (error.response && !error.response.data.message) {
+				newResponse.message = DEFAULT_ERROR_MESSAGES.somethingMessage;
+				return Promise.reject(newResponse);
+			}
+
+			if (error.response?.status && error.response.status in mappedErrors) {
+				newResponse.message =
+					mappedErrors[error.response?.status as keyof typeof mappedErrors];
+				return Promise.reject(newResponse);
+			}
+
+			newResponse.message = error.response?.data.message ?? newResponse.message;
+			return Promise.reject(newResponse);
 		}
-
-		newResponse.message = error.response?.data.message ?? newResponse.message;
-
-		error.message = newResponse.message;
 
 		return Promise.reject(error);
 	}
