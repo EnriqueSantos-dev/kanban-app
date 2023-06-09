@@ -54,6 +54,9 @@ export class TasksService {
 			},
 			include: {
 				tasks: {
+					orderBy: {
+						order: 'asc'
+					},
 					include: {
 						subtasks: true
 					}
