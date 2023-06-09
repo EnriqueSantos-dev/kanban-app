@@ -9,3 +9,24 @@ html {
 body {
 	@apply antialiased scroll-smooth;
 }
+
+@layer base {
+	:root {
+		--skeleton-color: 210 40% 96.1%;
+	}
+}
+
+@keyframes draw {
+	0% {
+		stroke-dashoffset: 100;
+	}
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+
+.animated-svg path {
+	stroke-dasharray: 100;
+	stroke-dashoffset: 100;
+	animation: draw 1s linear forwards;
+}
