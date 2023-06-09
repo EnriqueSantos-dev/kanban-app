@@ -1,11 +1,11 @@
 const path = require('path');
 
 module.exports = {
+	root: true,
 	env: {
 		browser: true,
 		es2021: true
 	},
-	root: true,
 	extends: [
 		'plugin:react/recommended',
 		'airbnb',
@@ -33,6 +33,10 @@ module.exports = {
 		'import/no-cycle': 'off',
 		'react/require-default-props': 'off',
 		'react/no-unused-prop-types': 'off',
+		'@typescript-eslint/no-unused-vars': [
+			'error',
+			{ argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
+		],
 		'import/extensions': [
 			'error',
 			'ignorePackages',
