@@ -1,5 +1,4 @@
 import KanbanLogoSvg from '~/assets/logo.svg';
-import { useActiveBoard } from '~/hooks';
 import {
 	AddNewTaskForm,
 	DeleteBoardDialog,
@@ -7,11 +6,12 @@ import {
 	MobileMenuPopover,
 	PopoverEditOrDeleteBoard
 } from '~/shared/components';
+import { useActiveBoardStore } from '~/stores/active-board-store';
 import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
 
 export function Header() {
-	const { activeBoard, setActiveBoard } = useActiveBoard();
+	const { activeBoard, setActiveBoard } = useActiveBoardStore();
 	const { isMenuOpen } = useMenuStore();
 
 	return (
