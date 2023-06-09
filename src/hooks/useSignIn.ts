@@ -18,8 +18,10 @@ export const useSignInMutation = ({
 		onSuccess: (data) => {
 			setAuthToken(data.access_token);
 			callback(data.access_token);
-			notification('success', 'login success, your are redirecting...');
-			setTimeout(() => navigate('/'), 2000);
+			notification('success', 'login success, your are redirecting...', {
+				duration: 1000
+			});
+			navigate('/');
 		},
 		onError: (error) => {
 			const errorMessage =
