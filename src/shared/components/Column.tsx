@@ -20,7 +20,7 @@ function ColumnItem({ id, name, tasks, children }: ColumnProps) {
 	const tasksIds = tasks.map((task) => task.id) ?? [];
 
 	return (
-		<div className="flex h-full flex-col justify-start gap-4">
+		<div className="relative flex h-full max-h-[inherit] flex-col justify-start gap-4 overflow-y-auto">
 			<div className="flex items-center gap-2">
 				<span
 					aria-label={`Column ${name}`}
@@ -42,7 +42,7 @@ function ColumnItem({ id, name, tasks, children }: ColumnProps) {
 			>
 				<ul
 					ref={setNodeRef}
-					className="text-hxl text-mediumGrey hover:text-purple flex w-full flex-1 cursor-pointer flex-col gap-3 rounded-md"
+					className="text-hxl text-mediumGrey hover:text-purple scrollbar-hide flex w-full flex-1 cursor-pointer flex-col gap-3 overflow-y-auto rounded-md p-1 pb-8"
 				>
 					{children}
 				</ul>
