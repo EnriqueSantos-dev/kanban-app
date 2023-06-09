@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import { useAuthContext } from '~/contexts/auth';
 import {
 	ButtonActiveSidebar,
+	ColumnsContainerSkeleton,
 	FormEditBoard,
 	Header,
 	SideBar
@@ -37,7 +39,13 @@ export default function HomePage() {
 				>
 					{activeBoard ? (
 						<>
-							<ColumnsContainer activeBoard={activeBoard} />
+							<Suspense
+								fallback={
+									<ColumnsContainerSkeleton activeBoard={activeBoard} />
+								}
+							>
+								<ColumnsContainer activeBoard={activeBoard} />
+							</Suspense>
 
 							<div
 								aria-label="create new column"
