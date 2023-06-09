@@ -53,7 +53,7 @@ export default {
 				}
 			},
 			boxShadow: {
-				task: '0px 4px 6px rgba(54,_78,_126,_0.101545)'
+				taskCard: '0px 4px 6px rgba(54, 78, 126, 0.1)'
 			}
 		}
 	},

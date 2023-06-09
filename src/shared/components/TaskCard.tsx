@@ -103,7 +103,7 @@ export function TaskCard({
 				<DialogTrigger
 					aria-label="draggable task"
 					ref={setNodeRef}
-					className="dark:bg-darkGrey dark:shadow-veryDarkGrey focus:ring-purple dark:focus:ring-offset-veryDarkGrey focus:ring-offset-lightGrey relative flex h-[90px] touch-manipulation flex-col rounded-lg bg-white px-4 py-6 shadow-[0px_4px_6px_rgba(54,_78,_126,_0.101545)] outline-none transition duration-200 ease-in-out focus:ring-1 focus:ring-offset-1"
+					className="dark:bg-darkGrey shadow-taskCard focus:ring-purple dark:focus:ring-offset-veryDarkGrey focus:ring-offset-lightGrey relative flex h-[90px] cursor-grab touch-manipulation flex-col rounded-lg bg-white px-4 py-6 outline-none transition duration-200 ease-in-out focus:ring-1 focus:ring-offset-1"
 					style={style}
 					{...attributes}
 					{...listeners}
