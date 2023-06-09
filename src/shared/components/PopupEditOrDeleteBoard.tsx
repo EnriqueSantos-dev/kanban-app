@@ -2,7 +2,7 @@ import * as Popover from '@radix-ui/react-popover';
 import { cn } from '~/utils/cn';
 
 interface PopoverEditOrDeleteBoardProps {
-	children: React.ReactNode[];
+	children: React.ReactNode;
 }
 
 export function PopoverEditOrDeleteBoard({
@@ -36,12 +36,7 @@ export function PopoverEditOrDeleteBoard({
 						'absolute transition-all top-10 rounded-md bg-white p-4 right-0 w-44 shadow-md dark:bg-darkGrey data-[state=open]:animate-fade-in data-[state=open]:animate-scale-up group-data-[state=closed]:animate-fade-out'
 					)}
 				>
-					<ul className="flex flex-col items-start gap-4">
-						{children.map((child, index) => (
-							// eslint-disable-next-line react/no-array-index-key
-							<li key={index}>{child}</li>
-						))}
-					</ul>
+					<ul className="flex flex-col items-start gap-4">{children}</ul>
 				</Popover.Content>
 			</Popover.Portal>
 		</Popover.Root>
