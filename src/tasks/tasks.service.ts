@@ -47,6 +47,21 @@ export class TasksService {
 		return PrismaTaskMapper.toHttpTask(taskCreated);
 	}
 
+	public async getTasks(boardId: string) {
+		return await this.prisma.column.findMany({
+			where: {
+				boardId
+			},
+			include: {
+				tasks: {
+					include: {
+						subtasks: true
+					}
+				}
+			}
+		});
+	}
+
 	public async updateTask(
 		data: Partial<CreateTaskDto> & { id: string }
 	): Promise<void> {
@@ -204,12 +219,26 @@ export class TasksService {
 		columnId: string
 	): Promise<void> {
 		const task = await this.prisma.task.findUnique({ where: { id: taskId } });
+
 		if (!task) throw new NotFoundException('Task not found');
+
+		const lastTaskOrder = await this.prisma.task.findMany({
+			orderBy: {
+				order: 'desc'
+			}
+		});
+
+		const newOrderTask = lastTaskOrder ? lastTaskOrder[0].order + 1 : 1;
 
 		await this.prisma.task.update({
 			where: { id: taskId },
 			data: {
-				columnId
+				column: {
+					connect: {
+						id: columnId
+					}
+				},
+				order: newOrderTask
 			}
 		});
 	}
