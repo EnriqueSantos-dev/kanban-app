@@ -8,6 +8,7 @@ export const getTasksKey = {
 export function useGetTasks(boardId: string) {
 	return useQuery({
 		queryKey: getTasksKey.single(boardId),
-		queryFn: () => getTasksFromBoard({ boardId })
+		queryFn: () => getTasksFromBoard({ boardId }),
+		suspense: true
 	});
 }
