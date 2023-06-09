@@ -7,6 +7,7 @@ import {
 	useInteractiveForm,
 	useNotificationToasty
 } from '~/hooks';
+import { getTasksKey } from '~/hooks/useGetTasks';
 import {
 	Button,
 	ButtonRemoveItemFormFormFieldArray,
@@ -62,7 +63,7 @@ export function FormEditBoard({
 	const {
 		register,
 		handleSubmit,
-		handleAppendField,
+		handleInsertField,
 		handleRemoveField,
 		handleResetForm,
 		fields,
@@ -111,6 +112,7 @@ export function FormEditBoard({
 			queryClient.invalidateQueries({
 				queryKey: userKeys.profile
 			});
+			queryClient.invalidateQueries({ queryKey: getTasksKey.single(board.id) });
 			setUpdatedBoard({ id: board.id, ...mutation.data });
 			setIsOpen(false);
 			handleResetForm();
@@ -131,7 +133,7 @@ export function FormEditBoard({
 				) : (
 					<button
 						type="button"
-						className="hover:text-purple flex items-center justify-center gap-2 text-2xl font-bold capitalize text-gray-500"
+						className="hover:text-purple flex items-center justify-center gap-2 text-xl font-bold capitalize text-gray-500"
 					>
 						<svg
 							width="12"
@@ -197,7 +199,10 @@ export function FormEditBoard({
 								className="text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]"
 								disabled={mutation.isLoading}
 								onClick={() =>
-									handleAppendField({ id: crypto.randomUUID(), value: '' })
+									handleInsertField({
+										id: crypto.randomUUID(),
+										value: ''
+									})
 								}
 							>
 								<span className="mb-0.5 block">+</span>Add New Column

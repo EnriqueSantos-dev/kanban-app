@@ -32,7 +32,7 @@ export function FormCreateNewBoard() {
 	const {
 		register,
 		handleSubmit,
-		handleAppendField,
+		handleInsertField,
 		handleRemoveField,
 		handleResetForm,
 		fields,
@@ -131,7 +131,10 @@ export function FormCreateNewBoard() {
 								type="button"
 								className="text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]"
 								onClick={() =>
-									handleAppendField({ id: crypto.randomUUID(), value: '' })
+									handleInsertField({
+										id: crypto.randomUUID(),
+										value: ''
+									})
 								}
 								disabled={mutation.isLoading}
 							>

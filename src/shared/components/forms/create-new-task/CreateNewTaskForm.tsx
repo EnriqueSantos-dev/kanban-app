@@ -1,4 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler } from 'react-hook-form';
 import {
@@ -21,7 +20,7 @@ import {
 	TextField
 } from '~/shared/components';
 import { BoardType } from '~/stores/active-board-store';
-import { cn, columnKeys, mapperTaskToCreate } from '~/utils';
+import { cn, mapperTaskToCreate } from '~/utils';
 import { AddNewTaskFormValues, schema } from './schema';
 
 interface AddNewTaskPropsFormProps {
@@ -42,7 +41,6 @@ const useGetInitialOptionsFromBoard = (board?: BoardType) => {
 };
 
 export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
-	const queryClient = useQueryClient();
 	const [isOpen, setIsOpen] = useState(false);
 	const { options, defaultOption } = useGetInitialOptionsFromBoard(activeBoard);
 	const { notificationLoading } = useNotificationToasty();
@@ -52,7 +50,7 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 		handleSubmit,
 		control,
 		fields,
-		handleAppendField,
+		handleInsertField,
 		handleRemoveField,
 		handleResetForm,
 		formState: { errors }
@@ -82,9 +80,6 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 
 	useEffect(() => {
 		if (mutation.isSuccess) {
-			queryClient.invalidateQueries({
-				queryKey: columnKeys.columnId(mutation.data.columnId)
-			});
 			setIsOpen(false);
 			handleResetForm();
 		}
@@ -172,7 +167,7 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 										)}
 										disabled={mutation.isLoading}
 										onClick={() =>
-											handleAppendField({ id: crypto.randomUUID(), value: '' })
+											handleInsertField({ id: crypto.randomUUID(), value: '' })
 										}
 									>
 										<span className="mb-0.5 block">+</span>Add New SubTask
