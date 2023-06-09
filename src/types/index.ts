@@ -39,3 +39,37 @@ export interface ErrorApi
 export type JwtPayloadType = {
 	email: string;
 } & JwtPayload;
+
+export type Column = {
+	id: string;
+	name: string;
+	order: number;
+	createdAt: string;
+	updatedAt: string;
+	boardId: string;
+};
+
+export type Task = {
+	id: string;
+	columnId: string;
+	name: string;
+	statusName: string;
+	order: number;
+	description: string | null;
+	createdAt: string;
+	updatedAt: string;
+	subtasks: SubTask[];
+};
+
+export type SubTask = {
+	id: string;
+	name: string;
+	isDone: boolean;
+};
+
+export type ActiveTaskCard = {
+	id: string;
+	name: string;
+	completedSubtasksCount: number;
+	totalSubtasksCount: number;
+};
