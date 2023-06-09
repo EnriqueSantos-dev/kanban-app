@@ -28,18 +28,19 @@ export const useInteractiveForm = <TSchema extends ZodSchema>({
 	interactiveFieldName,
 	keyName = 'id'
 }: UseInteractiveFormProps<TSchema>) => {
-	const useFormValues = useForm<z.infer<TSchema>>({
+	const form = useForm<z.infer<TSchema>>({
 		defaultValues,
 		resolver: zodResolver(schema)
 	});
-	const { append, remove, fields, ...restFieldArrayValues } = useFieldArray({
-		name: interactiveFieldName as ArrayPath<z.infer<TSchema>>,
-		control: useFormValues.control,
-		keyName
-	});
+	const { append, remove, insert, fields, ...restFieldArrayValues } =
+		useFieldArray({
+			name: interactiveFieldName as ArrayPath<z.infer<TSchema>>,
+			control: form.control,
+			keyName
+		});
 
 	const handleRemoveField = (index: number) => remove(index);
-	const handleResetForm = () => useFormValues.reset(defaultValues);
+	const handleResetForm = () => form.reset(defaultValues);
 	const handleAppendField: (
 		data:
 			| FieldArray<z.TypeOf<TSchema>, ArrayPath<z.TypeOf<TSchema>>>
@@ -49,12 +50,25 @@ export const useInteractiveForm = <TSchema extends ZodSchema>({
 		append(data, options);
 	};
 
+	const handleInsertField: (
+		data:
+			| FieldArray<z.TypeOf<TSchema>, ArrayPath<z.TypeOf<TSchema>>>
+			| FieldArray<z.TypeOf<TSchema>, ArrayPath<z.TypeOf<TSchema>>>[],
+		options?: FieldArrayMethodProps | undefined,
+		index?: number
+	) => void = (data, options, index) => {
+		if (index && index > fields.length)
+			throw new Error('Out of range in field array');
+		insert(fields.length, data, options);
+	};
+
 	return {
 		handleAppendField,
 		handleRemoveField,
 		handleResetForm,
+		handleInsertField,
 		fields,
 		...restFieldArrayValues,
-		...useFormValues
+		...form
 	};
 };
