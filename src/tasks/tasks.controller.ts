@@ -27,12 +27,10 @@ export class TasksController {
 		return await this.tasksService.createTask(dto);
 	}
 
-	@Get(':columnId')
-	public async getTasksFromColumn(
-		@Param('columnId') columnId: string
-	): Promise<{ tasks: GetTasksOutputDto[] }> {
-		const tasks = await this.tasksService.getTasksFromColumn(columnId);
-		return { tasks };
+	@Get(':boardId')
+	public async getTasks(@Param('boardId') boardId: string): Promise<any> {
+		const tasksAndColumns = await this.tasksService.getTasks(boardId);
+		return tasksAndColumns;
 	}
 
 	@Patch(':id/update')
