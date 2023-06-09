@@ -1,7 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import { useActiveBoard } from '~/hooks';
+import { useActiveBoardStore, BoardType } from '~/stores/active-board-store';
 import { useAuthStore } from '~/stores/auth-store';
-import { BoardType } from '~/stores/active-board-store';
 import {
 	ButtonSelectOrCreateBoard,
 	ChangeThemeButton,
@@ -10,7 +9,7 @@ import {
 
 export function MobileMenuPopover() {
 	const boards = useAuthStore((state) => state.user?.boards);
-	const { activeBoard, setActiveBoard } = useActiveBoard();
+	const { activeBoard, setActiveBoard } = useActiveBoardStore();
 
 	const handleChangeActiveBoard = (board: BoardType) => {
 		if (activeBoard?.id === board.id) return;
