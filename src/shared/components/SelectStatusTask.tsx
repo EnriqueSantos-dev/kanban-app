@@ -1,7 +1,7 @@
 import * as Select from '@radix-ui/react-select';
 import { cn } from '~/utils/cn';
 
-type Option = {
+export type Option = {
 	id: string;
 	value: string;
 };
