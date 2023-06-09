@@ -1,20 +1,10 @@
 import { Link, LoaderFunction, redirect } from 'react-router-dom';
-import { verifyToken } from '~/services/auth.service';
 import { getAuthToken } from '~/utils';
 import { FormLogin } from './components/FormLogin';
 
 export const loginLoader: LoaderFunction = async () => {
 	const token = getAuthToken();
-	if (token) {
-		try {
-			await verifyToken();
-			return redirect('/');
-		} catch (error) {
-			return null;
-		}
-	}
-
-	return null;
+	return token ? redirect('/') : null;
 };
 
 export function LoginPage() {
