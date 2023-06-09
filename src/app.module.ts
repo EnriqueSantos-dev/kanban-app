@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 import { PrismaService } from './database/prisma.service';
 import { PrismaModule } from './database/prisma.module';
+import { SubtasksModule } from './subtasks/subtasks.module';
 
 @Module({
 	imports: [
@@ -17,7 +18,8 @@ import { PrismaModule } from './database/prisma.module';
 		AuthModule,
 		BoardsModule,
 		UsersModule,
-		TasksModule
+		TasksModule,
+		SubtasksModule
 	],
 	providers: [PrismaService]
 })
