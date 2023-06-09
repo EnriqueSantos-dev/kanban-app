@@ -5,6 +5,7 @@ import {
 } from '@dnd-kit/sortable';
 import { memo, ReactNode, useMemo } from 'react';
 import { Task } from '~/types';
+import { getRandomRgbColor } from '~/utils/get-random-color';
 
 type ColumnProps = {
 	id: string;
@@ -12,11 +13,6 @@ type ColumnProps = {
 	tasks: Task[];
 	children: ReactNode;
 };
-
-const getRandomRgbColor = () =>
-	`rgb(${Math.floor(Math.random() * 255)},${Math.floor(
-		Math.random() * 255
-	)},${Math.floor(Math.random() * 255)})`;
 
 function ColumnItem({ id, name, tasks, children }: ColumnProps) {
 	const { setNodeRef } = useDroppable({ id });
