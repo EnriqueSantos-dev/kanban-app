@@ -1,19 +1,19 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-	useActiveBoard,
 	useGetProfileQuery,
 	useSignInMutation,
 	useSignUpMutation
 } from '~/hooks';
 import { logoutUser } from '~/services/auth.service';
+import { useActiveBoardStore } from '~/stores/active-board-store';
 import { useAuthStore, useAuthStoreActions } from '~/stores/auth-store';
 import { UserProfile } from '~/types';
-import { removeAuthToken } from '~/utils/auth';
+import { getAuthToken, removeAuthToken } from '~/utils/auth';
 
 export function useAuthContext() {
 	const navigate = useNavigate();
-	const { activeBoard, setActiveBoard } = useActiveBoard();
+	const { activeBoard, setActiveBoard } = useActiveBoardStore();
 	const { token, user } = useAuthStore();
 	const { setUser, setToken, clearAll } = useAuthStoreActions();
 
@@ -56,6 +56,16 @@ export function useAuthContext() {
 			}
 		}
 	}, [user]);
+
+	useEffect(() => {
+		const tokenInLocalStorage = getAuthToken();
+
+		if (tokenInLocalStorage) {
+			setToken(tokenInLocalStorage);
+		} else {
+			setToken(undefined);
+		}
+	}, []);
 
 	return {
 		signinMutation,
