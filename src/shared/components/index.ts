@@ -19,3 +19,4 @@ export * from './forms/create-new-board/CreateNewBoardForm';
 export * from './forms/create-new-task/CreateNewTaskForm';
 export * from './forms/edit-board/FormEditBoard';
 export * from './Column';
+export * from './ColumnsContainerSkeleton';
