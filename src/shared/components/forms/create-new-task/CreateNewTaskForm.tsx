@@ -58,7 +58,7 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 		schema,
 		interactiveFieldName: 'subtasks',
 		defaultValues: {
-			name: '',
+			name: 'New task',
 			description: '',
 			columnId: defaultOption?.id || '',
 			subtasks: [{ id: crypto.randomUUID(), value: 'New task' }]
