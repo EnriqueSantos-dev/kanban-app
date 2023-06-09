@@ -88,6 +88,9 @@ dependencies:
   tailwind-scrollbar:
     specifier: ^2.1.0
     version: 2.1.0(tailwindcss@3.3.0)
+  tailwind-scrollbar-hide:
+    specifier: ^1.1.7
+    version: 1.1.7
   vite-plugin-svgr:
     specifier: ^2.4.0
     version: 2.4.0(vite@4.3.1)
@@ -4171,6 +4174,10 @@ packages:
 
   /tailwind-merge@1.10.0:
     resolution: {integrity: sha512-WFnDXSS4kFTZwjKg5/oZSGzBRU/l+qcbv5NVTzLUQvJ9yovDAP05h0F2+ZFW0Lw9EcgRoc2AfURUdZvnEFrXKg==}
+    dev: false
+
+  /tailwind-scrollbar-hide@1.1.7:
+    resolution: {integrity: sha512-X324n9OtpTmOMqEgDUEA/RgLrNfBF/jwJdctaPZDzB3mppxJk7TLIDmOreEDm1Bq4R9LSPu4Epf8VSdovNU+iA==}
     dev: false
 
   /tailwind-scrollbar@2.1.0(tailwindcss@3.3.0):

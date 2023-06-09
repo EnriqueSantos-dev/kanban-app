@@ -40,6 +40,7 @@
 		"react-router-dom": "^6.10.0",
 		"tailwind-merge": "^1.10.0",
 		"tailwind-scrollbar": "^2.1.0",
+		"tailwind-scrollbar-hide": "^1.1.7",
 		"vite-plugin-svgr": "^2.4.0",
 		"zod": "^3.20.6",
 		"zustand": "^4.3.5"
