@@ -1,7 +1,5 @@
 import {
 	DndContext,
-	DragEndEvent,
-	DragOverEvent,
 	DragOverlay,
 	DragStartEvent,
 	KeyboardSensor,
@@ -16,9 +14,14 @@ import { createPortal } from 'react-dom';
 import { useGetTasks } from '~/hooks/useGetTasks';
 import { BoardType } from '~/stores/active-board-store';
 import { ActiveTaskCard } from '~/types';
+import { useHandleDragEnd } from '~/hooks';
 import { Column } from './Column';
 import { OverlayTaskCard } from './OverlayTaskCard';
 import { TaskCard } from './TaskCard';
+
+type ColumnsContainerProps = {
+	activeBoard: BoardType;
+};
 
 const useGetSensors = () =>
 	useSensors(
@@ -31,37 +34,33 @@ const useGetSensors = () =>
 		})
 	);
 
-type ColumnsContainerProps = {
-	activeBoard: BoardType;
-};
-
-export function ColumnsContainer({ activeBoard }: ColumnsContainerProps) {
+function useDragEvents({ activeBoard }: { activeBoard: BoardType }) {
+	const { handleDragEnd } = useHandleDragEnd({ activeBoard });
 	const [activeTaskCard, setActiveTaskCard] = useState<ActiveTaskCard | null>(
 		null
 	);
+
+	const handleDragStart = (e: DragStartEvent) =>
+		setActiveTaskCard(e.active.data.current as unknown as ActiveTaskCard);
+	const handleDragCancel = () => setActiveTaskCard(null);
+
+	return { handleDragCancel, handleDragEnd, handleDragStart, activeTaskCard };
+}
+
+export function ColumnsContainer({ activeBoard }: ColumnsContainerProps) {
 	const { data: columns } = useGetTasks(activeBoard.id);
 	const columnsNameActiveBoard =
 		activeBoard?.columns.map((col) => ({ id: col.id, value: col.name })) ?? [];
+	const { handleDragCancel, handleDragEnd, handleDragStart, activeTaskCard } =
+		useDragEvents({ activeBoard });
 	const sensors = useGetSensors();
-
-	const handleDragStart = (e: DragStartEvent) => {
-		setActiveTaskCard(e.active.data.current as unknown as ActiveTaskCard);
-	};
-
-	const handleDragEnd = (e: DragEndEvent) => {
-		console.log('onDragEnd', { active: e.active, over: e.over });
-	};
-
-	const handleDragOver = (_e: DragOverEvent) => {
-		// console.log('onDragOver', { active: e.active, over: e.over });
-	};
 
 	return (
 		<DndContext
 			sensors={sensors}
 			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
-			onDragOver={handleDragOver}
+			onDragCancel={handleDragCancel}
 		>
 			{columns &&
 				[...columns]
@@ -73,10 +72,11 @@ export function ColumnsContainer({ activeBoard }: ColumnsContainerProps) {
 							name={column.name}
 							tasks={column.tasks}
 						>
-							{column.tasks.map((task) => (
+							{column.tasks.map((task, i) => (
 								<TaskCard
 									key={task.id}
 									{...task}
+									index={i}
 									statusOptions={columnsNameActiveBoard}
 								/>
 							))}
