@@ -36,7 +36,9 @@ export function DeleteTaskForm({
 	};
 
 	useEffect(() => {
-		onChangeModalState();
+		if (mutation.isSuccess) {
+			onChangeModalState();
+		}
 	}, [mutation.isSuccess]);
 
 	return (
