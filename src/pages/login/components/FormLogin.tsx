@@ -32,7 +32,7 @@ export function FormLogin() {
 		>
 			<Label label="Email">
 				<TextField
-					type="text"
+					type="email"
 					placeholder="Ex: johndoe@gmail.com"
 					{...register('email')}
 					errorMessage={errors.email?.message}
