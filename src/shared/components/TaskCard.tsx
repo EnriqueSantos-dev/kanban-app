@@ -18,6 +18,7 @@ import {
 import { Label } from './Label';
 import { Option, SelectStatusTask } from './SelectStatusTask';
 import { ToggleSubTaskCard } from './ToggleSubTaskCard';
+import { UpdateTaskTaskForm } from './forms/update-task-form/UpdateTaskForm';
 
 export type TaskCardCurrent = {
 	completedSubtasksCount: number;
@@ -49,8 +50,9 @@ export function TaskCard({
 	index,
 	...props
 }: TaskCardProps) {
+	const [isOpenModalViewTask, setIsOpenModalViewTask] = useState(false);
+	const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
 	const [isOpenModalEditTask, setIsOpenModalEditTask] = useState(false);
-	const [isOpenModalDeleteTask, setIsOpenModalDeleteTask] = useState(false);
 	const mutationChangeStatusSubTask = useChangeStatusSubTask();
 	const mutationMoveTask = useMoveTask();
 	const [checkedSubtasks, setCheckedSubtask] = useState<string[]>(() =>
@@ -84,8 +86,13 @@ export function TaskCard({
 		});
 
 	const handleChangeModalDelete = useCallback(() => {
-		setIsOpenModalDeleteTask((prev) => !prev);
-		setIsOpenModalEditTask(false);
+		setIsOpenModalDelete((prev) => !prev);
+		setIsOpenModalViewTask(false);
+	}, [id]);
+
+	const handleChangeModalEditTask = useCallback(() => {
+		setIsOpenModalEditTask((prev) => !prev);
+		setIsOpenModalViewTask(false);
 	}, [id]);
 
 	const handleMoveTask = useCallback((colId: string) => {
@@ -116,8 +123,8 @@ export function TaskCard({
 	return (
 		<>
 			<Dialog
-				open={isOpenModalEditTask}
-				onOpenChange={() => setIsOpenModalEditTask((prev) => !prev)}
+				open={isOpenModalViewTask}
+				onOpenChange={() => setIsOpenModalViewTask((prev) => !prev)}
 			>
 				<DialogTrigger
 					aria-label="draggable task"
@@ -173,6 +180,7 @@ export function TaskCard({
 										<button
 											type="button"
 											className="text-mediumGrey dark:hover:text-lightGrey dark:focus:text-lightGrey cursor-pointer whitespace-nowrap text-sm font-medium capitalize outline-none transition-colors hover:text-black focus:text-black"
+											onClick={handleChangeModalEditTask}
 										>
 											Edit task
 										</button>
@@ -237,9 +245,25 @@ export function TaskCard({
 				</DialogPortal>
 			</Dialog>
 
+			{/* Dialogs modals */}
+			<UpdateTaskTaskForm
+				task={{
+					id,
+					columnId,
+					name,
+					description,
+					index,
+					order,
+					subtasks,
+					...props
+				}}
+				isOpenModal={isOpenModalEditTask}
+				onChangeModalState={handleChangeModalEditTask}
+			/>
+
 			<DeleteTaskForm
 				id={id}
-				isOpenModal={isOpenModalDeleteTask}
+				isOpenModal={isOpenModalDelete}
 				onChangeModalState={handleChangeModalDelete}
 			/>
 		</>
