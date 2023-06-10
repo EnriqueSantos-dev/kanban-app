@@ -6,18 +6,21 @@ import {
 	ChangeThemeButton,
 	FormCreateNewBoard
 } from '~/shared/components';
+import { useState } from 'react';
 
 export function MobileMenuPopover() {
+	const [isOpen, setIsOpen] = useState(false);
 	const boards = useAuthStore((state) => state.user?.boards);
 	const { activeBoard, setActiveBoard } = useActiveBoardStore();
 
 	const handleChangeActiveBoard = (board: BoardType) => {
 		if (activeBoard?.id === board.id) return;
 		setActiveBoard(board);
+		setIsOpen(false);
 	};
 
 	return (
-		<Dialog.Root>
+		<Dialog.Root open={isOpen} onOpenChange={() => setIsOpen((prev) => !prev)}>
 			<Dialog.Trigger
 				aria-label="trigger open modal mobile menu"
 				className="group flex w-4 shrink-0 cursor-pointer items-center justify-center rounded-full outline-none md:hidden"
