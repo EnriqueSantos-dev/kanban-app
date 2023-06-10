@@ -74,6 +74,9 @@ export class TasksService {
 	): Promise<GetTasksOutputDto> {
 		const { id, columnId, title, description, subTasks } = data;
 
+		const taskExists = await this.prisma.task.findUnique({ where: { id } });
+		if (!taskExists) throw new NotFoundException('Task not found');
+
 		await this.checkIfColumnExists(columnId);
 
 		const notIn = new Set<string>(
@@ -82,12 +85,19 @@ export class TasksService {
 
 		const task = await this.prisma.$transaction(async (transaction) => {
 			const lastTaskOrder = await transaction.task.findMany({
+				where: { columnId },
 				orderBy: {
 					order: 'desc'
 				}
 			});
 
-			const newOrderTask = lastTaskOrder ? lastTaskOrder[0].order + 1 : 1;
+			// if column is the same, we don't need to update the order.
+			const newOrderTask =
+				taskExists.columnId === columnId
+					? taskExists.order
+					: lastTaskOrder
+					? lastTaskOrder[0].order + 1
+					: 1;
 
 			const taskUpdate = await transaction.task.update({
 				where: { id },
