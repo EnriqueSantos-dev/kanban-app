@@ -131,14 +131,11 @@ export function TaskCard({
 						{name}
 					</p>
 
-					<div className="flex w-full items-center justify-between">
-						{subtasks?.length > 0 && (
-							<span className="text-mediumGrey text-xs font-bold">
-								{`${completedSubtasksCount} of  ${subtasks.length}`}
-							</span>
-						)}
-						<span>{order}</span>
-					</div>
+					{subtasks?.length > 0 && (
+						<span className="text-mediumGrey text-xs font-bold">
+							{`${completedSubtasksCount} of  ${subtasks.length}`}
+						</span>
+					)}
 				</DialogTrigger>
 
 				<DialogPortal>
