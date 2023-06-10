@@ -9,3 +9,4 @@ export * from './useTheme';
 export * from './useCreateNewTask';
 export * from './useDeleteBoard';
 export * from './useHandleDragEnd';
+export * from './useUpdateTask';
