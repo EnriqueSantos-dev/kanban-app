@@ -18,7 +18,7 @@ export function ToggleSubTaskCard({
 
 	return (
 		<li
-			className="bg-veryDarkGrey flex h-12 w-full items-center gap-4 rounded-md px-1"
+			className="dark:bg-veryDarkGrey hover:bg-purple/[14%] bg-lightGrey flex h-12 w-full items-center gap-4 rounded-md px-1"
 			tabIndex={-1}
 		>
 			<CheckBox.Root
@@ -31,7 +31,8 @@ export function ToggleSubTaskCard({
 					'ml-2 flex h-6 w-6 shrink-0 items-center justify-center rounded border transition-colors',
 					{
 						'bg-purple border-transparent': isChecked,
-						'bg-darkGrey border-zinc-600': !isChecked
+						'dark:bg-darkGrey bg-white border-zinc-300 dark:border-zinc-600':
+							!isChecked
 					}
 				)}
 			>

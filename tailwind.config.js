@@ -7,6 +7,9 @@ export default {
 			container: {
 				center: true
 			},
+			fontSize: {
+				'2xs': '14px'
+			},
 			colors: {
 				purple: '#635FC7',
 				purpleHover: '#A8A4FF',
