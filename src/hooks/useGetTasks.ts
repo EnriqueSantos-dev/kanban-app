@@ -9,6 +9,7 @@ export function useGetTasks(boardId: string) {
 	return useQuery({
 		queryKey: getTasksKey.single(boardId),
 		queryFn: () => getTasksFromBoard({ boardId }),
-		suspense: true
+		suspense: true,
+		retry: false
 	});
 }
