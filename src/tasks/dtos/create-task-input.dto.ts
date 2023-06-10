@@ -9,7 +9,7 @@ import {
 	ValidateNested
 } from 'class-validator';
 
-class SubTask {
+export class SubTaskDto {
 	@IsOptional()
 	@IsString()
 	@IsUUID()
@@ -38,6 +38,6 @@ export class CreateTaskDto {
 
 	@IsArray()
 	@ValidateNested({ each: true })
-	@Type(() => SubTask)
-	subTasks: SubTask[];
+	@Type(() => SubTaskDto)
+	subTasks: SubTaskDto[];
 }
