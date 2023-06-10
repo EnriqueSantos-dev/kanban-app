@@ -26,8 +26,8 @@ export const router = createBrowserRouter(
 				loader={requireAuth}
 			/>
 			<Route path="auth" element={<AuthLayout />}>
-				<Route path="login" loader={loginLoader} element={<LoginPage />} />
-				<Route path="register" element={<RegisterPage />} />
+				<Route path="/login" element={<LoginPage />} loader={loginLoader} />
+				<Route path="/register" element={<RegisterPage />} />
 			</Route>
 		</Route>
 	)
