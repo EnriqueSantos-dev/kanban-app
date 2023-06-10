@@ -100,3 +100,32 @@ export async function updateOrder({
 		newOrder
 	});
 }
+
+export type UpdateTaskInput = {
+	id: string;
+	title?: string;
+	description?: string;
+	columnId: string;
+	subTasks?: {
+		id?: string;
+		title: string;
+		isDone: boolean;
+	}[];
+};
+
+export async function updateTask({
+	id,
+	columnId,
+	description = undefined,
+	subTasks = [],
+	title = undefined
+}: UpdateTaskInput): Promise<Task> {
+	const { data } = await api.put(`tasks/${id}`, {
+		columnId,
+		description: description ?? '',
+		title: title ?? '',
+		subTasks
+	});
+
+	return data;
+}
