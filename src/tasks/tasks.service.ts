@@ -6,6 +6,7 @@ import {
 	GetTasksOutputDto,
 	UpdateTasksOrderDto
 } from './dtos';
+import { UpdateTaskInputDto } from './dtos/update-task-input.dto';
 import { PrismaTaskMapper } from './mappers/prisma/task-mapper';
 
 @Injectable()
@@ -69,8 +70,8 @@ export class TasksService {
 	}
 
 	public async updateTask(
-		data: Partial<CreateTaskDto> & { id: string }
-	): Promise<void> {
+		data: UpdateTaskInputDto & { id: string }
+	): Promise<GetTasksOutputDto> {
 		const { id, columnId, title, description, subTasks } = data;
 
 		await this.checkIfColumnExists(columnId);
@@ -79,12 +80,22 @@ export class TasksService {
 			subTasks.filter((subTask) => subTask.id).map((subTask) => subTask.id)
 		);
 
-		await this.prisma.$transaction(async (transaction) => {
-			await this.prisma.task.update({
+		const task = await this.prisma.$transaction(async (transaction) => {
+			const lastTaskOrder = await transaction.task.findMany({
+				orderBy: {
+					order: 'desc'
+				}
+			});
+
+			const newOrderTask = lastTaskOrder ? lastTaskOrder[0].order + 1 : 1;
+
+			const taskUpdate = await transaction.task.update({
 				where: { id },
+				include: { subtasks: true },
 				data: {
 					name: title,
 					description,
+					order: newOrderTask,
 					column: {
 						connect: {
 							id: columnId
@@ -116,7 +127,11 @@ export class TasksService {
 						  });
 				})
 			);
+
+			return PrismaTaskMapper.toHttpTask(taskUpdate);
 		});
+
+		return task;
 	}
 
 	public async deleteTask(id: string): Promise<void> {
