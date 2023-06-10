@@ -45,7 +45,10 @@ export type GetTasksInputTest = {
 export async function getTasksFromBoard({ boardId }: GetTasksInputTest) {
 	const { data } = await api.get<GetTasks[]>(`tasks/${boardId}`);
 
-	return data;
+	return data.map((column) => ({
+		...column,
+		tasks: column.tasks.map((task, index) => ({ ...task, index }))
+	}));
 }
 
 export type DeleteTaskInput = {
@@ -78,4 +81,22 @@ export async function moveTask({
 	columnId
 }: MoveTaskInput): Promise<void> {
 	await api.patch(`tasks/${taskId}/move`, { columnId });
+}
+
+export type UpdateOrderInput = {
+	taskId: string;
+	destinationColumnId: string;
+	newOrder: number;
+	index: number;
+};
+
+export async function updateOrder({
+	taskId,
+	destinationColumnId,
+	newOrder
+}: UpdateOrderInput): Promise<void> {
+	await api.patch(`tasks/${taskId}/update-order`, {
+		destinationColumnId,
+		newOrder
+	});
 }
