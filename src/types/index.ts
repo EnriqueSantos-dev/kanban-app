@@ -51,6 +51,7 @@ export type Column = {
 
 export type Task = {
 	id: string;
+	index: number;
 	columnId: string;
 	name: string;
 	statusName: string;

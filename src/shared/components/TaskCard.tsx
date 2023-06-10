@@ -19,7 +19,18 @@ import { Label } from './Label';
 import { Option, SelectStatusTask } from './SelectStatusTask';
 import { ToggleSubTaskCard } from './ToggleSubTaskCard';
 
+export type TaskCardCurrent = {
+	completedSubtasksCount: number;
+	totalSubtasksCount: number;
+	sortable: {
+		containerId: string;
+		index: number;
+		items: string[];
+	};
+} & Task;
+
 type TaskCardProps = Task & {
+	index: number;
 	statusOptions: Option[];
 };
 
@@ -34,7 +45,9 @@ export function TaskCard({
 	subtasks,
 	name,
 	description,
-	statusOptions
+	statusOptions,
+	index,
+	...props
 }: TaskCardProps) {
 	const [isOpenModalEditTask, setIsOpenModalEditTask] = useState(false);
 	const [isOpenModalDeleteTask, setIsOpenModalDeleteTask] = useState(false);
@@ -53,13 +66,19 @@ export function TaskCard({
 			id,
 			transition: {
 				duration: 150,
-				easing: 'ease'
+				easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
 			},
 			data: {
+				id,
 				name,
-				completedSubtasksCount,
-				currentColumnId: columnId,
+				description,
+				columnId,
 				order,
+				statusOptions,
+				subtasks,
+				index,
+				...props,
+				completedSubtasksCount,
 				totalSubtasksCount: subtasks?.length ?? 0
 			}
 		});
@@ -112,11 +131,14 @@ export function TaskCard({
 						{name}
 					</p>
 
-					{subtasks?.length > 0 && (
-						<span className="text-mediumGrey text-xs font-bold">
-							{`${completedSubtasksCount} of  ${subtasks.length}`}
-						</span>
-					)}
+					<div className="flex w-full items-center justify-between">
+						{subtasks?.length > 0 && (
+							<span className="text-mediumGrey text-xs font-bold">
+								{`${completedSubtasksCount} of  ${subtasks.length}`}
+							</span>
+						)}
+						<span>{order}</span>
+					</div>
 				</DialogTrigger>
 
 				<DialogPortal>
