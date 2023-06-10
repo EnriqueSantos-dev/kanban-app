@@ -17,7 +17,10 @@ export class TasksService {
 
 		await this.checkIfColumnExists(columnId);
 
-		const countTasks = await this.prisma.task.count({
+		const lastTask = await this.prisma.task.findFirst({
+			orderBy: {
+				order: 'desc'
+			},
 			where: { columnId }
 		});
 
@@ -28,7 +31,7 @@ export class TasksService {
 			data: {
 				name: title,
 				description,
-				order: countTasks + 1,
+				order: lastTask?.order ? lastTask.order + 1 : 1,
 				subtasks: {
 					createMany: {
 						data: subTasks.map((subTask) => ({
@@ -163,13 +166,15 @@ export class TasksService {
 				this.prisma.task.update({
 					where: { id },
 					data: {
-						order: newOrder
+						order: newOrder,
+						updatedAt: new Date()
 					}
 				})
 			]);
 
 			return;
 		}
+
 		await this.prisma.$transaction([
 			this.prisma.task.updateMany({
 				where: {
@@ -190,6 +195,7 @@ export class TasksService {
 			this.prisma.task.update({
 				where: { id },
 				data: {
+					updatedAt: new Date(),
 					order: newOrder,
 					column: {
 						connect: {
