@@ -55,14 +55,16 @@ export function Header() {
 						<AddNewTaskForm activeBoard={activeBoard} />
 						{activeBoard && (
 							<PopoverEditOrDeleteBoard>
-								<FormEditBoard
-									board={activeBoard}
-									setUpdatedBoard={setActiveBoard}
-								/>
-								<DeleteBoardDialog
-									id={activeBoard.id}
-									name={activeBoard.name}
-								/>
+								<>
+									<FormEditBoard
+										board={activeBoard}
+										setUpdatedBoard={setActiveBoard}
+									/>
+									<DeleteBoardDialog
+										id={activeBoard.id}
+										name={activeBoard.name}
+									/>
+								</>
 							</PopoverEditOrDeleteBoard>
 						)}
 					</div>
