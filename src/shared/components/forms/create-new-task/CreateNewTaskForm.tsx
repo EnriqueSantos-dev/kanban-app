@@ -107,102 +107,108 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 				<span className="hidden text-sm md:inline-block">Add New Task</span>
 			</DialogTrigger>
 			<DialogPortal>
-				<DialogOverlay />
-				<DialogContent>
-					<DialogHeader>Add New Task</DialogHeader>
+				<DialogOverlay>
+					<DialogContent>
+						<DialogHeader>Add New Task</DialogHeader>
 
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<Label label="Title">
-							<TextField
-								placeholder="e.g. Take coffee break"
-								{...register('name')}
-								errorMessage={errors.name?.message}
-							/>
-						</Label>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<Label label="Title">
+								<TextField
+									placeholder="e.g. Take coffee break"
+									{...register('name')}
+									errorMessage={errors.name?.message}
+								/>
+							</Label>
 
-						<Label label="Description" className="mt-4">
-							<TextArea
-								{...register('description')}
-								placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
-								errorMessage={errors.description?.message}
-							/>
-						</Label>
+							<Label label="Description" className="mt-4">
+								<TextArea
+									{...register('description')}
+									placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
+									errorMessage={errors.description?.message}
+								/>
+							</Label>
 
-						{fields.length > 0 && (
-							<div className="mt-6">
-								<p className="text-mediumGrey mb-2 text-[13px] font-bold dark:text-white">
-									Subtasks
-								</p>
+							{fields.length > 0 && (
+								<div className="mt-6">
+									<p className="text-mediumGrey mb-2 text-[13px] font-bold dark:text-white">
+										Subtasks
+									</p>
 
-								<div className="flex flex-col gap-4">
-									{fields.map((column, index) => (
-										<div
-											className={cn('grid grid-cols-[1fr,auto] gap-x-4', {
-												'place-items-start':
-													errors.subtasks?.[index]?.value?.message
-											})}
-											key={column.id}
-										>
-											<TextField
-												{...register(`subtasks.${index}.value` as const)}
-												errorMessage={errors.subtasks?.[index]?.value?.message}
-											/>
-											<ButtonRemoveItemFormFormFieldArray
-												title="Remove column"
-												isErrorInField={
-													!!errors.subtasks?.[index]?.value?.message
+									<div className="flex flex-col gap-4">
+										{fields.map((column, index) => (
+											<div
+												className={cn('grid grid-cols-[1fr,auto] gap-x-4', {
+													'place-items-start':
+														errors.subtasks?.[index]?.value?.message
+												})}
+												key={column.id}
+											>
+												<TextField
+													{...register(`subtasks.${index}.value` as const)}
+													errorMessage={
+														errors.subtasks?.[index]?.value?.message
+													}
+												/>
+												<ButtonRemoveItemFormFormFieldArray
+													title="Remove column"
+													isErrorInField={
+														!!errors.subtasks?.[index]?.value?.message
+													}
+													onClick={() => handleRemoveField(index)}
+												/>
+											</div>
+										))}
+										<Button.Root
+											type="button"
+											className={cn(
+												'text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]',
+												{
+													'mb-4 my-0': fields.length > 0,
+													'my-4': fields.length === 0
 												}
-												onClick={() => handleRemoveField(index)}
-											/>
-										</div>
-									))}
-									<Button.Root
-										type="button"
-										className={cn(
-											'text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]',
-											{
-												'mb-4 my-0': fields.length > 0,
-												'my-4': fields.length === 0
+											)}
+											disabled={mutation.isLoading}
+											onClick={() =>
+												handleInsertField({
+													id: crypto.randomUUID(),
+													value: ''
+												})
 											}
-										)}
-										disabled={mutation.isLoading}
-										onClick={() =>
-											handleInsertField({ id: crypto.randomUUID(), value: '' })
-										}
-									>
-										<span className="mb-0.5 block">+</span>Add New SubTask
-									</Button.Root>
+										>
+											<span className="mb-0.5 block">+</span>Add New SubTask
+										</Button.Root>
+									</div>
 								</div>
+							)}
+
+							<div className="my-6">
+								<Controller
+									name="columnId"
+									defaultValue={defaultOption?.id}
+									control={control}
+									render={({ field: { onChange, value } }) => (
+										<Label label="Status">
+											<SelectStatusTask
+												options={options}
+												defaultOption={defaultOption}
+												value={value}
+												onValueChange={onChange}
+												disabled={options.length === 0}
+											/>
+										</Label>
+									)}
+								/>
 							</div>
-						)}
 
-						<div className="my-6">
-							<Controller
-								name="columnId"
-								defaultValue={defaultOption?.id}
-								control={control}
-								render={({ field: { onChange, value } }) => (
-									<Label label="Status">
-										<SelectStatusTask
-											options={options}
-											defaultOption={defaultOption}
-											value={value}
-											onValueChange={onChange}
-											disabled={options.length === 0}
-										/>
-									</Label>
-								)}
-							/>
-						</div>
-
-						<Button.Root
-							className="rounded-full py-2.5 text-sm"
-							disabled={Object.keys(errors).length > 0 || mutation.isLoading}
-						>
-							Create Task
-						</Button.Root>
-					</form>
-				</DialogContent>
+							<Button.Root
+								className="rounded-full py-2.5 text-sm"
+								disabled={Object.keys(errors).length > 0 || mutation.isLoading}
+							>
+								Create Task
+							</Button.Root>
+						</form>
+					</DialogContent>
+				</DialogOverlay>
 			</DialogPortal>
 		</Dialog>
 	);

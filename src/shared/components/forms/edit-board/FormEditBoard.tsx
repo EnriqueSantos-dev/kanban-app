@@ -151,73 +151,74 @@ export function FormEditBoard({
 				)}
 			</DialogTrigger>
 			<DialogPortal>
-				<DialogOverlay />
-				<DialogContent>
-					<DialogHeader>Edit Board</DialogHeader>
+				<DialogOverlay>
+					<DialogContent>
+						<DialogHeader>Edit Board</DialogHeader>
 
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<Label label="Board Name">
-							<TextField
-								{...register('name')}
-								errorMessage={errors.name?.message}
-							/>
-						</Label>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<Label label="Board Name">
+								<TextField
+									{...register('name')}
+									errorMessage={errors.name?.message}
+								/>
+							</Label>
 
-						{fields.length > 0 && (
-							<div className="mt-6">
-								<p className="text-mediumGrey mb-2 text-sm font-bold dark:text-white">
-									Board Columns
-								</p>
+							{fields.length > 0 && (
+								<div className="mt-6">
+									<p className="text-mediumGrey mb-2 text-sm font-bold dark:text-white">
+										Board Columns
+									</p>
 
-								<div className="flex flex-col gap-4">
-									{fields.map((column, index) => (
-										<div
-											key={column.id}
-											className={cn('grid grid-cols-[1fr,auto] gap-x-4', {
-												'place-items-start':
-													errors.columns?.[index]?.value?.message
-											})}
-										>
-											<TextField
-												{...register(`columns.${index}.value` as const)}
-												errorMessage={errors.columns?.[index]?.value?.message}
-											/>
-											<ButtonRemoveItemFormFormFieldArray
-												type="button"
-												title="Remove column"
-												onClick={() => handleRemoveField(index)}
-											/>
-										</div>
-									))}
+									<div className="flex flex-col gap-4">
+										{fields.map((column, index) => (
+											<div
+												key={column.id}
+												className={cn('grid grid-cols-[1fr,auto] gap-x-4', {
+													'place-items-start':
+														errors.columns?.[index]?.value?.message
+												})}
+											>
+												<TextField
+													{...register(`columns.${index}.value` as const)}
+													errorMessage={errors.columns?.[index]?.value?.message}
+												/>
+												<ButtonRemoveItemFormFormFieldArray
+													type="button"
+													title="Remove column"
+													onClick={() => handleRemoveField(index)}
+												/>
+											</div>
+										))}
+									</div>
 								</div>
+							)}
+
+							<div className="mt-4 flex flex-col gap-2">
+								<Button.Root
+									type="button"
+									className="text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]"
+									disabled={mutation.isLoading}
+									onClick={() =>
+										handleInsertField({
+											id: crypto.randomUUID(),
+											value: ''
+										})
+									}
+								>
+									<span className="mb-0.5 block">+</span>Add New Column
+								</Button.Root>
+
+								<Button.Root
+									className="rounded-full py-2.5 text-sm"
+									disabled={Object.keys(errors).length > 0}
+									isLoading={mutation.isLoading}
+								>
+									Save Changes
+								</Button.Root>
 							</div>
-						)}
-
-						<div className="mt-4 flex flex-col gap-2">
-							<Button.Root
-								type="button"
-								className="text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]"
-								disabled={mutation.isLoading}
-								onClick={() =>
-									handleInsertField({
-										id: crypto.randomUUID(),
-										value: ''
-									})
-								}
-							>
-								<span className="mb-0.5 block">+</span>Add New Column
-							</Button.Root>
-
-							<Button.Root
-								className="rounded-full py-2.5 text-sm"
-								disabled={Object.keys(errors).length > 0}
-								isLoading={mutation.isLoading}
-							>
-								Save Changes
-							</Button.Root>
-						</div>
-					</form>
-				</DialogContent>
+						</form>
+					</DialogContent>
+				</DialogOverlay>
 			</DialogPortal>
 		</Dialog>
 	);

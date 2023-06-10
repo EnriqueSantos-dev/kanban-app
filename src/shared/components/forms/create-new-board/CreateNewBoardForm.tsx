@@ -84,73 +84,74 @@ export function FormCreateNewBoard() {
 				</ButtonSelectOrCreateBoard>
 			</DialogTrigger>
 			<DialogPortal>
-				<DialogOverlay />
-				<DialogContent>
-					<DialogHeader>Add New Board</DialogHeader>
+				<DialogOverlay>
+					<DialogContent>
+						<DialogHeader>Add New Board</DialogHeader>
 
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<Label label="Board Name">
-							<TextField
-								{...register('name')}
-								errorMessage={errors.name?.message}
-							/>
-						</Label>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<Label label="Board Name">
+								<TextField
+									{...register('name')}
+									errorMessage={errors.name?.message}
+								/>
+							</Label>
 
-						{fields.length > 0 && (
-							<div className="mt-6">
-								<p className="text-mediumGrey mb-2 text-sm font-bold dark:text-white">
-									Board Columns
-								</p>
+							{fields.length > 0 && (
+								<div className="mt-6">
+									<p className="text-mediumGrey mb-2 text-sm font-bold dark:text-white">
+										Board Columns
+									</p>
 
-								<div className="flex flex-col gap-4">
-									{fields.map((column, index) => (
-										<div
-											className={cn('grid grid-cols-[1fr,auto] gap-x-4', {
-												'place-items-start':
-													errors.columns?.[index]?.value?.message
-											})}
-											key={column.id}
-										>
-											<TextField
-												{...register(`columns.${index}.value` as const)}
-												errorMessage={errors.columns?.[index]?.value?.message}
-											/>
-											<ButtonRemoveItemFormFormFieldArray
-												type="button"
-												title="Remove column"
-												onClick={() => handleRemoveField(index)}
-											/>
-										</div>
-									))}
+									<div className="flex flex-col gap-4">
+										{fields.map((column, index) => (
+											<div
+												className={cn('grid grid-cols-[1fr,auto] gap-x-4', {
+													'place-items-start':
+														errors.columns?.[index]?.value?.message
+												})}
+												key={column.id}
+											>
+												<TextField
+													{...register(`columns.${index}.value` as const)}
+													errorMessage={errors.columns?.[index]?.value?.message}
+												/>
+												<ButtonRemoveItemFormFormFieldArray
+													type="button"
+													title="Remove column"
+													onClick={() => handleRemoveField(index)}
+												/>
+											</div>
+										))}
+									</div>
 								</div>
+							)}
+
+							<div className="mt-4 flex flex-col gap-2">
+								<Button.Root
+									type="button"
+									className="text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]"
+									onClick={() =>
+										handleInsertField({
+											id: crypto.randomUUID(),
+											value: ''
+										})
+									}
+									disabled={mutation.isLoading}
+								>
+									<span className="mb-0.5 block">+</span>Add New Column
+								</Button.Root>
+
+								<Button.Root
+									className="rounded-full py-2.5 text-sm"
+									disabled={Object.keys(errors).length > 0}
+									isLoading={mutation.isLoading}
+								>
+									Create New Board
+								</Button.Root>
 							</div>
-						)}
-
-						<div className="mt-4 flex flex-col gap-2">
-							<Button.Root
-								type="button"
-								className="text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]"
-								onClick={() =>
-									handleInsertField({
-										id: crypto.randomUUID(),
-										value: ''
-									})
-								}
-								disabled={mutation.isLoading}
-							>
-								<span className="mb-0.5 block">+</span>Add New Column
-							</Button.Root>
-
-							<Button.Root
-								className="rounded-full py-2.5 text-sm"
-								disabled={Object.keys(errors).length > 0}
-								isLoading={mutation.isLoading}
-							>
-								Create New Board
-							</Button.Root>
-						</div>
-					</form>
-				</DialogContent>
+						</form>
+					</DialogContent>
+				</DialogOverlay>
 			</DialogPortal>
 		</Dialog>
 	);
