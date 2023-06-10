@@ -1,3 +1,4 @@
+import { AtJwtAuthGuard } from '@/auth/guards';
 import {
 	Body,
 	Controller,
@@ -6,16 +7,17 @@ import {
 	Param,
 	Patch,
 	Post,
+	Put,
 	UseGuards
 } from '@nestjs/common';
-import { TasksService } from './tasks.service';
-import { AtJwtAuthGuard } from '@/auth/guards';
 import {
 	CreateTaskDto,
 	GetTasksOutputDto,
 	MoveTaskInputDto,
 	UpdateTasksOrderDto
 } from './dtos';
+import { UpdateTaskInputDto } from './dtos/update-task-input.dto';
+import { TasksService } from './tasks.service';
 
 @UseGuards(AtJwtAuthGuard)
 @Controller('tasks')
@@ -33,11 +35,11 @@ export class TasksController {
 		return tasksAndColumns;
 	}
 
-	@Patch(':id/update')
+	@Put(':id')
 	public async updateTask(
 		@Param('id') id: string,
-		@Body() dto: Partial<CreateTaskDto>
-	) {
+		@Body() dto: UpdateTaskInputDto
+	): Promise<GetTasksOutputDto> {
 		return await this.tasksService.updateTask({ ...dto, id });
 	}
 
