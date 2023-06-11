@@ -42,7 +42,7 @@ function ColumnItem({ id, name, tasks, children }: ColumnProps) {
 			>
 				<ul
 					ref={setNodeRef}
-					className="text-hxl text-mediumGrey hover:text-purple scrollbar-hide flex w-full flex-1 cursor-pointer flex-col gap-3 overflow-y-auto rounded-md p-1 pb-8"
+					className="text-hxl text-mediumGrey hover:text-purple scrollbar-hide flex w-full flex-1 flex-col gap-3 overflow-y-auto rounded-md p-1 pb-8"
 				>
 					{children}
 				</ul>
