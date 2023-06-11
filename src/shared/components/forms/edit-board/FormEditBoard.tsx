@@ -74,7 +74,7 @@ export function FormEditBoard({
 		defaultValues: {
 			name: board.name,
 			columns:
-				board?.columns?.map((column) => ({
+				board.columns.map((column) => ({
 					id: column.id,
 					value: column.name.trim()
 				})) ?? []
@@ -119,6 +119,17 @@ export function FormEditBoard({
 		}
 	}, [mutation.isSuccess]);
 
+	useEffect(() => {
+		if (isCreateNewColumn) {
+			handleInsertField(
+				{ id: crypto.randomUUID(), value: '' },
+				{
+					shouldFocus: true
+				}
+			);
+		}
+	}, [isOpen]);
+
 	return (
 		<Dialog onOpenChange={onModalChange} open={isOpen}>
 			<DialogTrigger asChild>
@@ -152,7 +163,7 @@ export function FormEditBoard({
 			</DialogTrigger>
 			<DialogPortal>
 				<DialogOverlay>
-					<DialogContent>
+					<DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
 						<DialogHeader>Edit Board</DialogHeader>
 
 						<form onSubmit={handleSubmit(onSubmit)}>
