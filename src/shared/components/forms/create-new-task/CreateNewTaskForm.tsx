@@ -85,6 +85,13 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 		}
 	}, [mutation.isSuccess]);
 
+	useEffect(() => {
+		handleInsertField(
+			{ id: crypto.randomUUID(), value: '' },
+			{ shouldFocus: true }
+		);
+	}, [isOpen]);
+
 	return (
 		<Dialog open={isOpen} onOpenChange={onChangeOpen}>
 			<DialogTrigger
@@ -108,7 +115,7 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 			</DialogTrigger>
 			<DialogPortal>
 				<DialogOverlay>
-					<DialogContent>
+					<DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
 						<DialogHeader>Add New Task</DialogHeader>
 
 						<form onSubmit={handleSubmit(onSubmit)}>
