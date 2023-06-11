@@ -163,7 +163,9 @@ export function FormEditBoard({
 			</DialogTrigger>
 			<DialogPortal>
 				<DialogOverlay>
-					<DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
+					<DialogContent
+						onOpenAutoFocus={(e) => isCreateNewColumn && e.preventDefault()}
+					>
 						<DialogHeader>Edit Board</DialogHeader>
 
 						<form onSubmit={handleSubmit(onSubmit)}>
