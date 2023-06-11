@@ -1,5 +1,5 @@
 import { LoaderFunction, redirect } from 'react-router-dom';
-import { logoutUser, verifyToken } from '~/services/auth.service';
+import { verifyToken } from '~/services/auth.service';
 import { getAuthToken, removeAuthToken } from '~/utils/auth';
 
 export const requireAuth: LoaderFunction = async () => {
@@ -9,7 +9,6 @@ export const requireAuth: LoaderFunction = async () => {
 	try {
 		await verifyToken();
 	} catch (e) {
-		await logoutUser();
 		removeAuthToken();
 		return redirect('/auth/login');
 	}
