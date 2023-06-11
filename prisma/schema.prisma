@@ -33,7 +33,7 @@ model RefreshToken {
 
 model Board {
   id        String   @id @default(uuid())
-  name      String   @unique
+  name      String   
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())
