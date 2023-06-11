@@ -1,4 +1,4 @@
-import { api, axiosRefreshTokenInstance } from '~/lib';
+import { api } from '~/lib';
 import { FormValues } from '~/pages/register/components/RegisterForm';
 import { UserProfile } from '~/types';
 
@@ -46,7 +46,7 @@ interface ResponseRefreshToken {
 }
 
 export const refreshToken = (): Promise<ResponseRefreshToken> =>
-	axiosRefreshTokenInstance.post('/auth/refresh').then((res) => res.data);
+	api.post('/auth/refresh').then((res) => res.data);
 
 export const logoutUser = async (): Promise<void> => api.post('/auth/logout');
 

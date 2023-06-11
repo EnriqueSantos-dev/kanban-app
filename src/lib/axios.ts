@@ -22,7 +22,7 @@ export const axiosRefreshTokenInstance = axios.create(commonOptions);
 const pathnamesMatches = ['/auth/refresh', '/auth/logout', '/auth/login'];
 
 // interceptor request
-api.interceptors.request.use(async (config) => {
+api.interceptors.request.use(async (config: any) => {
 	const pathname = config.url ?? '';
 	const token = getAuthToken();
 	config.headers.Authorization = `Bearer ${token}`;
@@ -34,9 +34,15 @@ api.interceptors.request.use(async (config) => {
 		if (
 			decodedToken.exp &&
 			decodedToken.exp < currentTime &&
-			!pathnamesMatches.includes(pathname)
+			!pathnamesMatches.includes(pathname) &&
+			!config.isRetry
 		) {
-			const { access_token: accessToken } = await refreshToken();
+			config.isRetry = true;
+			const { access_token: accessToken } = await refreshToken().catch(() =>
+				Promise.reject(
+					new Error('REFRESH_TOKEN_ERROR', { cause: 'REFRESH_TOKEN_ERROR' })
+				)
+			);
 			setAuthToken(accessToken);
 			config.headers.Authorization = `Bearer ${accessToken}`;
 		}
