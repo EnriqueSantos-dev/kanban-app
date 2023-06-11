@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import KanbanLogoSvg from '~/assets/logo.svg';
+import { ChangeThemeButton } from '~/shared/components';
 
 export function AuthLayout() {
 	return (
@@ -10,6 +11,10 @@ export function AuthLayout() {
 					Kanban
 				</p>
 				<Outlet />
+
+				<div className="mt-4 w-2/4">
+					<ChangeThemeButton />
+				</div>
 			</div>
 		</main>
 	);
