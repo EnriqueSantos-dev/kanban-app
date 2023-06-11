@@ -1,4 +1,3 @@
-import { isAxiosError } from 'axios';
 import { api } from '~/lib';
 
 export type CreateBoardInput = {
@@ -7,17 +6,7 @@ export type CreateBoardInput = {
 };
 
 export async function createBoard(input: CreateBoardInput): Promise<void> {
-	try {
-		await api.post('/boards', input);
-	} catch (error) {
-		if (isAxiosError(error)) {
-			if (error.response?.status === 409) {
-				throw new Error('Board already exists');
-			}
-
-			throw error;
-		}
-	}
+	await api.post('/boards', input);
 }
 
 export type EditBoardInput = {
