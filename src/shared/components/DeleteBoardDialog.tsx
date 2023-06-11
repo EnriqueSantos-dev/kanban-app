@@ -55,38 +55,39 @@ export function DeleteBoardDialog({ id, name }: DeleteBoardDialogProps) {
 				Delete Board
 			</DialogTrigger>
 			<DialogPortal>
-				<DialogOverlay />
-				<DialogContent>
-					<DialogHeader className="text-red dark:text-red">
-						Delete This Board?
-					</DialogHeader>
-					<p className="text-mediumGrey my-6 text-[13px]">
-						Are you sure you want to delete the <strong>{name} </strong>board?
-						This action will remove all columns and tasks and cannot be
-						reversed.
-					</p>
+				<DialogOverlay>
+					<DialogContent>
+						<DialogHeader className="text-red dark:text-red">
+							Delete This Board?
+						</DialogHeader>
+						<p className="text-mediumGrey my-6 text-[13px]">
+							Are you sure you want to delete the <strong>{name} </strong>board?
+							This action will remove all columns and tasks and cannot be
+							reversed.
+						</p>
 
-					<div className="grid grid-cols-2 gap-x-4">
-						<button
-							type="button"
-							aria-label="confirm delete board"
-							className="bg-red hover:bg-redHover h-10 w-full rounded-full text-[0.8125rem] font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
-							disabled={mutation.isLoading}
-							onClick={() => handleDeleteBoard(id)}
-						>
-							{mutation.isLoading ? 'Deleting...' : 'Delete'}
-						</button>
+						<div className="grid grid-cols-2 gap-x-4">
+							<button
+								type="button"
+								aria-label="confirm delete board"
+								className="bg-red hover:bg-redHover h-10 w-full rounded-full text-[0.8125rem] font-bold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+								disabled={mutation.isLoading}
+								onClick={() => handleDeleteBoard(id)}
+							>
+								{mutation.isLoading ? 'Deleting...' : 'Delete'}
+							</button>
 
-						<DialogClose
-							type="button"
-							aria-label="cancel delete board"
-							className="text-hl text-purple w-full rounded-full bg-[#F2F2F6] p-2 text-[0.8125rem] font-bold transition-colors hover:bg-[#D8D7F1] disabled:cursor-not-allowed disabled:opacity-50"
-							disabled={mutation.isLoading}
-						>
-							Cancel
-						</DialogClose>
-					</div>
-				</DialogContent>
+							<DialogClose
+								type="button"
+								aria-label="cancel delete board"
+								className="text-hl text-purple w-full rounded-full bg-[#F2F2F6] p-2 text-[0.8125rem] font-bold transition-colors hover:bg-[#D8D7F1] disabled:cursor-not-allowed disabled:opacity-50"
+								disabled={mutation.isLoading}
+							>
+								Cancel
+							</DialogClose>
+						</div>
+					</DialogContent>
+				</DialogOverlay>
 			</DialogPortal>
 		</Dialog>
 	);
