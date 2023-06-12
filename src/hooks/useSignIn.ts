@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ResponseSignIn, SignInRequest, signin } from '~/services/auth.service';
 import { ErrorApi } from '~/types';
 import { setAuthToken } from '~/utils/auth';
+import { api } from '~/lib';
 import { useNotificationToasty } from './useNotificationToasty';
 
 export const useSignInMutation = ({
@@ -16,6 +17,7 @@ export const useSignInMutation = ({
 	return useMutation<ResponseSignIn, ErrorApi, SignInRequest>({
 		mutationFn: (data) => signin(data),
 		onSuccess: (data) => {
+			api.defaults.headers.common.Authorization = `Bearer ${data.access_token}`;
 			setAuthToken(data.access_token);
 			callback(data.access_token);
 			notification('success', 'login success, your are redirecting...', {

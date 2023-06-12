@@ -16,10 +16,7 @@ export const api = axios.create(commonOptions);
 
 api.interceptors.request.use((config)  => {
 	const token = getAuthToken()
-
-	if (token) {
-		api.defaults.headers.common.Authorization = `Bearer ${token}`
-	}
+	api.defaults.headers.common.Authorization = `Bearer ${token}`
 
 	return config
 }, undefined)
