@@ -1,9 +1,6 @@
 /* eslint-disable no-param-reassign */
 import axios, { AxiosError, AxiosRequestConfig, isAxiosError } from 'axios';
-import jwtDecode from 'jwt-decode';
-import { refreshToken } from '~/services/auth.service';
-import { JwtPayloadType } from '~/types';
-import { getAuthToken, setAuthToken } from '~/utils/auth';
+import { getAuthToken } from '~/utils';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -15,41 +12,17 @@ const commonOptions: AxiosRequestConfig = {
 	}
 };
 
-// create two instances of axios to avoid infinite loop
 export const api = axios.create(commonOptions);
-export const axiosRefreshTokenInstance = axios.create(commonOptions);
 
-const pathnamesMatches = ['/auth/refresh', '/auth/logout', '/auth/login'];
-
-// interceptor request
-api.interceptors.request.use(async (config: any) => {
-	const pathname = config.url ?? '';
-	const token = getAuthToken();
-	config.headers.Authorization = `Bearer ${token}`;
+api.interceptors.request.use((config)  => {
+	const token = getAuthToken()
 
 	if (token) {
-		const decodedToken = jwtDecode<JwtPayloadType>(token);
-		const currentTime = Date.now() / 1000;
-
-		if (
-			decodedToken.exp &&
-			decodedToken.exp < currentTime &&
-			!pathnamesMatches.includes(pathname) &&
-			!config.isRetry
-		) {
-			config.isRetry = true;
-			const { access_token: accessToken } = await refreshToken().catch(() =>
-				Promise.reject(
-					new Error('REFRESH_TOKEN_ERROR', { cause: 'REFRESH_TOKEN_ERROR' })
-				)
-			);
-			setAuthToken(accessToken);
-			config.headers.Authorization = `Bearer ${accessToken}`;
-		}
+		api.defaults.headers.common.Authorization = `Bearer ${token}`
 	}
 
-	return config;
-}, undefined);
+	return config
+}, undefined)
 
 export const DEFAULT_ERROR_MESSAGES = {
 	somethingMessage: '🫤 Ops! Something went wrong, please try again later.',
