@@ -37,7 +37,7 @@ export const signin = async ({
 	email,
 	password
 }: SignInRequest): Promise<ResponseSignIn> => {
-	const response = await api.post('/auth/login', { email, password });
+	const response = await api.post('/auth/login', { email, password }, { withCredentials: true });
 	return response.data;
 };
 
