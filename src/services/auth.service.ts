@@ -50,7 +50,7 @@ export const refreshToken = (): Promise<ResponseRefreshToken> =>
 
 export const logoutUser = async (): Promise<void> => api.post('/auth/logout');
 
-export const verifyToken = (token?: string): Promise<void> => api.post('/auth/verify-token', null, {
+export const verifyToken = (token?: string): Promise<void> => api.post('/auth/verify-token', {}, {
 	headers: {
 		Authorization: `Bearer ${token}`
 	}
