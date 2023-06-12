@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    container_name: app
+    restart: always
+    ports:
+      - "${PORT}:3333"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    networks:
+      - database
   postgres:
     image: postgres:15
     container_name: postgres
