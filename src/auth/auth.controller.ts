@@ -140,8 +140,8 @@ export class AuthController {
 	private generateCookieOptions(): CookieOptions {
 		return {
 			httpOnly: true,
-			sameSite: 'none',
-			expires: new Date(new Date().getTime() + 15 * 1000), // 15 days
+			sameSite: false,
+			maxAge: this.configService.get<number>('MAX_AGE_COOKIE'), // 7 days
 			secure: this.configService.get('NODE_ENV') === 'production' // true in production
 		};
 	}
