@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String         @id @default(uuid())
+  name         String
+  email        String         @unique
+  password     String
+  avatarUrl    String?
+  boards       Board[]
+  refreshToken RefreshToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id     String @id @default(uuid())
+  token  String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  @@map("refresh_tokens")
+}
+
+model Board {
+  id        String   @id @default(uuid())
+  name      String   
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  columns   Column[]
+
+  @@map("boards")
+}
+
+model Column {
+  id        String   @id @default(uuid())
+  name      String
+	order Int @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId   String
+  tasks     Task[]
+
+  @@unique([name, id])
+  @@map("columns")
+}
+
+model Task {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  statusName  String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  order       Int
+  subtasks    SubTask[]
+  column      Column    @relation(fields: [statusName, columnId], references: [name, id], onDelete: Cascade)
+  columnId    String
+
+  @@index([columnId, id])
+  @@map("tasks")
+}
+
+model SubTask {
+  id        String   @id @default(uuid())
+  name      String
+  isDone    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+
+  @@index([taskId, id])
+  @@map("sub_tasks")
+}
