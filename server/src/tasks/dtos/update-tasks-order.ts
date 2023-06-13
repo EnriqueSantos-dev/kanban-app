@@ -5,6 +5,6 @@ export class UpdateTasksOrderDto {
 	destinationColumnId: string;
 
 	@IsNumber()
-	@Min(1)
+	@Min(0)
 	newOrder: number;
 }
