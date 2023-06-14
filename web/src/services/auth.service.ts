@@ -1,6 +1,7 @@
 import { api } from '~/lib';
 import { FormValues } from '~/pages/register/components/RegisterForm';
 import { UserProfile } from '~/types';
+import { removeAuthToken } from '~/utils';
 
 export async function getProfile(): Promise<UserProfile> {
 	const response = await api.get('/auth/profile');
@@ -37,7 +38,11 @@ export const signin = async ({
 	email,
 	password
 }: SignInRequest): Promise<ResponseSignIn> => {
-	const response = await api.post('/auth/login', { email, password }, { withCredentials: true });
+	const response = await api.post(
+		'/auth/login',
+		{ email, password },
+		{ withCredentials: true }
+	);
 	return response.data;
 };
 
@@ -48,10 +53,18 @@ interface ResponseRefreshToken {
 export const refreshToken = (): Promise<ResponseRefreshToken> =>
 	api.post('/auth/refresh').then((res) => res.data);
 
-export const logoutUser = async (): Promise<void> => api.post('/auth/logout');
+export const logoutUser = () => {
+	removeAuthToken();
+	window.location.reload();
+};
 
-export const verifyToken = (token?: string): Promise<void> => api.post('/auth/verify-token', {}, {
-	headers: {
-		Authorization: `Bearer ${token}`
-	}
-});
+export const verifyToken = (token?: string): Promise<void> =>
+	api.post(
+		'/auth/verify-token',
+		{},
+		{
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		}
+	);
