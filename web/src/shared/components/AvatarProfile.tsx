@@ -11,7 +11,11 @@ export function AvatarProfile({ avatarUrl, fallbackText }: AvatarProfileProps) {
 		<Popover.Root>
 			<Popover.Trigger className="focus:ring-purple dark:focus:ring-offset-darkGrey focus:ring-offset-linesLight relative h-12 w-12 cursor-pointer overflow-hidden rounded-full outline-none focus:ring-1 focus:ring-offset-2">
 				{avatarUrl ? (
-					<img src={avatarUrl} alt="user avatar bg-cover w-full" />
+					<img
+						src={avatarUrl}
+						loading="eager"
+						alt="user avatar bg-cover w-full"
+					/>
 				) : (
 					<span className="dark:text-mediumGrey bg-linesLight dark:bg-veryDarkGrey flex h-full w-full items-center justify-center font-bold text-white">
 						{fallbackText}
