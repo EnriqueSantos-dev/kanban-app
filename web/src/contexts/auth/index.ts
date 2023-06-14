@@ -42,7 +42,7 @@ export function useAuthContext() {
 		removeAuthToken();
 		clearAll();
 		navigate('/auth/login');
-		await logoutUser();
+		logoutUser();
 	}, []);
 
 	useEffect(() => {

@@ -62,7 +62,7 @@ export function Header() {
 						<MobileMenuPopover />
 					</div>
 
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-3">
 						<AddNewTaskForm activeBoard={activeBoard} />
 						{activeBoard && (
 							<PopoverEditOrDeleteBoard>
@@ -80,7 +80,7 @@ export function Header() {
 						)}
 						{user && (
 							<AvatarProfile
-								avatarUrl={user.avatar}
+								avatarUrl={user.avatarUrl}
 								fallbackText={getUserInitialLetters(user.name)}
 							/>
 						)}

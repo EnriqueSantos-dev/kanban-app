@@ -9,7 +9,7 @@ type AvatarProfileProps = {
 export function AvatarProfile({ avatarUrl, fallbackText }: AvatarProfileProps) {
 	return (
 		<Popover.Root>
-			<Popover.Trigger className="focus:ring-purple dark:focus:ring-offset-darkGrey focus:ring-offset-linesLight relative h-12 w-12 cursor-pointer overflow-hidden rounded-full outline-none focus:ring-1 focus:ring-offset-1">
+			<Popover.Trigger className="focus:ring-purple dark:focus:ring-offset-darkGrey focus:ring-offset-linesLight relative h-12 w-12 cursor-pointer overflow-hidden rounded-full outline-none focus:ring-1 focus:ring-offset-2">
 				{avatarUrl ? (
 					<img src={avatarUrl} alt="user avatar bg-cover w-full" />
 				) : (

@@ -15,7 +15,7 @@ export interface User {
 	id: string;
 	name: string;
 	email: string;
-	avatar: string | null;
+	avatarUrl: string | null;
 }
 
 export interface UserProfile extends User {
