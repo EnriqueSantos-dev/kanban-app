@@ -23,19 +23,22 @@ export function AvatarProfile({ avatarUrl, fallbackText }: AvatarProfileProps) {
 				)}
 			</Popover.Trigger>
 
-			<Popover.Content
-				sideOffset={10}
-				className="bg-linesLight dark:bg-darkGrey data-[state=open]:animate-fade-in border-linesLight dark:border-linesDark flex w-24 items-center justify-center space-y-3 rounded-lg border p-4"
-			>
-				<button
-					type="button"
-					aria-label="logout user"
-					className="text-mediumGrey outline-none hover:underline focus:underline"
-					onClick={logoutUser}
+			<Popover.PopoverPortal>
+				<Popover.Content
+					sideOffset={5}
+					className="dark:bg-darkGrey data-[state=open]:animate-fade-in border-linesLight dark:border-linesDark flex w-24 items-center justify-center rounded-lg border bg-white p-4"
 				>
-					Logout
-				</button>
-			</Popover.Content>
+					<Popover.Arrow className="[&>polygon]:dark:fill-linesDark [&>polygon]:fill-linesLight" />
+					<button
+						type="button"
+						aria-label="logout user"
+						className="text-mediumGrey outline-none hover:underline focus:underline"
+						onClick={logoutUser}
+					>
+						logout
+					</button>
+				</Popover.Content>
+			</Popover.PopoverPortal>
 		</Popover.Root>
 	);
 }
