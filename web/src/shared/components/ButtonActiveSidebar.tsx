@@ -8,6 +8,7 @@ export function ButtonActiveSidebar() {
 	return (
 		<button
 			type="button"
+			aria-label="toggle sidebar"
 			className={cn(
 				'bg-purple hover:bg-purpleHover fixed bottom-8 -left-1 hidden rounded-full rounded-l-none p-4 text-sm text-white md:block z-10',
 				{
