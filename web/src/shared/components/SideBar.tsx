@@ -73,6 +73,7 @@ export function SideBar() {
 
 					<button
 						type="button"
+						aria-label="toggle sidebar"
 						className="text-mediumGrey hover:text-purple hover:bg-purple/10 bg-purple/0 focus:ring-purple dark:focus:ring-offset-darkGrey group max-w-[90%] rounded-r-full p-4 pl-6 text-sm font-bold transition-colors focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-offset-white dark:hover:bg-white dark:focus:bg-white md:flex md:items-center"
 						onClick={() => setIsMenuOpen(false)}
 					>
