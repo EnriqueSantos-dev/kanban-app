@@ -7,12 +7,23 @@ import {
 	PopoverEditOrDeleteBoard
 } from '~/shared/components';
 import { useActiveBoardStore } from '~/stores/active-board-store';
+import { useAuthStore } from '~/stores/auth-store';
 import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
+import { AvatarProfile } from './AvatarProfile';
+
+const getUserInitialLetters = (name: string) =>
+	name
+		.split(' ')
+		.filter(Boolean)
+		.map((l) => l[0])
+		.join('')
+		.substring(0, 2);
 
 export function Header() {
 	const { activeBoard, setActiveBoard } = useActiveBoardStore();
 	const { isMenuOpen } = useMenuStore();
+	const user = useAuthStore((state) => state.user);
 
 	return (
 		<header className="border-linesLight dark:bg-darkGrey dark:border-linesDark h-20 border-b px-6 pr-3">
@@ -66,6 +77,12 @@ export function Header() {
 									/>
 								</>
 							</PopoverEditOrDeleteBoard>
+						)}
+						{user && (
+							<AvatarProfile
+								avatarUrl={user.avatar}
+								fallbackText={getUserInitialLetters(user.name)}
+							/>
 						)}
 					</div>
 				</div>
