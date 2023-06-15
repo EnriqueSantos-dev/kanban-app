@@ -6,12 +6,10 @@ export const requireAuth: LoaderFunction = async () => {
 	const token = getAuthToken();
 	if (!token) return redirect('/auth/login');
 
-	try {
-		await verifyToken(token);
-	} catch (e) {
-		removeAuthToken();
-		return redirect('/auth/login');
-	}
-
-	return null;
+	return verifyToken(token)
+		.then(() => null)
+		.catch(() => {
+			removeAuthToken();
+			return redirect('/auth/login');
+		});
 };
