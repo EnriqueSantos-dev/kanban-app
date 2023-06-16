@@ -7,7 +7,7 @@ import {
 	useUpdateTask
 } from '~/hooks';
 import {
-	Button,
+	ButtonLoading,
 	ButtonRemoveItemFormFormFieldArray,
 	Dialog,
 	DialogContent,
@@ -17,7 +17,8 @@ import {
 	Label,
 	SelectStatusTask,
 	TextArea,
-	TextField
+	TextField,
+	Button
 } from '~/shared/components';
 import { useActiveBoardStore } from '~/stores/active-board-store';
 import { Task } from '~/types';
@@ -154,15 +155,12 @@ export function UpdateTaskTaskForm({
 											/>
 										</div>
 									))}
-									<Button.Root
-										type="button"
-										className={cn(
-											'text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]',
-											{
-												'mb-4 my-0': fields.length > 0,
-												'my-4': fields.length === 0
-											}
-										)}
+									<Button
+										variant="neutral"
+										className={cn({
+											'mb-4 my-0': fields.length > 0,
+											'my-4': fields.length === 0
+										})}
 										disabled={mutation.isLoading}
 										onClick={() =>
 											handleInsertField({
@@ -172,8 +170,9 @@ export function UpdateTaskTaskForm({
 											})
 										}
 									>
-										<span className="mb-0.5 block">+</span>Add New SubTask
-									</Button.Root>
+										<span className="mb-0.5 inline-block font-bold">+</span>Add
+										New SubTask
+									</Button>
 								</div>
 							</div>
 
@@ -198,12 +197,13 @@ export function UpdateTaskTaskForm({
 								/>
 							</div>
 
-							<Button.Root
-								className="rounded-full py-2.5 text-sm"
+							<ButtonLoading
+								isLoading={mutation.isLoading}
+								fallbackText="Saving"
 								disabled={Object.keys(errors).length > 0 || mutation.isLoading}
 							>
 								Save Changes
-							</Button.Root>
+							</ButtonLoading>
 						</form>
 					</DialogContent>
 				</DialogOverlay>

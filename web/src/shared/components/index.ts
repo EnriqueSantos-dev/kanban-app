@@ -1,5 +1,4 @@
 export * from './AppProviders';
-export * from './Button';
 export * from './ButtonActiveSidebar';
 export * from './ButtonSelectOrCreateBoard';
 export * from './ChangeTheme';
@@ -20,3 +19,5 @@ export * from './forms/create-new-task/CreateNewTaskForm';
 export * from './forms/edit-board/FormEditBoard';
 export * from './Column';
 export * from './ColumnsContainerSkeleton';
+export * from './ButtonLoading';
+export * from './Button';

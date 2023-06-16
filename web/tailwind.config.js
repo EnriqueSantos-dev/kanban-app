@@ -23,7 +23,9 @@ export default {
 				white: '#fff',
 				red: '#EA5555',
 				redHover: '#FF9898',
-				skeleton: 'hsl(var(--skeleton-color))'
+				skeleton: 'hsl(var(--skeleton-color))',
+				neutral: '#f2f2f6',
+				neutralHover: '#D8D7F1'
 			},
 			height: {
 				mainHeight: 'calc(100vh - 5rem)'

@@ -9,7 +9,7 @@ import {
 } from '~/hooks';
 import { getTasksKey } from '~/hooks/useGetTasks';
 import {
-	Button,
+	ButtonLoading,
 	ButtonRemoveItemFormFormFieldArray,
 	Dialog,
 	DialogContent,
@@ -18,7 +18,8 @@ import {
 	DialogPortal,
 	DialogTrigger,
 	Label,
-	TextField
+	TextField,
+	Button
 } from '~/shared/components';
 import { BoardType } from '~/stores/active-board-store';
 import { cn } from '~/utils/cn';
@@ -136,8 +137,7 @@ export function FormEditBoard({
 				{!isCreateNewColumn ? (
 					<button
 						type="button"
-						title={`Edit ${board.name}`}
-						className="text-mediumGrey dark:hover:text-lightGrey dark:focus:text-lightGrey cursor-pointer whitespace-nowrap text-xs font-medium capitalize outline-none transition-colors hover:text-black focus:text-black"
+						className="cursor-pointer whitespace-nowrap text-xs font-medium capitalize text-black outline-none transition-colors hover:text-black/80 focus-visible:text-black/80 dark:text-white dark:hover:text-white/70 dark:focus-visible:text-white/70"
 					>
 						Edit board
 					</button>
@@ -207,9 +207,8 @@ export function FormEditBoard({
 							)}
 
 							<div className="mt-4 flex flex-col gap-2">
-								<Button.Root
-									type="button"
-									className="text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]"
+								<Button
+									variant="neutral"
 									disabled={mutation.isLoading}
 									onClick={() =>
 										handleInsertField({
@@ -218,16 +217,18 @@ export function FormEditBoard({
 										})
 									}
 								>
-									<span className="mb-0.5 block">+</span>Add New Column
-								</Button.Root>
+									<span className="mb-0.5 inline-block font-bold">+</span>Add
+									New Column
+								</Button>
 
-								<Button.Root
-									className="rounded-full py-2.5 text-sm"
+								<ButtonLoading
+									type="submit"
 									disabled={Object.keys(errors).length > 0}
 									isLoading={mutation.isLoading}
+									fallbackText="Saving"
 								>
 									Save Changes
-								</Button.Root>
+								</ButtonLoading>
 							</div>
 						</form>
 					</DialogContent>

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Label, TextField } from '~/shared/components';
+import { Label, TextField, ButtonLoading } from '~/shared/components';
 import { useAuthContext } from '~/contexts/auth';
 
 const LoginSchema = z.object({
@@ -48,9 +48,13 @@ export function FormLogin() {
 				/>
 			</Label>
 
-			<Button.Root type="submit" isLoading={signinMutation.isLoading}>
+			<ButtonLoading
+				type="submit"
+				isLoading={signinMutation.isLoading}
+				fallbackText="Logging"
+			>
 				Login
-			</Button.Root>
+			</ButtonLoading>
 		</form>
 	);
 }

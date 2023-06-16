@@ -7,6 +7,7 @@ import {
 } from '~/hooks';
 import {
 	Button,
+	ButtonLoading,
 	ButtonRemoveItemFormFormFieldArray,
 	Dialog,
 	DialogContent,
@@ -87,24 +88,22 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onChangeOpen}>
-			<DialogTrigger
-				type="button"
-				disabled={options.length === 0}
-				className="bg-purple hover:bg-purpleHover focus:ring-purple dark:focus:ring-offset-darkGrey flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-4 py-3 font-bold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
-			>
-				<svg
-					width="12"
-					height="12"
-					xmlns="http://www.w3.org/2000/svg"
-					className="shrink-0"
-				>
-					<path
-						fill="#fff"
-						d="M7.368 12V7.344H12V4.632H7.368V0H4.656v4.632H0v2.712h4.656V12z"
-					/>
-				</svg>
+			<DialogTrigger asChild type="button" disabled={options.length === 0}>
+				<Button className="px-4 py-2">
+					<svg
+						width="12"
+						height="12"
+						xmlns="http://www.w3.org/2000/svg"
+						className="shrink-0"
+					>
+						<path
+							fill="#fff"
+							d="M7.368 12V7.344H12V4.632H7.368V0H4.656v4.632H0v2.712h4.656V12z"
+						/>
+					</svg>
 
-				<span className="hidden text-sm md:inline-block">Add New Task</span>
+					<span className="hidden text-sm md:inline-block">Add New Task</span>
+				</Button>
 			</DialogTrigger>
 			<DialogPortal>
 				<DialogOverlay>
@@ -158,15 +157,12 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 												/>
 											</div>
 										))}
-										<Button.Root
-											type="button"
-											className={cn(
-												'text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]',
-												{
-													'mb-4 my-0': fields.length > 0,
-													'my-4': fields.length === 0
-												}
-											)}
+										<Button
+											variant="neutral"
+											className={cn({
+												'mb-4 my-0': fields.length > 0,
+												'my-4': fields.length === 0
+											})}
 											disabled={mutation.isLoading}
 											onClick={() =>
 												handleInsertField({
@@ -175,8 +171,9 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 												})
 											}
 										>
-											<span className="mb-0.5 block">+</span>Add New SubTask
-										</Button.Root>
+											<span className="mb-0.5 inline-block font-bold">+</span>
+											Add New SubTask
+										</Button>
 									</div>
 								</div>
 							)}
@@ -200,12 +197,14 @@ export function AddNewTaskForm({ activeBoard }: AddNewTaskPropsFormProps) {
 								/>
 							</div>
 
-							<Button.Root
-								className="rounded-full py-2.5 text-sm"
-								disabled={Object.keys(errors).length > 0 || mutation.isLoading}
+							<ButtonLoading
+								type="submit"
+								isLoading={mutation.isLoading}
+								fallbackText="Creating"
+								disabled={Object.keys(errors).length > 0}
 							>
 								Create Task
-							</Button.Root>
+							</ButtonLoading>
 						</form>
 					</DialogContent>
 				</DialogOverlay>

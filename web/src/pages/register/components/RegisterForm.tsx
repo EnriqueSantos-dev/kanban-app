@@ -1,8 +1,8 @@
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button, Label, TextField } from '~/shared/components';
+import { z } from 'zod';
 import { useAuthContext } from '~/contexts/auth';
+import { ButtonLoading, Label, TextField } from '~/shared/components';
 import { AvatarInput } from './AvatarInput';
 
 const RegisterSchema = z
@@ -91,9 +91,13 @@ export function RegisterForm() {
 				/>
 			</Label>
 
-			<Button.Root type="submit" isLoading={signupMutation.isLoading}>
+			<ButtonLoading
+				type="submit"
+				isLoading={signupMutation.isLoading}
+				fallbackText="Saving"
+			>
 				Register
-			</Button.Root>
+			</ButtonLoading>
 		</form>
 	);
 }

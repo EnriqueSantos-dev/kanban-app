@@ -8,6 +8,7 @@ import {
 } from '~/hooks';
 import {
 	Button,
+	ButtonLoading,
 	ButtonRemoveItemFormFormFieldArray,
 	ButtonSelectOrCreateBoard,
 	Dialog,
@@ -127,9 +128,9 @@ export function FormCreateNewBoard() {
 							)}
 
 							<div className="mt-4 flex flex-col gap-2">
-								<Button.Root
+								<Button
 									type="button"
-									className="text-purple rounded-full bg-[#f2f2f6] py-2.5 text-sm hover:bg-[#D8D7F1] focus:bg-[#D8D7F1]"
+									variant="neutral"
 									onClick={() =>
 										handleInsertField({
 											id: crypto.randomUUID(),
@@ -138,16 +139,17 @@ export function FormCreateNewBoard() {
 									}
 									disabled={mutation.isLoading}
 								>
-									<span className="mb-0.5 block">+</span>Add New Column
-								</Button.Root>
+									<span className="mb-0.5 inline-block font-bold">+</span>Add
+									New Column
+								</Button>
 
-								<Button.Root
-									className="rounded-full py-2.5 text-sm"
-									disabled={Object.keys(errors).length > 0}
+								<ButtonLoading
 									isLoading={mutation.isLoading}
+									fallbackText="Creating"
+									disabled={Object.keys(errors).length > 0}
 								>
 									Create New Board
-								</Button.Root>
+								</ButtonLoading>
 							</div>
 						</form>
 					</DialogContent>

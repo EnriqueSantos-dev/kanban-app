@@ -50,7 +50,7 @@ module.exports = {
 	},
 	settings: {
 		tailwindcss: {
-			calles: ['cn']
+			calles: ['cn', 'cva']
 		},
 		'import/resolver': {
 			alias: {

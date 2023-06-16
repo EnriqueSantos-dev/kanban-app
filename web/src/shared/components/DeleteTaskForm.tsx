@@ -56,21 +56,17 @@ export function DeleteTaskForm({
 							className="mt-6 grid grid-cols-2 gap-x-4"
 							onSubmit={handleSubmit}
 						>
-							<Button.Root
+							<Button
 								type="submit"
+								variant="destructive"
 								aria-label="confirm delete task"
-								className="bg-red hover:bg-redHover focus:bg-redHover mt-0 h-10 rounded-full font-bold capitalize text-white outline-none transition-colors"
 								disabled={mutation.isLoading}
 							>
-								confirm
-							</Button.Root>
+								Confirm
+							</Button>
 
-							<DialogClose
-								type="button"
-								className="h-10 rounded-full bg-green-500 font-bold capitalize text-white outline-none transition-colors hover:bg-green-600 focus:bg-green-600"
-								disabled={mutation.isLoading}
-							>
-								cancel
+							<DialogClose type="button" asChild disabled={mutation.isLoading}>
+								<Button>Cancel</Button>
 							</DialogClose>
 						</form>
 					</DialogContent>
