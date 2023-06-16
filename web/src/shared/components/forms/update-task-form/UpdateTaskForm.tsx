@@ -198,6 +198,7 @@ export function UpdateTaskTaskForm({
 							</div>
 
 							<ButtonLoading
+								type="submit"
 								isLoading={mutation.isLoading}
 								fallbackText="Saving"
 								disabled={Object.keys(errors).length > 0 || mutation.isLoading}

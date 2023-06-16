@@ -144,6 +144,7 @@ export function FormCreateNewBoard() {
 								</Button>
 
 								<ButtonLoading
+									type="submit"
 									isLoading={mutation.isLoading}
 									fallbackText="Creating"
 									disabled={Object.keys(errors).length > 0}
