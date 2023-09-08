@@ -21,7 +21,7 @@ import {
 	TextField,
 	Button
 } from '~/shared/components';
-import { BoardType } from '~/hooks';
+import { BoardType } from '~/stores/active-board-store';
 import { cn } from '~/utils/cn';
 import { userKeys } from '~/utils/query-keys-factories';
 import { EditBoardFormValues, schema } from './schema';

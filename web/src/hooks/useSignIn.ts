@@ -4,8 +4,8 @@ import { ResponseSignIn, SignInRequest, signin } from '~/services/auth.service';
 import { ErrorApi } from '~/types';
 import { setAuthToken } from '~/utils/auth';
 import { api } from '~/lib';
-import { useNotificationToasty } from './useNotificationToasty';
 import { useAuthStoreActions } from '~/stores/auth-store';
+import { useNotificationToasty } from './useNotificationToasty';
 
 export const useSignInMutation = () => {
 	const navigate = useNavigate();

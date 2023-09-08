@@ -23,5 +23,6 @@ export function RequireAuth({ children }: { children: ReactNode }) {
 		return <Navigate to="/auth/login" />;
 	}
 
+	// eslint-disable-next-line react/jsx-no-useless-fragment
 	return <>{children}</>;
 }

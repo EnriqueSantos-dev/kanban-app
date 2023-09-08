@@ -1,5 +1,4 @@
-const path = require('path');
-
+/**@type {import("@types/eslint").ESLint.ConfigData} */
 module.exports = {
 	root: true,
 	env: {
@@ -15,8 +14,7 @@ module.exports = {
 	],
 	parserOptions: {
 		ecmaVersion: 'latest',
-		sourceType: 'module',
-		project: path.resolve(__dirname, './tsconfig.json')
+		project: './tsconfig.json'
 	},
 	ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts'],
 	parser: '@typescript-eslint/parser',

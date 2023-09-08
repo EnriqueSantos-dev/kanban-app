@@ -2,8 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { ButtonLoading, Label, TextField } from '~/shared/components';
-import { AvatarInput } from './AvatarInput';
 import { useSignUpMutation } from '~/hooks';
+import { AvatarInput } from './AvatarInput';
 
 const RegisterSchema = z
 	.object({

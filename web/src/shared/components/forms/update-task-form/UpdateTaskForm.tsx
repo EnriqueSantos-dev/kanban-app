@@ -5,7 +5,7 @@ import {
 	useInteractiveForm,
 	useNotificationToasty,
 	useUpdateTask
-} from '~/hooks';
+, useActiveBoard } from '~/hooks';
 import {
 	ButtonLoading,
 	ButtonRemoveItemFormFormFieldArray,
@@ -20,7 +20,6 @@ import {
 	TextField,
 	Button
 } from '~/shared/components';
-import { useActiveBoard } from '~/hooks';
 import { Task } from '~/types';
 import { cn } from '~/utils';
 import { schema } from './schema';

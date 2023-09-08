@@ -1,5 +1,9 @@
+const tailwindScrollbar = require('tailwind-scrollbar');
+const tailwindScrollbarHide = require('tailwind-scrollbar-hide');
+const tailwindcssAnimate = require('tailwindcss-animate');
+
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
 	content: ['./src/**/*.tsx', 'index.html'],
 	darkMode: ['class'],
 	theme: {
@@ -59,8 +63,8 @@ export default {
 		}
 	},
 	plugins: [
-		require('tailwind-scrollbar')({ nocompatible: true }),
-		require('tailwindcss-animate'),
-		require('tailwind-scrollbar-hide')
+		tailwindScrollbar({ nocompatible: true }),
+		tailwindcssAnimate,
+		tailwindScrollbarHide
 	]
 };
