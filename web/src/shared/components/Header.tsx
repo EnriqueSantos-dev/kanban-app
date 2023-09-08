@@ -6,7 +6,7 @@ import {
 	MobileMenuPopover,
 	PopoverEditOrDeleteBoard
 } from '~/shared/components';
-import { useActiveBoardStore } from '~/stores/active-board-store';
+import { useActiveBoard } from '~/hooks';
 import { useAuthStore } from '~/stores/auth-store';
 import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
@@ -21,7 +21,7 @@ const getUserInitialLetters = (name: string) =>
 		.substring(0, 2);
 
 export function Header() {
-	const { activeBoard, setActiveBoard } = useActiveBoardStore();
+	const { activeBoard, setActiveBoard } = useActiveBoard();
 	const { isMenuOpen } = useMenuStore();
 	const user = useAuthStore((state) => state.user);
 

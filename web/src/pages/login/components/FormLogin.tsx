@@ -1,8 +1,8 @@
-import { z } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Label, TextField, ButtonLoading } from '~/shared/components';
-import { useAuthContext } from '~/contexts/auth';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { useSignInMutation } from '~/hooks';
+import { ButtonLoading, Label, TextField } from '~/shared/components';
 
 const LoginSchema = z.object({
 	email: z.string().min(1, { message: 'Cannot be empty' }).trim(),
@@ -12,7 +12,7 @@ const LoginSchema = z.object({
 type FormValues = z.infer<typeof LoginSchema>;
 
 export function FormLogin() {
-	const { signinMutation } = useAuthContext();
+	const signinMutation = useSignInMutation();
 	const {
 		register,
 		handleSubmit,

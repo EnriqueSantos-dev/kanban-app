@@ -4,13 +4,13 @@ import {
 	CreateTaskInput,
 	CreateTaskOutPutDto
 } from '~/services/tasks.service';
-import { useActiveBoardStore } from '~/stores/active-board-store';
+import { useActiveBoard } from '~/hooks';
 import { ErrorApi } from '~/types';
 import { getTasksKey } from './useGetTasks';
 
 export const useCreateNewTaskMutation = () => {
 	const queryClient = useQueryClient();
-	const activeBoard = useActiveBoardStore((state) => state.activeBoard);
+	const { activeBoard } = useActiveBoard();
 
 	return useMutation<CreateTaskOutPutDto, ErrorApi, CreateTaskInput>({
 		mutationFn: createTask,

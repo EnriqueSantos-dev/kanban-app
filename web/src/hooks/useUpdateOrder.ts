@@ -5,7 +5,7 @@ import {
 	UpdateOrderInput,
 	updateOrder
 } from '~/services/tasks.service';
-import { BoardType } from '~/stores/active-board-store';
+import { BoardType } from '~/hooks';
 import { ErrorApi } from '~/types';
 import { getTasksKey } from './useGetTasks';
 import { useNotificationToasty } from './useNotificationToasty';

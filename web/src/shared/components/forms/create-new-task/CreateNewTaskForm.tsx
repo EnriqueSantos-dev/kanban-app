@@ -20,7 +20,7 @@ import {
 	TextArea,
 	TextField
 } from '~/shared/components';
-import { BoardType } from '~/stores/active-board-store';
+import { BoardType } from '~/hooks';
 import { cn, mapperTaskToCreate } from '~/utils';
 import { AddNewTaskFormValues, schema } from './schema';
 

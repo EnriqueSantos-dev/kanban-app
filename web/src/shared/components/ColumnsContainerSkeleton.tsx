@@ -1,4 +1,4 @@
-import { BoardType } from '~/stores/active-board-store';
+import { BoardType } from '~/hooks';
 import { SkeletonTask } from './SkeletonTask';
 
 type ColumnsContainerSkeletonProps = {

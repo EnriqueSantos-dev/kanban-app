@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryClient } from '~/lib';
 import { GetTasks, updateTask } from '~/services/tasks.service';
-import { BoardType } from '~/stores/active-board-store';
+import { BoardType } from '~/hooks';
 import { getTasksKey } from './useGetTasks';
 
 export function useUpdateTask({ activeBoard }: { activeBoard: BoardType }) {

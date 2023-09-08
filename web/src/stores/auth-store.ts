@@ -1,24 +1,28 @@
 import { create } from 'zustand';
 import { UserProfile } from '~/types';
+import { getAuthToken } from '~/utils';
 
 type AuthState = {
 	user: UserProfile | undefined;
 	token: string | undefined;
+	isAuth: boolean;
 	actions: {
 		setToken: (token?: string) => void;
 		setUser: (user: UserProfile) => void;
 		clearAll: () => void;
+		setIsAuth: (isAuth: boolean) => void;
 	};
 };
 
 const AuthStore = create<AuthState>((set) => ({
-	token: undefined,
+	token: getAuthToken(),
 	user: undefined,
-
+	isAuth: false,
 	actions: {
 		setToken: (token?: string) => set({ token }),
-		setUser: (user: UserProfile) => set({ user }),
-		clearAll: () => set({ user: undefined, token: undefined })
+		setUser: (user: UserProfile) => set({ user, isAuth: true }),
+		clearAll: () => set({ user: undefined, token: undefined, isAuth: false }),
+		setIsAuth: (isAuth: boolean) => set({ isAuth })
 	}
 }));
 

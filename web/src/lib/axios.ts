@@ -14,12 +14,12 @@ const commonOptions: AxiosRequestConfig = {
 
 export const api = axios.create(commonOptions);
 
-api.interceptors.request.use((config)  => {
-	const token = getAuthToken()
-	api.defaults.headers.common.Authorization = `Bearer ${token}`
+api.interceptors.request.use((config) => {
+	const token = getAuthToken();
+	api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-	return config
-}, undefined)
+	return config;
+}, undefined);
 
 export const DEFAULT_ERROR_MESSAGES = {
 	somethingMessage: '🫤 Ops! Something went wrong, please try again later.',
@@ -36,27 +36,25 @@ const mappedErrors = {
 api.interceptors.response.use(
 	(response) => response,
 	(error: AxiosError<any>) => {
-		const newResponse = { ...error };
-
 		if (isAxiosError(error)) {
 			if (error.code === AxiosError.ERR_NETWORK) {
-				newResponse.message = DEFAULT_ERROR_MESSAGES.networkError;
-				return Promise.reject(newResponse);
+				error.message = DEFAULT_ERROR_MESSAGES.networkError;
+				return Promise.reject(error);
 			}
 
 			if (error.response && !error.response.data.message) {
-				newResponse.message = DEFAULT_ERROR_MESSAGES.somethingMessage;
-				return Promise.reject(newResponse);
+				error.message = DEFAULT_ERROR_MESSAGES.somethingMessage;
+				return Promise.reject(error);
 			}
 
 			if (error.response?.status && error.response.status in mappedErrors) {
-				newResponse.message =
+				error.message =
 					mappedErrors[error.response?.status as keyof typeof mappedErrors];
-				return Promise.reject(newResponse);
+				return Promise.reject(error);
 			}
 
-			newResponse.message = error.response?.data.message ?? newResponse.message;
-			return Promise.reject(newResponse);
+			error.message = error.response?.data.message ?? error.message;
+			return Promise.reject(error);
 		}
 
 		return Promise.reject(error);

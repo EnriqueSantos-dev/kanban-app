@@ -30,7 +30,7 @@ const DialogOverlay = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
 	<DialogPrimitive.Overlay
 		className={cn(
-			'data-[state=open]:animate-fade-in fixed inset-0 bg-black/50 backdrop-blur-[2px] overflow-y-auto p-4 grid place-items-center',
+			'data-[state=open]:animate-fade-in fixed inset-0 bg-black/50 overflow-y-auto p-4 grid place-items-center',
 			className
 		)}
 		{...props}

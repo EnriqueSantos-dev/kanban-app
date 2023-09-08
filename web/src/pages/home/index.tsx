@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { useAuthContext } from '~/contexts/auth';
+import { useActiveBoard } from '~/hooks';
 import {
 	ButtonActiveSidebar,
 	ColumnsContainerSkeleton,
@@ -8,15 +8,12 @@ import {
 	SideBar
 } from '~/shared/components';
 import { ColumnsContainer } from '~/shared/components/ColumnsContainer';
-import { useActiveBoardStore } from '~/stores/active-board-store';
 import { useMenuStore } from '~/stores/menu-store';
 import { cn } from '~/utils/cn';
 
 export default function HomePage() {
-	useAuthContext();
 	const { isMenuOpen } = useMenuStore();
-	const activeBoard = useActiveBoardStore((state) => state.activeBoard);
-	const setActiveBoard = useActiveBoardStore((state) => state.setActiveBoard);
+	const { activeBoard, setActiveBoard } = useActiveBoard();
 
 	return (
 		<div

@@ -5,21 +5,20 @@ import { ErrorApi } from '~/types';
 import { setAuthToken } from '~/utils/auth';
 import { api } from '~/lib';
 import { useNotificationToasty } from './useNotificationToasty';
+import { useAuthStoreActions } from '~/stores/auth-store';
 
-export const useSignInMutation = ({
-	callback
-}: {
-	callback: (...args: any) => void;
-}) => {
+export const useSignInMutation = () => {
 	const navigate = useNavigate();
+
 	const { notification } = useNotificationToasty();
+	const { setToken } = useAuthStoreActions();
 
 	return useMutation<ResponseSignIn, ErrorApi, SignInRequest>({
 		mutationFn: (data) => signin(data),
 		onSuccess: (data) => {
 			api.defaults.headers.common.Authorization = `Bearer ${data.access_token}`;
 			setAuthToken(data.access_token);
-			callback(data.access_token);
+			setToken(data.access_token);
 			notification('success', 'login success, your are redirecting...', {
 				duration: 1000
 			});

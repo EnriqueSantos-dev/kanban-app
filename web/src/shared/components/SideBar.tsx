@@ -1,17 +1,23 @@
 import { useCallback } from 'react';
-import KanbanLogoSvg from '~/assets/logo.svg';
+
 import {
 	ButtonSelectOrCreateBoard,
 	ChangeThemeButton,
 	FormCreateNewBoard
 } from '~/shared/components';
-import { BoardType, useActiveBoardStore } from '~/stores/active-board-store';
+
+import { useActiveBoard } from '~/hooks';
+
+import { BoardType } from '~/stores/active-board-store';
 import { useAuthStore } from '~/stores/auth-store';
 import { useMenuActions, useMenuStore } from '~/stores/menu-store';
+
+import KanbanLogoSvg from '~/assets/logo.svg';
+
 import { cn } from '~/utils/cn';
 
 export function SideBar() {
-	const { activeBoard, setActiveBoard } = useActiveBoardStore();
+	const { activeBoard, setActiveBoard } = useActiveBoard();
 	const { setIsMenuOpen } = useMenuActions();
 	const isMenuOpen = useMenuStore((state) => state.isMenuOpen);
 	const boards = useAuthStore((state) => state.user?.boards);

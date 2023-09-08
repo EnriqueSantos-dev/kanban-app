@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useAuthContext } from '~/contexts/auth';
 import { ButtonLoading, Label, TextField } from '~/shared/components';
 import { AvatarInput } from './AvatarInput';
+import { useSignUpMutation } from '~/hooks';
 
 const RegisterSchema = z
 	.object({
@@ -29,7 +29,7 @@ const RegisterSchema = z
 export type FormValues = z.infer<typeof RegisterSchema>;
 
 export function RegisterForm() {
-	const { signupMutation } = useAuthContext();
+	const signupMutation = useSignUpMutation();
 	const {
 		register,
 		setValue,

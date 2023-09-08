@@ -20,7 +20,7 @@ import {
 	TextField,
 	Button
 } from '~/shared/components';
-import { useActiveBoardStore } from '~/stores/active-board-store';
+import { useActiveBoard } from '~/hooks';
 import { Task } from '~/types';
 import { cn } from '~/utils';
 import { schema } from './schema';
@@ -36,7 +36,7 @@ export function UpdateTaskTaskForm({
 	isOpenModal,
 	onChangeModalState
 }: UpdateTaskTaskFormProps) {
-	const activeBoard = useActiveBoardStore((state) => state.activeBoard);
+	const { activeBoard } = useActiveBoard();
 	const { notificationLoading } = useNotificationToasty();
 	const mutation = useUpdateTask({ activeBoard: activeBoard! });
 	const {
