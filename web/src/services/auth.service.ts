@@ -7,9 +7,7 @@ import { removeAuthToken } from '~/utils';
 import { UserProfile } from '~/types';
 
 export async function getProfile(): Promise<UserProfile> {
-	const response = await api.get('/auth/profile', {
-		timeout: 5000
-	});
+	const response = await api.get('/auth/profile');
 	return response.data;
 }
 
