@@ -1,12 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
+
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { BoardType } from '~/stores/active-board-store';
+
 import {
 	GetTasks,
-	UpdateOrderInput,
-	updateOrder
-} from '~/services/tasks.service';
-import { BoardType } from '~/stores/active-board-store';
+	updateOrder,
+	UpdateOrderInput} from '~/services/tasks.service';
+
 import { ErrorApi } from '~/types';
+
 import { getTasksKey } from './useGetTasks';
 import { useNotificationToasty } from './useNotificationToasty';
 

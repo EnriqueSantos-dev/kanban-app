@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import { RegisterForm } from './components/RegisterForm';
 
 export function RegisterPage() {

@@ -1,7 +1,10 @@
-import { api } from '~/lib';
 import { FormValues } from '~/pages/register/components/RegisterForm';
-import { UserProfile } from '~/types';
+
+import { api } from '~/lib';
+
 import { removeAuthToken } from '~/utils';
+
+import { UserProfile } from '~/types';
 
 export async function getProfile(): Promise<UserProfile> {
 	const response = await api.get('/auth/profile', {

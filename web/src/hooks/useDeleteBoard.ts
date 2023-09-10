@@ -1,5 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { DeleteBoardInput, deleteBoard } from '~/services/boards.service';
+
+import { deleteBoard,DeleteBoardInput } from '~/services/boards.service';
+
 import { ErrorApi } from '~/types';
 
 export const useDeleteBoardMutation = () =>

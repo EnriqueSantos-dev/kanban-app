@@ -1,14 +1,11 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
+
+import { useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
+
 import {
-	useEditBoardMutation,
-	useInteractiveForm,
-	useNotificationToasty
-} from '~/hooks';
-import { getTasksKey } from '~/hooks/useGetTasks';
-import {
+	Button,
 	ButtonLoading,
 	ButtonRemoveItemFormFormFieldArray,
 	Dialog,
@@ -18,12 +15,20 @@ import {
 	DialogPortal,
 	DialogTrigger,
 	Label,
-	TextField,
-	Button
-} from '~/shared/components';
+	TextField} from '~/shared/components';
+
 import { BoardType } from '~/stores/active-board-store';
+
+import {
+	useEditBoardMutation,
+	useInteractiveForm,
+	useNotificationToasty
+} from '~/hooks';
+import { getTasksKey } from '~/hooks/useGetTasks';
+
 import { cn } from '~/utils/cn';
 import { userKeys } from '~/utils/query-keys-factories';
+
 import { EditBoardFormValues, schema } from './schema';
 
 type ColumnForm = Pick<z.infer<typeof schema>, 'columns'>['columns'];

@@ -1,6 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import KanbanLogoSvg from '~/assets/logo.svg';
+
 import { ChangeThemeButton } from '~/shared/components';
+
+import KanbanLogoSvg from '~/assets/logo.svg';
 
 export function AuthLayout() {
 	return (

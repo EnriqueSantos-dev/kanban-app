@@ -1,7 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { queryClient } from '~/lib';
-import { GetTasks, moveTask } from '~/services/tasks.service';
+
 import { useActiveBoard } from '~/hooks';
+
+import { GetTasks, moveTask } from '~/services/tasks.service';
+
+import { queryClient } from '~/lib';
+
 import { getTasksKey } from './useGetTasks';
 
 export const useMoveTask = () => {

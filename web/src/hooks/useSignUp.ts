@@ -1,8 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+
+import { useMutation } from '@tanstack/react-query';
+
 import { FormValues } from '~/pages/register/components/RegisterForm';
+
 import { signup } from '~/services/auth.service';
+
 import { ErrorApi } from '~/types';
+
 import { useNotificationToasty } from './useNotificationToasty';
 
 export const useSignUpMutation = () => {

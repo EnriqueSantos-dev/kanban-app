@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { useGetProfileQuery } from '~/hooks';
-
 import { LoadingPage } from '~/shared/components/LoadingPage';
 
 import { useAuthStore } from '~/stores/auth-store';
+
+import { useGetProfileQuery } from '~/hooks';
 
 export function RequireAuth({ children }: { children: ReactNode }) {
 	const query = useGetProfileQuery();

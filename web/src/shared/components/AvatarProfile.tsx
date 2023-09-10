@@ -1,4 +1,5 @@
 import * as Popover from '@radix-ui/react-popover';
+
 import { logoutUser } from '~/services/auth.service';
 
 type AvatarProfileProps = {

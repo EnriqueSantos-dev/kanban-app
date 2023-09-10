@@ -1,9 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
+
 import {
+	editBoard,
 	EditBoardInput,
-	EditBoardOutput,
-	editBoard
-} from '~/services/boards.service';
+	EditBoardOutput} from '~/services/boards.service';
+
 import { ErrorApi } from '~/types';
 
 export const useEditBoardMutation = () =>

@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { THEME_KEY_LOCAL_STORAGE } from '~/constants/theme';
+
 import { Theme } from '~/types';
+
+import { THEME_KEY_LOCAL_STORAGE } from '~/constants/theme';
 
 type ThemeState = {
 	theme: Theme;

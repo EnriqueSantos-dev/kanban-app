@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { getTasksFromBoard } from '~/services/tasks.service';
 
 export const getTasksKey = {

@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+
 import {
 	DndContext,
 	DragOverlay,
@@ -9,12 +12,14 @@ import {
 	useSensors
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { useState } from 'react';
-import { createPortal } from 'react-dom';
-import { useGetTasks } from '~/hooks/useGetTasks';
+
 import { BoardType } from '~/stores/active-board-store';
-import { ActiveTaskCard } from '~/types';
+
 import { useHandleDragEnd } from '~/hooks';
+import { useGetTasks } from '~/hooks/useGetTasks';
+
+import { ActiveTaskCard } from '~/types';
+
 import { Column } from './Column';
 import { OverlayTaskCard } from './OverlayTaskCard';
 import { TaskCard } from './TaskCard';

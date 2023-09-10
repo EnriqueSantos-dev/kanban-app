@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+
 import * as DialogPrimitive from '@radix-ui/react-dialog';
+
 import { cn } from '~/utils/cn';
 
 const Dialog = DialogPrimitive.Root;
@@ -84,10 +86,9 @@ DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 export {
 	Dialog,
-	DialogTrigger,
-	DialogPortal,
-	DialogOverlay,
-	DialogHeader,
+	DialogClose,
 	DialogContent,
-	DialogClose
-};
+	DialogHeader,
+	DialogOverlay,
+	DialogPortal,
+	DialogTrigger};

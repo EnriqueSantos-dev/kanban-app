@@ -1,12 +1,17 @@
+import { useCallback, useMemo, useState } from 'react';
+
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DialogDescription, DialogTrigger } from '@radix-ui/react-dialog';
 import * as Popover from '@radix-ui/react-popover';
-import { useCallback, useMemo, useState } from 'react';
+
 import { useChangeStatusSubTask } from '~/hooks/useChangeStatusSubTask';
 import { useMoveTask } from '~/hooks/useMoveTask';
-import { Task } from '~/types';
+
 import { cn } from '~/utils';
+
+import { Task } from '~/types';
+
 import { DeleteTaskForm } from './DeleteTaskForm';
 import {
 	Dialog,
@@ -15,10 +20,10 @@ import {
 	DialogOverlay,
 	DialogPortal
 } from './Dialog';
+import { UpdateTaskTaskForm } from './forms/update-task-form/UpdateTaskForm';
 import { Label } from './Label';
 import { Option, SelectStatusTask } from './SelectStatusTask';
 import { ToggleSubTaskCard } from './ToggleSubTaskCard';
-import { UpdateTaskTaskForm } from './forms/update-task-form/UpdateTaskForm';
 
 export type TaskCardCurrent = {
 	completedSubtasksCount: number;

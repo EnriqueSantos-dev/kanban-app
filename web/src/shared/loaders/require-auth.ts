@@ -1,5 +1,7 @@
 import { defer, redirect } from 'react-router-dom';
+
 import { verifyToken } from '~/services/auth.service';
+
 import { getAuthToken, removeAuthToken } from '~/utils/auth';
 
 export const requireAuth = async () => {

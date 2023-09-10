@@ -1,6 +1,8 @@
 import { create } from 'zustand';
-import { UserProfile } from '~/types';
+
 import { getAuthToken } from '~/utils';
+
+import { UserProfile } from '~/types';
 
 type AuthState = {
 	user: UserProfile | undefined;

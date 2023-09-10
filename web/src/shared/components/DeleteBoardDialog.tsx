@@ -1,7 +1,11 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
-import { useDeleteBoardMutation, useNotificationToasty , useActiveBoard } from '~/hooks';
+
+import { useQueryClient } from '@tanstack/react-query';
+
+import { useActiveBoard,useDeleteBoardMutation, useNotificationToasty  } from '~/hooks';
+
 import { userKeys } from '~/utils';
+
 import {
 	Dialog,
 	DialogClose,

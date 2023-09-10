@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { useActiveBoard } from '~/hooks';
+
 import {
 	ButtonActiveSidebar,
 	ColumnsContainerSkeleton,
@@ -8,7 +8,11 @@ import {
 	SideBar
 } from '~/shared/components';
 import { ColumnsContainer } from '~/shared/components/ColumnsContainer';
+
 import { useMenuStore } from '~/stores/menu-store';
+
+import { useActiveBoard } from '~/hooks';
+
 import { cn } from '~/utils/cn';
 
 export default function HomePage() {

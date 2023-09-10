@@ -1,11 +1,12 @@
 import {
 	Renderable,
+	toast,
 	ToastOptions,
 	ToastType,
-	ValueOrFunction,
-	toast
-} from 'react-hot-toast';
+	ValueOrFunction} from 'react-hot-toast';
+
 import { ErrorApi } from '~/types';
+
 import { useTheme } from './useTheme';
 
 export function useNotificationToasty() {

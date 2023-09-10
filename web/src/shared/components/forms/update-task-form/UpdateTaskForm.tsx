@@ -1,12 +1,10 @@
 import { useEffect } from 'react';
 import { Controller, SubmitHandler } from 'react-hook-form';
+
 import { z } from 'zod';
+
 import {
-	useInteractiveForm,
-	useNotificationToasty,
-	useUpdateTask
-, useActiveBoard } from '~/hooks';
-import {
+	Button,
 	ButtonLoading,
 	ButtonRemoveItemFormFormFieldArray,
 	Dialog,
@@ -17,11 +15,18 @@ import {
 	Label,
 	SelectStatusTask,
 	TextArea,
-	TextField,
-	Button
-} from '~/shared/components';
-import { Task } from '~/types';
+	TextField} from '~/shared/components';
+
+import {
+useActiveBoard,	useInteractiveForm,
+	useNotificationToasty,
+	useUpdateTask
+ } from '~/hooks';
+
 import { cn } from '~/utils';
+
+import { Task } from '~/types';
+
 import { schema } from './schema';
 
 interface UpdateTaskTaskFormProps {

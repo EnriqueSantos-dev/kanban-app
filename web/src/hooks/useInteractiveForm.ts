@@ -1,4 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
 	ArrayPath,
 	FieldArray,
@@ -6,7 +5,9 @@ import {
 	useFieldArray,
 	useForm
 } from 'react-hook-form';
-import { ZodSchema, z } from 'zod';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z,ZodSchema } from 'zod';
 
 type UseInteractiveFormProps<TSchema extends ZodSchema> = {
 	schema: TSchema;

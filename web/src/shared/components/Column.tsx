@@ -1,11 +1,14 @@
+import { memo, ReactNode, useMemo } from 'react';
+
 import { useDroppable } from '@dnd-kit/core';
 import {
 	SortableContext,
 	verticalListSortingStrategy
 } from '@dnd-kit/sortable';
-import { memo, ReactNode, useMemo } from 'react';
-import { Task } from '~/types';
+
 import { getRandomRgbColor } from '~/utils/get-random-color';
+
+import { Task } from '~/types';
 
 type ColumnProps = {
 	id: string;

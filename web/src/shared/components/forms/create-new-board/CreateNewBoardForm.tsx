@@ -1,11 +1,8 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import {
-	useCreateBoardMutation,
-	useInteractiveForm,
-	useNotificationToasty
-} from '~/hooks';
+
+import { useQueryClient } from '@tanstack/react-query';
+
 import {
 	Button,
 	ButtonLoading,
@@ -20,9 +17,17 @@ import {
 	Label,
 	TextField
 } from '~/shared/components';
+
+import {
+	useCreateBoardMutation,
+	useInteractiveForm,
+	useNotificationToasty
+} from '~/hooks';
+
 import { userKeys } from '~/utils';
 import { cn } from '~/utils/cn';
 import { generateDefaultColumnsBoard } from '~/utils/generate-default-columns-board';
+
 import { CreateNewBoardFormValues, schema } from './schema';
 
 export function FormCreateNewBoard() {

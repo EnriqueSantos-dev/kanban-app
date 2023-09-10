@@ -1,15 +1,15 @@
-import { Suspense, lazy } from 'react';
+import { lazy,Suspense } from 'react';
 import {
-	Route,
 	createBrowserRouter,
-	createRoutesFromElements
-} from 'react-router-dom';
+	createRoutesFromElements,
+	Route} from 'react-router-dom';
 
 import { LoginPage, RegisterPage } from '~/pages';
 import { loginLoader } from '~/pages/login';
 
 import { LoadingPage } from '~/shared/components';
 import { RequireAuth } from '~/shared/components/RequireAuth';
+
 import { AuthLayout } from '~/shared/layouts';
 
 import { App } from './App';

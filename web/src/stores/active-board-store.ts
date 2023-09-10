@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
 import { BOARD_ACTIVE_KEY } from '~/constants/board-active';
 
 export type BoardType = {

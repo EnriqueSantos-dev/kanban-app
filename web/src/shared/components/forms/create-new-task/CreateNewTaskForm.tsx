@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler } from 'react-hook-form';
-import {
-	useCreateNewTaskMutation,
-	useInteractiveForm,
-	useNotificationToasty
-} from '~/hooks';
+
 import {
 	Button,
 	ButtonLoading,
@@ -20,8 +16,17 @@ import {
 	TextArea,
 	TextField
 } from '~/shared/components';
+
 import { BoardType } from '~/stores/active-board-store';
+
+import {
+	useCreateNewTaskMutation,
+	useInteractiveForm,
+	useNotificationToasty
+} from '~/hooks';
+
 import { cn, mapperTaskToCreate } from '~/utils';
+
 import { AddNewTaskFormValues, schema } from './schema';
 
 interface AddNewTaskPropsFormProps {

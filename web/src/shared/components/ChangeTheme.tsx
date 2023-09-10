@@ -1,8 +1,11 @@
 import * as Switch from '@radix-ui/react-switch';
+
+import { useTheme } from '~/hooks';
+
+import { cn } from '~/utils/cn';
+
 import MoonSvg from '~/assets/moon.svg';
 import SunSvg from '~/assets/sun.svg';
-import { useTheme } from '~/hooks';
-import { cn } from '~/utils/cn';
 
 export function ChangeThemeButton() {
 	const { theme, setTheme } = useTheme();

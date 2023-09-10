@@ -1,5 +1,7 @@
 import { Link, LoaderFunction, redirect } from 'react-router-dom';
+
 import { getAuthToken } from '~/utils';
+
 import { FormLogin } from './components/FormLogin';
 
 export const loginLoader: LoaderFunction = async () => {

@@ -18,8 +18,12 @@ module.exports = {
 	},
 	ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts'],
 	parser: '@typescript-eslint/parser',
-	plugins: ['tailwindcss'],
+	plugins: ['tailwindcss', 'simple-import-sort'],
 	rules: {
+		'simple-import-sort/exports': 'error',
+		'import/first': 'error',
+		'import/newline-after-import': 'error',
+		'import/no-duplicates': 'error',
 		'tailwindcss/no-custom-classname': 'off',
 		'tailwindcss/classnames-order': 'error',
 		'react/react-in-jsx-scope': 'off',
@@ -43,6 +47,26 @@ module.exports = {
 				jsx: 'never',
 				ts: 'never',
 				tsx: 'never'
+			}
+		],
+		'simple-import-sort/imports': [
+			'error',
+			{
+				groups: [
+					['^react'],
+					['^@?\\w'],
+					['^~/pages'],
+					['^~/shared/components'],
+					['^~/stores'],
+					['^~/hooks'],
+					['^~/services'],
+					['^~/lib'],
+					['^~/utils'],
+					['^~/types'],
+					['^'],
+					['^\\.'],
+					['(\\w)?(\\.css|\\.scss)$']
+				]
 			}
 		]
 	},

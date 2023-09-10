@@ -6,15 +6,15 @@ import {
 	FormCreateNewBoard
 } from '~/shared/components';
 
-import { useActiveBoard } from '~/hooks';
-
 import { BoardType } from '~/stores/active-board-store';
 import { useAuthStore } from '~/stores/auth-store';
 import { useMenuActions, useMenuStore } from '~/stores/menu-store';
 
-import KanbanLogoSvg from '~/assets/logo.svg';
+import { useActiveBoard } from '~/hooks';
 
 import { cn } from '~/utils/cn';
+
+import KanbanLogoSvg from '~/assets/logo.svg';
 
 export function SideBar() {
 	const { activeBoard, setActiveBoard } = useActiveBoard();

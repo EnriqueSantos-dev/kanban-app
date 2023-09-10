@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { getProfile } from '~/services/auth.service';
 import { useAuthStoreActions } from '~/stores/auth-store';
 
-import { ErrorApi, UserProfile } from '~/types';
+import { getProfile } from '~/services/auth.service';
 
 import { userKeys } from '~/utils';
+
+import { ErrorApi, UserProfile } from '~/types';
 
 export const useGetProfileQuery = () => {
 	const { setUser } = useAuthStoreActions();

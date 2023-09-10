@@ -1,7 +1,10 @@
-import * as CheckBox from '@radix-ui/react-checkbox';
 import { useId } from 'react';
-import { SubTask } from '~/types';
+
+import * as CheckBox from '@radix-ui/react-checkbox';
+
 import { cn } from '~/utils';
+
+import { SubTask } from '~/types';
 
 type ToggleSubTaskCardProps = SubTask & {
 	isChecked: boolean;

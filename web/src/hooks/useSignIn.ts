@@ -1,10 +1,17 @@
-import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { ResponseSignIn, SignInRequest, signin } from '~/services/auth.service';
-import { ErrorApi } from '~/types';
-import { setAuthToken } from '~/utils/auth';
-import { api } from '~/lib';
+
+import { useMutation } from '@tanstack/react-query';
+
 import { useAuthStoreActions } from '~/stores/auth-store';
+
+import { ResponseSignIn, signin, SignInRequest } from '~/services/auth.service';
+
+import { api } from '~/lib';
+
+import { setAuthToken } from '~/utils/auth';
+
+import { ErrorApi } from '~/types';
+
 import { useNotificationToasty } from './useNotificationToasty';
 
 export const useSignInMutation = () => {

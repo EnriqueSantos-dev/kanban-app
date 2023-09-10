@@ -1,6 +1,9 @@
 import { DragEndEvent } from '@dnd-kit/core';
+
 import { TaskCardCurrent } from '~/shared/components/TaskCard';
+
 import { BoardType } from '~/stores/active-board-store';
+
 import { useMoveTask } from './useMoveTask';
 import { useUpdateOrder } from './useUpdateOrder';
 

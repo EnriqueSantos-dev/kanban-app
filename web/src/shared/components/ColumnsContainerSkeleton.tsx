@@ -1,4 +1,5 @@
 import { BoardType } from '~/stores/active-board-store';
+
 import { SkeletonTask } from './SkeletonTask';
 
 type ColumnsContainerSkeletonProps = {

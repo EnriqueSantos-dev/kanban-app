@@ -1,13 +1,17 @@
-import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
-import { useActiveBoard } from '~/hooks';
-import { useAuthStore } from '~/stores/auth-store';
+
+import * as Dialog from '@radix-ui/react-dialog';
+
 import {
 	ButtonSelectOrCreateBoard,
 	ChangeThemeButton,
 	FormCreateNewBoard
 } from '~/shared/components';
+
 import { BoardType } from '~/stores/active-board-store';
+import { useAuthStore } from '~/stores/auth-store';
+
+import { useActiveBoard } from '~/hooks';
 
 export function MobileMenuPopover() {
 	const [isOpen, setIsOpen] = useState(false);

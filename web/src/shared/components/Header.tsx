@@ -1,4 +1,3 @@
-import KanbanLogoSvg from '~/assets/logo.svg';
 import {
 	AddNewTaskForm,
 	DeleteBoardDialog,
@@ -6,10 +5,16 @@ import {
 	MobileMenuPopover,
 	PopoverEditOrDeleteBoard
 } from '~/shared/components';
-import { useActiveBoard } from '~/hooks';
+
 import { useAuthStore } from '~/stores/auth-store';
 import { useMenuStore } from '~/stores/menu-store';
+
+import { useActiveBoard } from '~/hooks';
+
 import { cn } from '~/utils/cn';
+
+import KanbanLogoSvg from '~/assets/logo.svg';
+
 import { AvatarProfile } from './AvatarProfile';
 
 const getUserInitialLetters = (name: string) =>

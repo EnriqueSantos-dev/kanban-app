@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import axios, { AxiosError, AxiosRequestConfig, isAxiosError } from 'axios';
+
 import { getAuthToken } from '~/utils';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
