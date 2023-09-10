@@ -36,22 +36,19 @@ export class AuthController {
 	) {}
 
 	@Post('login')
-	public async login(
-		@Body() dto: SignInInputDTO,
-		@Res({ passthrough: true }) res: Response
-	): Promise<TokenOutputDTO> {
+	public async login(@Body() dto: SignInInputDTO, @Res() res: Response) {
 		const { accessToken, refreshToken } = await this.authService.login(
 			dto.email,
 			dto.password
 		);
 
-		res.cookie(
-			AuthConstants.REFRESH_TOKEN_KEY,
-			refreshToken,
-			this.generateCookieOptions()
-		);
-
-		return { access_token: accessToken };
+		const cookieOptions = this.generateCookieOptions();
+		return res
+			.cookie(AuthConstants.REFRESH_TOKEN_KEY, refreshToken, cookieOptions)
+			.json({
+				access_token: accessToken,
+				refresh_token: refreshToken
+			});
 	}
 
 	@Post('register')
@@ -97,8 +94,10 @@ export class AuthController {
 	@Post('refresh')
 	public async refresh(
 		@GetUserProperties() user: { exp: number; sub: string; email: string },
-		@Res({ passthrough: true }) res: Response
-	): Promise<TokenOutputDTO> {
+		@Res() res: Response
+	) {
+		console.log(user);
+
 		if (user.exp * 1000 < Date.now())
 			throw new ForbiddenException('Token expired');
 
@@ -106,13 +105,13 @@ export class AuthController {
 			user
 		);
 
-		res.cookie(
-			AuthConstants.REFRESH_TOKEN_KEY,
-			refreshToken,
-			this.generateCookieOptions()
-		);
-
-		return { access_token: accessToken };
+		return res
+			.cookie(
+				AuthConstants.REFRESH_TOKEN_KEY,
+				refreshToken,
+				this.generateCookieOptions()
+			)
+			.json({ access_token: accessToken, refresh_token: refreshToken });
 	}
 
 	@UseGuards(AtJwtAuthGuard)
@@ -142,7 +141,7 @@ export class AuthController {
 			httpOnly: true,
 			sameSite: 'none',
 			maxAge: this.configService.get<number>('MAX_AGE_COOKIE'), // 7 days
-			secure: this.configService.get('NODE_ENV') === 'production' // true in production
+			secure: true // this.configService.get('NODE_ENV') === 'production' // true in production
 		};
 	}
 }
