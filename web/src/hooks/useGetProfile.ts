@@ -10,6 +10,7 @@ export function useGetProfile(token?: string) {
 	const { setUser } = useAuthStoreActions();
 
 	return useQuery(userKeys.profile, async () => getProfile(token), {
+		enabled: !!token,
 		onSuccess: (data) => {
 			setUser(data);
 		}

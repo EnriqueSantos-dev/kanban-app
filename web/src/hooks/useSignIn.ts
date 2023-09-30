@@ -2,8 +2,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { useMutation } from '@tanstack/react-query';
 
-import { useAuthStoreActions } from '~/stores/auth-store';
-
 import { ResponseSignIn, signin, SignInRequest } from '~/services/auth.service';
 
 import { api } from '~/lib';
@@ -18,18 +16,18 @@ export const useSignInMutation = () => {
 	const navigate = useNavigate();
 
 	const { notification } = useNotificationToasty();
-	const { setToken } = useAuthStoreActions();
 
 	return useMutation<ResponseSignIn, ErrorApi, SignInRequest>({
 		mutationFn: (data) => signin(data),
 		onSuccess: (data) => {
 			api.defaults.headers.common.Authorization = `Bearer ${data.access_token}`;
 			setAuthToken(data.access_token);
-			setToken(data.access_token);
 			notification('success', 'login success, your are redirecting...', {
 				duration: 1000
 			});
-			navigate('/');
+			setTimeout(() => {
+				navigate('/');
+			}, 1000);
 		},
 		onError: (error) => {
 			const errorMessage =

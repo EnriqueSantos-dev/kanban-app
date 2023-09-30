@@ -1,15 +1,18 @@
-import { Link, LoaderFunction, redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+
+import { useGetProfile } from '~/hooks';
 
 import { getAuthToken } from '~/utils';
 
 import { FormLogin } from './components/FormLogin';
 
-export const loginLoader: LoaderFunction = async () => {
-	const token = getAuthToken();
-	return token ? redirect('/') : null;
-};
-
 export function LoginPage() {
+	const { data } = useGetProfile(getAuthToken());
+
+	if (data) {
+		return <Navigate to="/" />;
+	}
+
 	return (
 		<>
 			<h1 className="text-mediumGrey mt-2 text-2xl font-bold dark:text-white">

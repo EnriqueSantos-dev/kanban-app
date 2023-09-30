@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { LoadingPage } from '~/shared/components/LoadingPage';
@@ -8,7 +8,7 @@ import { useGetProfile } from '~/hooks';
 import { getAuthToken } from '~/utils';
 
 export function RequireAuth({ children }: { children: ReactNode }) {
-	const token = getAuthToken();
+	const [token] = useState(() => getAuthToken());
 	const { isLoading, error } = useGetProfile(token);
 
 	if (!token || error) {
