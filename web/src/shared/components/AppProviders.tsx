@@ -13,7 +13,7 @@ interface AppProvidersProps {
 export function AppProviders({ children }: AppProvidersProps) {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<ReactQueryDevtools initialIsOpen />
+			<ReactQueryDevtools />
 			<Toaster
 				position="top-right"
 				toastOptions={{

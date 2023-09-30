@@ -1,11 +1,11 @@
-import { lazy,Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import {
 	createBrowserRouter,
 	createRoutesFromElements,
-	Route} from 'react-router-dom';
+	Route
+} from 'react-router-dom';
 
 import { LoginPage, RegisterPage } from '~/pages';
-import { loginLoader } from '~/pages/login';
 
 import { LoadingPage } from '~/shared/components';
 import { RequireAuth } from '~/shared/components/RequireAuth';
@@ -30,7 +30,7 @@ export const router = createBrowserRouter(
 				}
 			/>
 			<Route path="auth" element={<AuthLayout />}>
-				<Route path="login" element={<LoginPage />} loader={loginLoader} />
+				<Route path="login" element={<LoginPage />} />
 				<Route path="register" element={<RegisterPage />} />
 			</Route>
 		</Route>

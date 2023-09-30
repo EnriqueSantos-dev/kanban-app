@@ -116,13 +116,13 @@ devDependencies:
     specifier: ^18.14.0
     version: 18.14.0
   '@types/react':
-    specifier: ^18.0.27
+    specifier: ^18.0.28
     version: 18.0.28
   '@types/react-dom':
-    specifier: ^18.0.10
+    specifier: ^18.0.11
     version: 18.0.11
   '@vitejs/plugin-react-swc':
-    specifier: ^3.0.0
+    specifier: ^3.2.0
     version: 3.2.0(vite@4.3.1)
   autoprefixer:
     specifier: ^10.4.13
@@ -137,16 +137,16 @@ devDependencies:
     specifier: ^1.1.2
     version: 1.1.2(eslint-plugin-import@2.27.5)
   eslint-plugin-import:
-    specifier: ^2.25.3
+    specifier: ^2.27.5
     version: 2.27.5(@typescript-eslint/parser@5.53.0)(eslint@8.34.0)
   eslint-plugin-jsx-a11y:
-    specifier: ^6.5.1
+    specifier: ^6.7.1
     version: 6.7.1(eslint@8.34.0)
   eslint-plugin-react:
-    specifier: ^7.28.0
+    specifier: ^7.32.2
     version: 7.32.2(eslint@8.34.0)
   eslint-plugin-react-hooks:
-    specifier: ^4.3.0
+    specifier: ^4.6.0
     version: 4.6.0(eslint@8.34.0)
   eslint-plugin-simple-import-sort:
     specifier: ^10.0.0
@@ -2182,7 +2182,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.5
-      caniuse-lite: 1.0.30001457
+      caniuse-lite: 1.0.30001541
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2239,7 +2239,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001457
+      caniuse-lite: 1.0.30001541
       electron-to-chromium: 1.4.303
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10(browserslist@4.21.5)
@@ -2263,8 +2263,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001457:
-    resolution: {integrity: sha512-SDIV6bgE1aVbK6XyxdURbUE89zY7+k1BBBaOwYwkNCglXlel/E7mELiHC64HQ+W0xSKlqWhV9Wh7iHxUjMs4fA==}
+  /caniuse-lite@1.0.30001541:
+    resolution: {integrity: sha512-bLOsqxDgTqUBkzxbNlSBt8annkDpQB9NdzdTbO2ooJ+eC/IQcvDspDc058g84ejCelF7vHUx57KIOjEecOHXaw==}
 
   /chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -2294,7 +2294,7 @@ packages:
       normalize-path: 3.0.0
       readdirp: 3.6.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /class-variance-authority@0.6.0(typescript@5.1.3):
     resolution: {integrity: sha512-qdRDgfjx3GRb9fpwpSvn+YaidnT7IUJNe4wt5/SWwM+PmUwJUhQRk/8zAyNro0PmVfmen2635UboTjIBXXxy5A==}
@@ -3054,8 +3054,8 @@ packages:
   /fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
-  /fsevents@2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+  /fsevents@2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
@@ -4066,7 +4066,7 @@ packages:
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
@@ -4476,7 +4476,7 @@ packages:
       postcss: 8.4.21
       rollup: 3.20.7
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /which-boxed-primitive@1.0.2:
     resolution: {integrity: sha512-bwZdv0AKLpplFY2KZRX6TvyuN7ojjr7lwkg6ml0roIy9YeuSr7JS372qlNW18UQYzgYK9ziGcerWqZOmEn9VNg==}

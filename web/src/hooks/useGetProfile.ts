@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useQuery } from '@tanstack/react-query';
 
 import { useAuthStoreActions } from '~/stores/auth-store';
@@ -8,21 +6,12 @@ import { getProfile } from '~/services/auth.service';
 
 import { userKeys } from '~/utils';
 
-import { ErrorApi, UserProfile } from '~/types';
-
-export const useGetProfileQuery = () => {
+export function useGetProfile(token?: string) {
 	const { setUser } = useAuthStoreActions();
-	const query = useQuery<UserProfile, ErrorApi>({
-		queryKey: userKeys.profile,
-		queryFn: getProfile,
-		refetchOnWindowFocus: false
-	});
 
-	useEffect(() => {
-		if (query.data) {
-			setUser(query.data);
+	return useQuery(userKeys.profile, async () => getProfile(token), {
+		onSuccess: (data) => {
+			setUser(data);
 		}
-	}, [query.data]);
-
-	return query;
-};
+	});
+}
