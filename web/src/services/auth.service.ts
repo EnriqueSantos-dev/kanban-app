@@ -8,7 +8,7 @@ import { UserProfile } from '~/types';
 
 export async function getProfile(token?: string): Promise<UserProfile> {
 	const response = await api.get('/auth/profile', {
-		timeout: 6000,
+		timeout: 15000,
 		headers: {
 			Authorization: `Bearer ${token}`
 		}
