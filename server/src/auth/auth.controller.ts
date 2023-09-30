@@ -20,12 +20,7 @@ import { memoryStorage } from 'multer';
 import { AuthService } from './auth.service';
 import { AuthConstants } from './constants';
 import { GetUserProperties } from './decorators';
-import {
-	GetProfileOutputDTO,
-	SignInInputDTO,
-	SingUpInputDTO,
-	TokenOutputDTO
-} from './dtos';
+import { GetProfileOutputDTO, SignInInputDTO, SingUpInputDTO } from './dtos';
 import { AtJwtAuthGuard, RtJwtAuthGuard } from './guards';
 
 @Controller('auth')
@@ -96,8 +91,6 @@ export class AuthController {
 		@GetUserProperties() user: { exp: number; sub: string; email: string },
 		@Res() res: Response
 	) {
-		console.log(user);
-
 		if (user.exp * 1000 < Date.now())
 			throw new ForbiddenException('Token expired');
 
