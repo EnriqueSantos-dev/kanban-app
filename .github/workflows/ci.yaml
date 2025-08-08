@@ -1,37 +1,39 @@
-name: Deploy via rsync + SSH
+# Nome do Workflow
+name: Deploy to VPS via Rsync
 
+# Gatilho (trigger): o workflow será executado a cada push na branch 'main'
 on:
   push:
     branches:
-      - main
+      - main # Ou 'master', dependendo do seu repositório
   workflow_dispatch:
 
+# Tarefas (jobs) a serem executadas
 jobs:
   deploy:
+    name: Deploy Job
+    # A máquina virtual que o GitHub usará para executar o job
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Faz o checkout do código do seu repositório para a máquina do Actions
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Sync server code to VPS via rsync
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_KEY }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_APP_DIR: ${{ secrets.VPS_APP_DIR }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > key.pem
-          chmod 600 key.pem
-
-          rsync -avz --delete -e "ssh -i key.pem -o StrictHostKeyChecking=no" ./server/ ${VPS_USER}@${VPS_HOST}:${VPS_APP_DIR}/
-
-      - name: Run deploy script on VPS
-        uses: appleboy/ssh-action@v0.1.6
+      # 2. Configura a chave SSH e faz o deploy com rsync
+      - name: Deploy with rsync
+        uses: easingthemes/ssh-deploy@v5.0.0 # Uma action popular que simplifica o processo
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            chmod +x ${VPS_APP_DIR}/deploy.sh
-            ${VPS_APP_DIR}/deploy.sh
+          # Chave SSH privada a partir dos secrets
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          # Argumentos para o rsync. '-avz' é um bom padrão.
+          ARGS: "-avz --delete" # --delete remove arquivos no destino que não existem mais na origem
+          # Diretório de origem (no container do Actions). '.' significa o repositório inteiro.
+          SOURCE: "./"
+          # Usuário remoto e host (IP da VPS)
+          REMOTE_HOST: ${{ secrets.VPS_HOST }}
+          REMOTE_USER: ${{ secrets.VPS_USER }}
+          # Diretório de destino na VPS
+          TARGET: ${{ secrets.VPS_TARGET_PATH }}
+          # Exclui arquivos e diretórios específicos do deploy
+          EXCLUDE: "/.git/, /.github/, /node_modules/"
