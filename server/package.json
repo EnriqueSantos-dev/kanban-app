@@ -6,19 +6,19 @@
 	"private": true,
 	"license": "MIT",
 	"engines": {
-		"node": "18.x"
+		"node": ">=22.x"
 	},
 	"scripts": {
 		"build": "nest build",
 		"format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-		"start": "npm run prisma:deploy && nest start",
-		"start:dev": "npm run db:dev:start && npm run prisma:studio && nest start --watch",
+		"start": "pnpm prisma:deploy && nest start",
+		"start:dev": "pnpm db:dev:start && pnpm prisma:studio && nest start --watch",
 		"start:debug": "nest start --debug --watch",
 		"start:prod": "node dist/main",
 		"lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
 		"db:dev:stop": "docker compose rm -fsv",
 		"db:dev:start": "docker compose up -d --remove-orphans",
-		"db:dev:restart": "npm run db:dev:stop && npm run db:dev:start && sleep 1 && npm run prisma:dev",
+		"db:dev:restart": "pnpm db:dev:stop && pnpm db:dev:start && sleep 1 && pnpm prisma:dev",
 		"prisma:dev": "prisma migrate dev",
 		"prisma:deploy": "prisma db push",
 		"prisma:reset": "prisma migrate reset",
@@ -29,6 +29,12 @@
 		"test:cov": "jest --coverage",
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
 		"test:e2e": "jest --config ./test/jest-e2e.json"
+	},
+	"packageManager": "pnpm@10.0.0",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"bcrypt"
+		]
 	},
 	"dependencies": {
 		"@nestjs/common": "^9.0.0",
