@@ -1,5 +1,5 @@
+import { SubTask, Task } from '@/generated/client';
 import { GetTasksOutputDto } from '@/tasks/dtos';
-import { SubTask, Task } from '@prisma/client';
 
 interface TaskData extends Task {
 	subtasks: SubTask[];
