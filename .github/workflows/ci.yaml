@@ -15,10 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Generate release name
-        id: release
-        run: echo "name=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-
       - name: Deploy with rsync
         uses: easingthemes/ssh-deploy@v5.0.0
         with:
@@ -29,7 +25,7 @@ jobs:
 
           SOURCE: "./server/"
 
-          TARGET: "${{ secrets.VPS_TARGET_PATH }}/releases/${{ steps.release.outputs.name }}/"
+          TARGET: ${{ secrets.VPS_TARGET_PATH }}/server/
 
           # Não precisamos mais excluir o .env, pois ele não está sendo gerenciado aqui
           EXCLUDE: "/.git/, /.github/, /node_modules/"
@@ -37,25 +33,9 @@ jobs:
           ARGS: "-avz"
 
           SCRIPT_AFTER: |
-            echo "🚀 Deploy finalizado, configurando o ambiente..."
-            # Navega para a pasta da aplicação na VPS
-            cd ${{ secrets.VPS_TARGET_PATH }}
-
-            # Define o caminho da nova release
-            RELEASE_PATH=$(ls -dr releases/*/ | head -n 1)
-            echo "Nova release em: ${RELEASE_PATH}"
-
-            echo "🔗 Linkando arquivo .env"
-            ln -nfs ${{ secrets.VPS_TARGET_PATH }}/shared/.env ${RELEASE_PATH}.env
-
-            echo "🔄 Ativando nova release..."
-            ln -nfs ${RELEASE_PATH} ${{ secrets.VPS_TARGET_PATH }}/current
+            cd ${{ secrets.VPS_TARGET_PATH }}/server
 
             echo "✅ Reiniciando a aplicação..."
             bash deploy.sh 
-
-            # 5. (Opcional) Limpa releases antigas, mantendo as 5 últimas
-            echo "🧹 Limpando releases antigas..."
-            cd ${{ secrets.VPS_TARGET_PATH }}/releases && ls -dr */ | tail -n +6 | xargs -r rm -rf
 
             echo "🎉 Deploy concluído com sucesso!"
