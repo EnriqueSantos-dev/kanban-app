@@ -1,39 +1,33 @@
-# Nome do Workflow
 name: Deploy to VPS via Rsync
 
-# Gatilho (trigger): o workflow será executado a cada push na branch 'main'
 on:
   push:
     branches:
-      - main # Ou 'master', dependendo do seu repositório
+      - main
   workflow_dispatch:
 
-# Tarefas (jobs) a serem executadas
 jobs:
   deploy:
     name: Deploy Job
-    # A máquina virtual que o GitHub usará para executar o job
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Faz o checkout do código do seu repositório para a máquina do Actions
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Configura a chave SSH e faz o deploy com rsync
       - name: Deploy with rsync
-        uses: easingthemes/ssh-deploy@v5.0.0 # Uma action popular que simplifica o processo
+        uses: easingthemes/ssh-deploy@v5.0.0
         with:
-          # Chave SSH privada a partir dos secrets
-          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
-          # Argumentos para o rsync. '-avz' é um bom padrão.
-          ARGS: "-avz --delete" # --delete remove arquivos no destino que não existem mais na origem
-          # Diretório de origem (no container do Actions). '.' significa o repositório inteiro.
-          SOURCE: "./"
-          # Usuário remoto e host (IP da VPS)
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: ${{ secrets.VPS_USER }}
-          # Diretório de destino na VPS
           TARGET: ${{ secrets.VPS_TARGET_PATH }}
-          # Exclui arquivos e diretórios específicos do deploy
-          EXCLUDE: "/.git/, /.github/, /node_modules/"
+
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+
+          SOURCE: "./server"
+          EXCLUDE: "/.git/, /.github/, /node_modules/, /server/.env"
+          ARGS: "-avz --delete"
+
+          SCRIPT_AFTER: |
+            cd ${{ secrets.VPS_TARGET_PATH }}/server
+            bash start.sh
