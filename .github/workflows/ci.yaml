@@ -17,7 +17,7 @@ jobs:
 
       - name: Generate release name
         id: release
-        run: echo "NAME=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+        run: echo "name=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
       - name: Deploy with rsync
         uses: easingthemes/ssh-deploy@v5.0.0
