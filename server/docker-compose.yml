@@ -1,36 +1,60 @@
-version: '3.8'
-
 services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kanban-api
+    restart: unless-stopped
+    networks:
+      - kanban
+      - router
+    environment:
+      KANBAN_API_HOSTNAME: ${KANBAN_API_HOSTNAME}
+      CLIENT_URL: ${CLIENT_URL}
+      NODE_ENV: production
+      PORT: ${PORT:-3333}
+      DATABASE_URL: ${DATABASE_URL}
+      DIRECT_URL: ${DIRECT_URL}
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+      ACCESS_TOKEN_EXPIRES_IN: ${ACCESS_TOKEN_EXPIRES_IN}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      REFRESH_TOKEN_EXPIRES_IN: ${REFRESH_TOKEN_EXPIRES_IN}
+      MAX_AGE_COOKIE: ${MAX_AGE_COOKIE}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.kanban-api.rule=Host(`${KANBAN_API_HOSTNAME?}`)'
+      - 'traefik.http.routers.kanban-api.entrypoints=websecure'
+      - 'traefik.http.routers.kanban-api.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.kanban-api.loadbalancer.server.port=3333'
+    depends_on:
+      - postgres
+    ports:
+      - '${PORT}:3333'
+
   postgres:
     image: postgres:15
-    container_name: postgres
+    container_name: kanban_pg
     restart: always
     ports:
       - '${POSTGRES_PORT}:5432'
+    networks:
+      - kanban
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - pg_data:/var/lib/postgresql/data
-    networks:
-      - database
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    restart: always
-    ports:
-      - 80:80
-    environment:
-      PGADMIN_DEFAULT_EMAIL: pgadmin@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: pgadmin
-    networks:
-      - database
+      - kanban_pg_data:/var/lib/postgresql/data
 
 volumes:
-  pg_data:
+  kanban_pg_data:
 
 networks:
-  database:
-    name: database
+  router:
+    name: traefik
+    external: true
+  kanban:
     driver: bridge
