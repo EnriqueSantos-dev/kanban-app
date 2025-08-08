@@ -30,4 +30,4 @@ jobs:
 
           SCRIPT_AFTER: |
             cd ${{ secrets.VPS_TARGET_PATH }}/server
-            bash start.sh
+            bash deploy.sh
