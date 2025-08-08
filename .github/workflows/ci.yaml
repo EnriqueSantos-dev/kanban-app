@@ -25,12 +25,11 @@ jobs:
           REMOTE_HOST: ${{ secrets.VPS_HOST }}
           REMOTE_USER: ${{ secrets.VPS_USER }}
 
-          TARGET: ${{ secrets.VPS_TARGET_PATH }}
           SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
 
           SOURCE: "./server/"
 
-          REMOTE_TARGET: "${{ secrets.VPS_TARGET_PATH }}/releases/${{ env.NAME }}/"
+          TARGET: "${{ secrets.VPS_TARGET_PATH }}/releases/${{ steps.release.outputs.name }}/"
 
           # Não precisamos mais excluir o .env, pois ele não está sendo gerenciado aqui
           EXCLUDE: "/.git/, /.github/, /node_modules/"
