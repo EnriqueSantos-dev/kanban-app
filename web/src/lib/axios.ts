@@ -8,6 +8,9 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 const commonOptions: AxiosRequestConfig = {
 	baseURL: BASE_URL,
 	withCredentials: true,
+	fetchOptions: {
+		mode: "cors"
+	},
 	headers: {
 		'Content-Type': 'application/json'
 	}
