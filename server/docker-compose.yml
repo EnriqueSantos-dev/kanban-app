@@ -1,8 +1,6 @@
 services:
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/enriquesantos-dev/kanban-app:latest
     container_name: kanban-api
     restart: unless-stopped
     networks:
